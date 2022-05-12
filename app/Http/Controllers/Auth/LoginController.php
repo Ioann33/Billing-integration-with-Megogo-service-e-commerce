@@ -58,7 +58,7 @@ class LoginController extends Controller
             ->where('pass',md5($request->password))
             ->first();
 
-        if (!empty($user->id)) {
+        if (!empty($user->id_user)) {
             $user->password = bcrypt($request->input('password'));
             $user->login = $request->login;
 //            $user->nic_name = '';
