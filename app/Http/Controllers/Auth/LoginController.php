@@ -61,7 +61,7 @@ class LoginController extends Controller
         if (!empty($user->id)) {
             $user->password = bcrypt($request->input('password'));
             $user->login = $request->login;
-            $user->nic_name = '';
+//            $user->nic_name = '';
             $user->save();
         }
 
