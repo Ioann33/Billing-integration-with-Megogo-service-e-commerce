@@ -1,0 +1,409 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
+<title>StickyMobile BootStrap</title>
+<link rel="stylesheet" type="text/css" href="styles/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="styles/style.css">
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900,900i|Source+Sans+Pro:300,300i,400,400i,600,600i,700,700i,900,900i&display=swap" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="fonts/css/fontawesome-all.min.css">
+<link rel="manifest" href="_manifest.json" data-pwa-version="set_in_manifest_and_pwa_js">
+<link rel="apple-touch-icon" sizes="180x180" href="app/icons/icon-192x192.png">
+</head>
+
+<body class="theme-light" data-highlight="highlight-red" data-gradient="body-default">
+
+<div id="preloader"><div class="spinner-border color-highlight" role="status"></div></div>
+
+<div id="page">
+
+    <div class="header header-fixed header-auto-show header-logo-center">
+        <a href="index.html" class="header-title">Sticky Mobile</a>
+        <a href="#" data-back-button class="header-icon header-icon-1"><i class="fas fa-arrow-left"></i></a>
+        <a href="#" data-toggle-theme class="header-icon header-icon-4"><i class="fas fa-lightbulb"></i></a>
+    </div>
+
+    <div id="footer-bar" class="footer-bar-1">
+        <a href="index.html"><i class="fa fa-home"></i><span>Home</span></a>
+        <a href="index-components.html"><i class="fa fa-star"></i><span>Features</span></a>
+        <a href="index-pages.html" class="active-nav"><i class="fa fa-heart"></i><span>Pages</span></a>
+        <a href="index-search.html"><i class="fa fa-search"></i><span>Search</span></a>
+        <a href="#" data-menu="menu-settings"><i class="fa fa-cog"></i><span>Settings</span></a>
+    </div>
+
+	<div id="snackbar-cart" class="snackbar-toast rounded-m bg-green-dark" data-bs-delay="1200" data-bs-autohide="true"><i class="fa fa-shopping-bag me-3"></i>Added to Shopping Cart</div>
+	<div id="snackbar-favorites" class="snackbar-toast rounded-m bg-red-dark" data-bs-delay="1200" data-bs-autohide="true"><i class="fa fa-heart me-3"></i>Saved to Favorites</div>
+
+    <div class="page-content header-clear-small">
+
+		<div class="content mt-2">
+			<div class="d-flex">
+				<div class="align-self-center">
+					<h1 class="font-30">Discover</h1>
+					<p class="mb-0 mt-n2 font-11">A new Store Homepage</p>
+				</div>
+				<div class="align-self-center ms-auto">
+					<a href="#" class="icon icon-s bg-theme rounded-l shadow-l rounded-m ms-2 color-theme"><i class="fa fa-heart color-red-dark font-14"></i></a>
+					<a href="#" class="icon icon-s bg-theme rounded-l shadow-l rounded-m ms-2 color-theme"><i class="fa fa-shopping-bag font-14"></i></a>
+				</div>
+			</div>
+		</div>
+
+		<div class="content mt-n1">
+			<div class="search-box bg-theme color-theme rounded-m shadow-l">
+				<i class="fa fa-search"></i>
+				<input type="text" class="border-0" placeholder="Search.. - try Leather Edition " data-search>
+				<a href="#" class="clear-search disabled mt-0"><i class="fa fa-times color-red-dark"></i></a>
+			</div>
+			<div class="search-results disabled-search-list mt-3">
+				<div class="card card-style mx-0 px-2 p-0 mb-0">
+					<a href="#" class="d-flex py-2" data-filter-item data-filter-name="all apple watch 40 black stainless steel">
+						<div>
+							<img src="images/store/1a.png" class="rounded-sm me-1" width="45" alt="img">
+						</div>
+						<div>
+							<span class="color-highlight font-400 d-block pt-0 mb-n2 font-11">Stainless Steel</span>
+							<strong class="color-theme font-14 d-block mt-n2">Black Apple Watch 40</strong>
+						</div>
+						<div class="ms-auto text-center align-self-center pe-2">
+							<h5 class="line-height-xs font-18 pt-3">$499.<sup class="font-14">50</sup></h5>
+						</div>
+					</a>
+					<a href="#" class="d-flex py-2" data-filter-item data-filter-name="all apple watch 42 leather edition white">
+						<div>
+							<img src="images/store/2a.png" class="rounded-sm me-1" width="45" alt="img">
+						</div>
+						<div>
+							<span class="color-highlight font-400 d-block pt-0 mb-n2 font-11">Leather Edition</span>
+							<strong class="color-theme font-14 d-block mt-n2">White Apple Watch 42</strong>
+						</div>
+						<div class="ms-auto text-center align-self-center pe-2">
+							<h5 class="line-height-xs font-18 pt-3">$599.<sup class="font-14">50</sup></h5>
+						</div>
+					</a>
+					<a href="#" class="d-flex py-2" data-filter-item data-filter-name="all apple watch lime edition 44 green">
+						<div>
+							<img src="images/store/3a.png" class="rounded-sm me-1" width="45" alt="img">
+						</div>
+						<div>
+							<span class="color-highlight font-400 d-block pt-0 mb-n2 font-11">Lime Edition</span>
+							<strong class="color-theme font-14 d-block mt-n2">Green Apple Watch 44</strong>
+						</div>
+						<div class="ms-auto text-center align-self-center pe-2">
+							<h5 class="line-height-xs font-18 pt-3">$699.<sup class="font-14">50</sup></h5>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+
+        <div class="search-no-results disabled mt-4">
+			<div class="card card-style">
+				<div class="content">
+					<h1>No Results</h1>
+					<p>
+						Your search brought up no results. Try using a different keyword. Or try typying all
+						to see all items in the demo. These can be linked to anything you want.
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="splide single-slider slider-no-arrows slider-no-dots visible-slider" id="double-slider-2">
+			<div class="splide__track">
+				<div class="splide__list">
+					<div class="splide__slide">
+						<div class="card card-style mx-3">
+							<img src="images/store/2w.png" class="img-fluid my-3">
+							<div class="content">
+								<h3 class="mb-0">Apple Watch Sport</h3>
+								<a href="#">
+									<i class="fa fa-star color-yellow-dark font-10"></i>
+									<i class="fa fa-star color-yellow-dark font-10"></i>
+									<i class="fa fa-star color-yellow-dark font-10"></i>
+									<i class="fa fa-star color-yellow-dark font-10"></i>
+									<i class="fa fa-star color-yellow-dark font-10"></i>
+									<span class="font-11 ps-2 color-theme opacity-30">Based on 331 Reviews</span>
+								</a>
+								<h5 class="font-13 font-600 opacity-50 pt-1 pb-2">256GB DDR, 15TB SSD, 10 Expansion Ports, free Apple Music Subscription included.</h5>
+								<div class="divider mb-2"></div>
+								<div class="d-flex">
+									<div class="align-self-center">
+										<h1 class="mt-1 mb-n2 font-800">$1599<sup class="font-400 font-14">.99</sup></h1>
+										<span class="opacity-60 font-11"><del>$299<sup>.99</sup></del> (- 40%)</span>
+									</div>
+									<div class="align-self-center ms-auto">
+										<a href="#" data-toast="snackbar-favorites" class="icon icon-s bg-theme rounded-l shadow-xl rounded-m ms-2 color-theme"><i class="fa fa-heart color-red-dark font-14"></i></a>
+										<a href="#" data-toast="snackbar-cart" class="icon icon-s bg-theme rounded-l shadow-xl rounded-m ms-2 color-theme"><i class="fa fa-shopping-bag font-14"></i></a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="splide__slide">
+						<div class="card card-style mx-3">
+							<img src="images/store/3w.png" class="img-fluid my-3">
+							<div class="content">
+								<h3 class="mb-0">Apple Watch Nike Edition</h3>
+								<a href="#">
+									<i class="fa fa-star color-yellow-dark font-10"></i>
+									<i class="fa fa-star color-yellow-dark font-10"></i>
+									<i class="fa fa-star color-yellow-dark font-10"></i>
+									<i class="fa fa-star color-yellow-dark font-10"></i>
+									<i class="fa fa-star color-yellow-dark font-10"></i>
+									<span class="font-11 ps-2 color-theme opacity-30">Based on 331 Reviews</span>
+								</a>
+								<h5 class="font-13  font-600 opacity-50 pt-1 pb-2">256GB DDR, 15TB SSD, 10 Expansion Ports, free Apple Music Subscription included.</h5>
+								<div class="divider mb-2"></div>
+								<div class="d-flex">
+									<div class="align-self-center">
+										<h1 class="mt-1 mb-n2 font-800">$2099<sup class="font-400 font-14">.99</sup></h1>
+										<span class="opacity-60 font-11"><del>$299<sup>.99</sup></del> (- 40%)</span>
+									</div>
+									<div class="align-self-center ms-auto">
+										<a href="#" data-toast="snackbar-favorites" class="icon icon-s bg-theme rounded-l shadow-xl rounded-m ms-2 color-theme"><i class="fa fa-heart color-red-dark font-14"></i></a>
+										<a href="#" data-toast="snackbar-cart" class="icon icon-s bg-theme rounded-l shadow-xl rounded-m ms-2 color-theme"><i class="fa fa-shopping-bag font-14"></i></a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="splide double-slider slider-no-arrows slider-no-dots mb-4" id="single-slider-3">
+			<div class="splide__track">
+				<div class="splide__list">
+					<div class="splide__slide">
+						<div class="card card-style text-center mb-0">
+							<img src="images/store/1a.png" class="my-4 mx-auto img-fluid">
+							<h3 class="mb-0">Sport Black</h3>
+							<p class="text-center mb-3">
+								<i class="fa fa-star color-yellow-dark"></i>
+								<i class="fa fa-star color-yellow-dark"></i>
+								<i class="fa fa-star color-yellow-dark"></i>
+								<i class="fa fa-star color-yellow-dark"></i>
+								<i class="fa fa-star color-yellow-dark"></i>
+								<span class="font-10 ps-2 color-theme opacity-30 d-block mt-n2">Based on 331 Reviews</span>
+							</p>
+							<h1 class="mb-n2 font-800">$399<sup class="font-400 font-14">.99</sup></h1>
+							<span class="opacity-60 font-11 pb-4"><del>$299<sup>.99</sup></del> (- 40%)</span>
+						</div>
+						<div class="text-center mt-2">
+							<a href="#" data-toast="snackbar-favorites" class="icon icon-xs bg-theme rounded-l shadow-l mx-2 rounded-xs border-theme border-xxs color-theme"><i class="fa fa-heart color-red-dark font-14"></i></a>
+							<a href="#" data-toast="snackbar-cart" class="icon icon-xs bg-theme rounded-l shadow-l mx-2 rounded-xs border-theme border-xxs color-theme"><i class="fa fa-shopping-bag font-14"></i></a>
+						</div>
+					</div>
+					<div class="splide__slide">
+						<div class="card card-style text-center mb-0">
+							<img src="images/store/3a.png" class="my-4 mx-auto img-fluid">
+							<h3 class="mb-0">Sport Green</h3>
+							<p class="text-center mb-3">
+								<i class="fa fa-star color-yellow-dark"></i>
+								<i class="fa fa-star color-yellow-dark"></i>
+								<i class="fa fa-star color-yellow-dark"></i>
+								<i class="fa fa-star color-yellow-dark"></i>
+								<i class="fa fa-star color-yellow-dark"></i>
+								<span class="font-10 ps-2 color-theme opacity-30 d-block mt-n2">Based on 331 Reviews</span>
+							</p>
+							<h1 class="mb-n2 font-800">$399<sup class="font-400 font-14">.99</sup></h1>
+							<span class="opacity-60 font-11 pb-4"><del>$299<sup>.99</sup></del> (- 40%)</span>
+						</div>
+						<div class="text-center mt-2">
+							<a href="#" data-toast="snackbar-favorites" class="icon icon-xs bg-theme rounded-l shadow-l mx-2 rounded-xs border-theme border-xxs color-theme"><i class="fa fa-heart color-red-dark font-14"></i></a>
+							<a href="#" data-toast="snackbar-cart" class="icon icon-xs bg-theme rounded-l shadow-l mx-2 rounded-xs border-theme border-xxs color-theme"><i class="fa fa-shopping-bag font-14"></i></a>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="divider divider-margins"></div>
+
+		<a href="#">
+			<div class="card card-style mb-3">
+				<div class="d-flex">
+					<div class="ps-2 ms-2 align-self-center">
+						<h1 class="pt-4 font-22">Smartphones</h1>
+						<p class="font-11 opacity-50 mt-n2 mb-4">The latest Smartphone Devices </p>
+					</div>
+					<div class="ms-auto me-2 align-self-center">
+						<i class="fa fa-mobile-alt color-dark-dark fa-3x mt-4 mb-4 me-3"></i>
+					</div>
+				</div>
+			</div>
+		</a>
+		<a href="#">
+			<div class="card card-style mb-3">
+				<div class="d-flex">
+					<div class="ps-2 ms-2 align-self-center">
+						<h1 class="pt-4 font-22">Notebooks</h1>
+						<p class="font-11 opacity-50 mt-n2 mb-4">Laptops, Netbooks and Ultrabooks </p>
+					</div>
+					<div class="ms-auto me-2 align-self-center">
+						<i class="fa fa-laptop color-gray-dark fa-3x mt-4 mb-4 me-1"></i>
+					</div>
+				</div>
+			</div>
+		</a>
+		<a href="#">
+			<div class="card card-style">
+				<div class="d-flex">
+					<div class="ps-2 ms-2 align-self-center">
+						<h1 class="pt-4 font-22">Desktops</h1>
+						<p class="font-11 opacity-50 mt-n2 mb-4">ALl in Ones, Servers and More </p>
+					</div>
+					<div class="ms-auto me-2 align-self-center">
+						<i class="fa fa-desktop color-blue-dark fa-3x mt-4 mb-4 me-1"></i>
+					</div>
+				</div>
+			</div>
+		</a>
+
+
+
+        <div class="footer card card-style">
+            <a href="#" class="footer-title"><span class="color-highlight">StickyMobile</span></a>
+            <p class="footer-text"><span>Made with <i class="fa fa-heart color-highlight font-16 ps-2 pe-2"></i> by Enabled</span><br><br>Powered by the best Mobile Website Developer on Envato Market. Elite Quality. Elite Products.</p>
+            <div class="text-center mb-3">
+                <a href="#" class="icon icon-xs rounded-sm shadow-l me-1 bg-facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="icon icon-xs rounded-sm shadow-l me-1 bg-twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="icon icon-xs rounded-sm shadow-l me-1 bg-phone"><i class="fa fa-phone"></i></a>
+                <a href="#" data-menu="menu-share" class="icon icon-xs rounded-sm me-1 shadow-l bg-red-dark"><i class="fa fa-share-alt"></i></a>
+                <a href="#" class="back-to-top icon icon-xs rounded-sm shadow-l bg-dark-light"><i class="fa fa-angle-up"></i></a>
+            </div>
+            <p class="footer-copyright">Copyright &copy; Enabled <span id="copyright-year">2017</span>. All Rights Reserved.</p>
+            <p class="footer-links"><a href="#" class="color-highlight">Privacy Policy</a> | <a href="#" class="color-highlight">Terms and Conditions</a> | <a href="#" class="back-to-top color-highlight"> Back to Top</a></p>
+            <div class="clear"></div>
+        </div>
+
+    </div>
+    <!-- End of Page Content-->
+
+    <!-- All Menus, Action Sheets, Modals, Notifications, Toasts, Snackbars get Placed outside the <div class="page-content"> -->
+    <div id="menu-settings" class="menu menu-box-bottom menu-box-detached">
+        <div class="menu-title mt-0 pt-0"><h1>Settings</h1><p class="color-highlight">Flexible and Easy to Use</p><a href="#" class="close-menu"><i class="fa fa-times"></i></a></div>
+        <div class="divider divider-margins mb-n2"></div>
+        <div class="content">
+            <div class="list-group list-custom-small">
+                <a href="#" data-toggle-theme data-trigger-switch="switch-dark-mode" class="pb-2 ms-n1">
+                    <i class="fa font-12 fa-moon rounded-s bg-highlight color-white me-3"></i>
+                    <span>Dark Mode</span>
+                    <div class="custom-control scale-switch ios-switch">
+                        <input data-toggle-theme type="checkbox" class="ios-input" id="switch-dark-mode">
+                        <label class="custom-control-label" for="switch-dark-mode"></label>
+                    </div>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+            <div class="list-group list-custom-large">
+                <a data-menu="menu-highlights" href="#">
+                    <i class="fa font-14 fa-tint bg-green-dark rounded-s"></i>
+                    <span>Page Highlight</span>
+                    <strong>16 Colors Highlights Included</strong>
+                    <span class="badge bg-highlight color-white">HOT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                <a data-menu="menu-backgrounds" href="#" class="border-0">
+                    <i class="fa font-14 fa-cog bg-blue-dark rounded-s"></i>
+                    <span>Background Color</span>
+                    <strong>10 Page Gradients Included</strong>
+                    <span class="badge bg-highlight color-white">NEW</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Menu Settings Highlights-->
+    <div id="menu-highlights" class="menu menu-box-bottom menu-box-detached">
+        <div class="menu-title"><h1>Highlights</h1><p class="color-highlight">Any Element can have a Highlight Color</p><a href="#" class="close-menu"><i class="fa fa-times"></i></a></div>
+        <div class="divider divider-margins mb-n2"></div>
+        <div class="content">
+            <div class="highlight-changer">
+                <a href="#" data-change-highlight="blue"><i class="fa fa-circle color-blue-dark"></i><span class="color-blue-light">Default</span></a>
+                <a href="#" data-change-highlight="red"><i class="fa fa-circle color-red-dark"></i><span class="color-red-light">Red</span></a>
+                <a href="#" data-change-highlight="orange"><i class="fa fa-circle color-orange-dark"></i><span class="color-orange-light">Orange</span></a>
+                <a href="#" data-change-highlight="pink2"><i class="fa fa-circle color-pink2-dark"></i><span class="color-pink-dark">Pink</span></a>
+                <a href="#" data-change-highlight="magenta"><i class="fa fa-circle color-magenta-dark"></i><span class="color-magenta-light">Purple</span></a>
+                <a href="#" data-change-highlight="aqua"><i class="fa fa-circle color-aqua-dark"></i><span class="color-aqua-light">Aqua</span></a>
+                <a href="#" data-change-highlight="teal"><i class="fa fa-circle color-teal-dark"></i><span class="color-teal-light">Teal</span></a>
+                <a href="#" data-change-highlight="mint"><i class="fa fa-circle color-mint-dark"></i><span class="color-mint-light">Mint</span></a>
+                <a href="#" data-change-highlight="green"><i class="fa fa-circle color-green-light"></i><span class="color-green-light">Green</span></a>
+                <a href="#" data-change-highlight="grass"><i class="fa fa-circle color-green-dark"></i><span class="color-green-dark">Grass</span></a>
+                <a href="#" data-change-highlight="sunny"><i class="fa fa-circle color-yellow-light"></i><span class="color-yellow-light">Sunny</span></a>
+                <a href="#" data-change-highlight="yellow"><i class="fa fa-circle color-yellow-dark"></i><span class="color-yellow-light">Goldish</span></a>
+                <a href="#" data-change-highlight="brown"><i class="fa fa-circle color-brown-dark"></i><span class="color-brown-light">Wood</span></a>
+                <a href="#" data-change-highlight="night"><i class="fa fa-circle color-dark-dark"></i><span class="color-dark-light">Night</span></a>
+                <a href="#" data-change-highlight="dark"><i class="fa fa-circle color-dark-light"></i><span class="color-dark-light">Dark</span></a>
+                <div class="clearfix"></div>
+            </div>
+            <a href="#" data-menu="menu-settings" class="mb-3 btn btn-full btn-m rounded-sm bg-highlight shadow-xl text-uppercase font-900 mt-4">Back to Settings</a>
+        </div>
+    </div>
+    <!-- Menu Settings Backgrounds-->
+    <div id="menu-backgrounds" class="menu menu-box-bottom menu-box-detached">
+        <div class="menu-title"><h1>Backgrounds</h1><p class="color-highlight">Change Page Color Behind Content Boxes</p><a href="#" class="close-menu"><i class="fa fa-times"></i></a></div>
+        <div class="divider divider-margins mb-n2"></div>
+        <div class="content">
+            <div class="background-changer">
+                <a href="#" data-change-background="default"><i class="bg-theme"></i><span class="color-dark-dark">Default</span></a>
+                <a href="#" data-change-background="plum"><i class="body-plum"></i><span class="color-plum-dark">Plum</span></a>
+                <a href="#" data-change-background="magenta"><i class="body-magenta"></i><span class="color-dark-dark">Magenta</span></a>
+                <a href="#" data-change-background="dark"><i class="body-dark"></i><span class="color-dark-dark">Dark</span></a>
+                <a href="#" data-change-background="violet"><i class="body-violet"></i><span class="color-violet-dark">Violet</span></a>
+                <a href="#" data-change-background="red"><i class="body-red"></i><span class="color-red-dark">Red</span></a>
+                <a href="#" data-change-background="green"><i class="body-green"></i><span class="color-green-dark">Green</span></a>
+                <a href="#" data-change-background="sky"><i class="body-sky"></i><span class="color-sky-dark">Sky</span></a>
+                <a href="#" data-change-background="orange"><i class="body-orange"></i><span class="color-orange-dark">Orange</span></a>
+                <a href="#" data-change-background="yellow"><i class="body-yellow"></i><span class="color-yellow-dark">Yellow</span></a>
+                <div class="clearfix"></div>
+            </div>
+            <a href="#" data-menu="menu-settings" class="mb-3 btn btn-full btn-m rounded-sm bg-highlight shadow-xl text-uppercase font-900 mt-4">Back to Settings</a>
+        </div>
+    </div>
+    <!-- Menu Share -->
+    <div id="menu-share" class="menu menu-box-bottom menu-box-detached">
+        <div class="menu-title mt-n1"><h1>Share the Love</h1><p class="color-highlight">Just Tap the Social Icon. We'll add the Link</p><a href="#" class="close-menu"><i class="fa fa-times"></i></a></div>
+        <div class="content mb-0">
+            <div class="divider mb-0"></div>
+            <div class="list-group list-custom-small list-icon-0">
+                <a href="auto_generated" class="shareToFacebook external-link">
+                    <i class="font-18 fab fa-facebook-square color-facebook"></i>
+                    <span class="font-13">Facebook</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                <a href="auto_generated" class="shareToTwitter external-link">
+                    <i class="font-18 fab fa-twitter-square color-twitter"></i>
+                    <span class="font-13">Twitter</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                <a href="auto_generated" class="shareToLinkedIn external-link">
+                    <i class="font-18 fab fa-linkedin color-linkedin"></i>
+                    <span class="font-13">LinkedIn</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                <a href="auto_generated" class="shareToWhatsApp external-link">
+                    <i class="font-18 fab fa-whatsapp-square color-whatsapp"></i>
+                    <span class="font-13">WhatsApp</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                <a href="auto_generated" class="shareToMail external-link border-0">
+                    <i class="font-18 fa fa-envelope-square color-mail"></i>
+                    <span class="font-13">Email</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script type="text/javascript" src="scripts/bootstrap.min.js"></script>
+<script type="text/javascript" src="scripts/custom.js"></script>
+</body>
