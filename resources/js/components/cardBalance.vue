@@ -32,7 +32,12 @@ export default {
     ],
     mounted() {
         console.log('Component CardBalance mounted')
-    }
+    },
+    // computed:{
+    //     balance_(){
+    //         return this.balance.toLocaleString(undefined, {minimumFractionDigits: 2})
+    //     }
+    // }
 }
 </script>
 

@@ -5478,7 +5478,12 @@ __webpack_require__.r(__webpack_exports__);
   props: ['balance', 'dogovor'],
   mounted: function mounted() {
     console.log('Component CardBalance mounted');
-  }
+  } // computed:{
+  //     balance_(){
+  //         return this.balance.toLocaleString(undefined, {minimumFractionDigits: 2})
+  //     }
+  // }
+
 });
 
 /***/ }),
@@ -6899,7 +6904,7 @@ __webpack_require__.r(__webpack_exports__);
         console.log('getData() - userinfo');
         console.log(res.data); //this.userinfo = res.data.data[0]
 
-        _this.userinfo = res.data;
+        _this.userinfo = res.data.data[0];
         _this.userinfo.history_pay_short = _this.userinfo.history_pay.slice(0, 5);
       })["catch"](function (err) {
         console.log(err.response);
@@ -33395,12 +33400,12 @@ var render = function () {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "align-self-center" }, [
-                    _c("h1", { staticClass: "mb-n2 font-16" }, [
-                      _vm._v(_vm._s(h.descript)),
+                    _c("h1", { staticClass: "mb-n2 font-14" }, [
+                      _vm._v(_vm._s(h.category)),
                     ]),
                     _vm._v(" "),
                     _c("p", { staticClass: "font-11 opacity-60" }, [
-                      _vm._v(_vm._s(h.category)),
+                      _vm._v(_vm._s(h.descript)),
                     ]),
                   ]),
                   _vm._v(" "),
@@ -33418,7 +33423,7 @@ var render = function () {
                         ? _c(
                             "h2",
                             { staticClass: "mb-n1 font-18 color-green-dark" },
-                            [_vm._v(" " + _vm._s(h.size_pay))]
+                            [_vm._v(" " + _vm._s(h.size_pay) + " ₴ ")]
                           )
                         : h.type === "real_ip"
                         ? _c(

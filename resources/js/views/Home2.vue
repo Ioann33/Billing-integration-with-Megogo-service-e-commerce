@@ -253,7 +253,7 @@ export default {
                 console.log('getData() - userinfo')
                 console.log(res.data)
                 //this.userinfo = res.data.data[0]
-                this.userinfo = res.data
+                this.userinfo = res.data.data[0]
                 this.userinfo.history_pay_short = this.userinfo.history_pay.slice(0,5)
             })
             .catch(err => {

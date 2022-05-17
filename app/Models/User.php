@@ -44,4 +44,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function history_pay()
+    {
+        return $this->hasMany(Pay::class,'id_user')->take(5);
+    }
+
+    public function balance()
+    {
+        return Pay::where('id_user', 1)
+            ->where('date', '>=', date("Y-m-01 00:00:00"))
+            ->sum('size_pay');
+    }
 }

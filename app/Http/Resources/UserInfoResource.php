@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Pay;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserInfoResource extends JsonResource
@@ -14,10 +15,15 @@ class UserInfoResource extends JsonResource
      */
     public function toArray($request)
     {
+        $balance = Pay::where('id_user',$this->id_user)
+            ->where('date', '>=', date("Y-m-01 00:00:00"))
+            ->sum('size_pay');
         //return parent::toArray($request);
         return [
             'id_user' => $this->id_user,
             'dogovor' => $this->dep.".".$this->id_user,
+            'history_pay' => HistoryPayResource::collection($this->history_pay),
+            'balance' => $balance
         ];
     }
 }

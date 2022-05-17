@@ -45,13 +45,13 @@
 
                 </div>
                 <div class="align-self-center">
-                    <h1 class="mb-n2 font-16">{{ h.descript }}</h1>
-                    <p class="font-11 opacity-60">{{ h.category }}</p>
+                    <h1 class="mb-n2 font-14">{{ h.category }}</h1>
+                    <p class="font-11 opacity-60">{{ h.descript }}</p>
                 </div>
                 <div class="align-self-center ms-auto text-end">
 
                     <h2 v-if="h.type === 'tariff'"          class="mb-n1 font-18 color-red-dark"> {{ h.size_pay}}</h2>
-                    <h2 v-else-if="h.type === 'charge'"          class="mb-n1 font-18 color-green-dark"> {{ h.size_pay}}</h2>
+                    <h2 v-else-if="h.type === 'charge'"          class="mb-n1 font-18 color-green-dark"> {{ h.size_pay}} ₴ </h2>
                     <h2 v-else-if="h.type === 'real_ip'"         class="mb-n1 font-18 color-red-dark"> {{ h.size_pay}}</h2>
                     <h2 v-else-if="h.type === 'paid_service'"    class="mb-n1 font-18 color-red-dark"> {{ h.size_pay}}</h2>
                     <h2 v-else class="mb-n1 font-18 color-blue-dark"> {{ h.size_pay}}</h2>
@@ -173,7 +173,7 @@ export default {
     //     }
     // },
     props: [
-        'history_pay'
+        'history_pay',
     ],
     mounted() {
         console.log('Component HistoryPay mounted')
