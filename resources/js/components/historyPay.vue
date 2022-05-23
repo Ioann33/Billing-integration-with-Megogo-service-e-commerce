@@ -37,11 +37,13 @@
 <!--            <a href="#" data-menu="menu-expense-3" class="d-flex mb-3" >-->
                 <div class="align-self-center">
 
-                    <span v-if="h.type === 'tariff'"            class="icon icon-s rounded-xl me-3 bg-red-dark"> <i class="fa fa-bolt font-16"></i>      </span>
-                    <span v-else-if="h.type === 'charge'"       class="icon icon-s rounded-xl me-3 bg-green-dark">  <i class="fa fa-money-bill-wave font-14"></i></span>
-                    <span v-else-if="h.type === 'real_ip'"      class="icon icon-s rounded-xl me-3 bg-yellow-dark">   <i class="fab fa-apple font-18"></i>    </span>
-                    <span v-else-if="h.type === 'paid_service'" class="icon icon-s rounded-xl me-3 bg-dark-dark">   <i class="fab fa-superpowers font-18"></i>       </span>
-                    <span v-else                                class="icon icon-s rounded-xl me-3 bg-dark-dark">   <i class="fab fa-handshake-o font-18"></i>       </span>
+                    <span      v-if="h.type === 'tariff'"       class="icon icon-s rounded-xl me-3 bg-red-dark">     <i class="fa fa-calendar-alt font-16"></i>      </span>
+                    <span v-else-if="h.type === 'fresh_account'"       class="icon icon-s rounded-xl me-3 bg-green-dark">   <i class="fa fa-money-bill-wave font-14"></i></span>
+                    <span v-else-if="h.type === 'real_ip'"      class="icon icon-s rounded-xl me-3 bg-yellow-dark">  <i class="fas fa-bolt font-18"></i>    </span>
+                    <span v-else-if="h.type === 'paid_service'" class="icon icon-s rounded-xl me-3 bg-dark-dark">    <i class="fab fa-superpowers font-18"></i>       </span>
+                    <span v-else-if="h.type === 'balance_9999'" class="icon icon-s rounded-xl me-3 bg-mint-dark">    <i class="fas fa-money-check font-18"></i>       </span>
+                    <span v-else-if="h.type === 'internet_8888'" class="icon icon-s rounded-xl me-3 bg-blue-dark">    <i class="fas fa-globe font-18"></i>       </span>
+                    <span v-else                                class="icon icon-s rounded-xl me-3 bg-dark-dark">    <i class="fab fa-handshake-o font-18"></i>       </span>
 
                 </div>
                 <div class="align-self-center">
@@ -50,10 +52,12 @@
                 </div>
                 <div class="align-self-center ms-auto text-end">
 
-                    <h2 v-if="h.type === 'tariff'"          class="mb-n1 font-18 color-red-dark"> {{ h.size_pay}}</h2>
-                    <h2 v-else-if="h.type === 'charge'"          class="mb-n1 font-18 color-green-dark"> {{ h.size_pay}} ₴ </h2>
-                    <h2 v-else-if="h.type === 'real_ip'"         class="mb-n1 font-18 color-red-dark"> {{ h.size_pay}}</h2>
-                    <h2 v-else-if="h.type === 'paid_service'"    class="mb-n1 font-18 color-red-dark"> {{ h.size_pay}}</h2>
+                    <h2 v-if="h.type === 'tariff'"               class="mb-n1 font-18 color-red-dark">      {{ h.size_pay}} ₴</h2>
+                    <h2 v-else-if="h.type === 'fresh_account'"          class="mb-n1 font-18 color-green-dark">    {{ h.size_pay}} ₴ </h2>
+                    <h2 v-else-if="h.type === 'real_ip'"         class="mb-n1 font-18 color-red-dark">      {{ h.size_pay}} ₴</h2>
+                    <h2 v-else-if="h.type === 'paid_service'"    class="mb-n1 font-18 color-red-dark">      {{ h.size_pay}} ₴</h2>
+                    <h2 v-else-if="h.type === 'balance_9999'"    class="mb-n1 font-18 color-mint-dark">      {{ h.size_pay}} ₴</h2>
+                    <h2 v-else-if="h.type === 'internet_8888'"    class="mb-n1 font-18 color-blue-dark">      {{ h.size_pay}} ₴</h2>
                     <h2 v-else class="mb-n1 font-18 color-blue-dark"> {{ h.size_pay}}</h2>
 
                     <p class="font-12 opacity-50"> {{ h.date }}</p>

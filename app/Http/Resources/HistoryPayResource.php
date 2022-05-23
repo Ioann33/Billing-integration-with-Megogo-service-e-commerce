@@ -15,12 +15,40 @@ class HistoryPayResource extends JsonResource
     public function toArray($request)
     {
         //return parent::toArray($request);
+
+$item = (integer)$this->item;
+if($item>101000 && $item<101099){
+    $type = 'fresh_account';
+    $category = 'Пополнение счета';
+}
+elseif($item == '103010'){
+    $type = 'tariff';
+    $category = $this->name;
+
+}elseif($item=='103020'){
+    $type = 'real_ip';
+    $category = $this->name;
+
+}elseif($item=='103050'){
+    $type = 'internet_8888';
+    $category = "Начисление за Интернет за ". date("Y-m", strtotime($this->date));
+
+}elseif($item=='901010'){
+    $type = 'balance_9999';
+    $category = "Баланс на начало месяца";
+
+}else{
+    $type = 'paid_service';
+    $category = "категория ". $item;
+}
+
         return [
                     'date' => $this->date,
                     'size_pay' => $this->size_pay,
                     'descript' => $this->descript,
-                    'category' => 'Абонентская плата: Интернет',
-                    'type' => 'tariff',
+                    //'category' => 'Абонентская плата: Интернет'.$this->item,
+                    'category' => $category,
+                    'type' => $type,
                     'billing_id' => $this->id,
                     'bank_id' => 2423
             ];

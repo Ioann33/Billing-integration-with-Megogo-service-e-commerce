@@ -29,50 +29,11 @@
                 </div>
             </a>
 
-            <div class="splide single-slider slider-no-arrows slider-no-dots visible-slider" id="double-slider-2">
-                <div class="splide__track">
-                    <div class="splide__list">
-                        <div class="splide__slide" v-for="p in prices_private">
-                            <div class="card card-style mx-3">
-                                <img src="images/store/2w.png" class="img-fluid my-3">
-                                <div class="content">
-                                    <h3 class="mb-0">{{ p.name }}</h3>
-                                  <!--  <a href="#">
-                                        <i class="fa fa-star color-yellow-dark font-10"></i>
-                                        <i class="fa fa-star color-yellow-dark font-10"></i>
-                                        <i class="fa fa-star color-yellow-dark font-10"></i>
-                                        <i class="fa fa-star color-yellow-dark font-10"></i>
-                                        <i class="fa fa-star color-yellow-dark font-10"></i>
-                                        <span class="font-11 ps-2 color-theme opacity-30">Based on 331 Reviews</span>
-                                    </a> -->
-                                    <h5 class="font-13 font-600 opacity-50 pt-1 pb-2">{{ p.features }}</h5>
-                                    <div class="divider mb-2"></div>
-                                    <div class="d-flex">
-                                        <div class="align-self-center">
-                                            <h1 class="mt-1 mb-n2 font-800"> {{ p.cost }} <sup class="font-400 font-14">₴</sup></h1>
-                                            <!--<span class="opacity-60 font-11"><del>$299<sup>.99</sup></del> (- 40%)</span>-->
-                                        </div>
-                                        <!--<div class="align-self-center ms-auto">
-                                            <a href="#" data-toast="snackbar-favorites" class="icon icon-s bg-theme rounded-l shadow-xl rounded-m ms-2 color-theme"><i class="fa fa-heart color-red-dark font-14"></i></a>
-                                            <a href="#" data-toast="snackbar-cart" class="icon icon-s bg-theme rounded-l shadow-xl rounded-m ms-2 color-theme"><i class="fa fa-shopping-bag font-14"></i></a>
-                                        </div>-->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <div class="content mt-2">
                 <div class="d-flex">
                     <div class="align-self-center">
-                        <h1 class="font-30">Тарифы высотки</h1>
+                        <h1 class="font-30">Тарифы в квартиру</h1>
                         <p class="mb-0 mt-n2 font-11">Интернет</p>
-                    </div>
-                    <div class="align-self-center ms-auto">
-                        <a href="#" class="icon icon-s bg-theme rounded-l shadow-l rounded-m ms-2 color-theme"><i class="fa fa-heart color-red-dark font-14"></i></a>
-                        <a href="#" class="icon icon-s bg-theme rounded-l shadow-l rounded-m ms-2 color-theme"><i class="fa fa-shopping-bag font-14"></i></a>
                     </div>
                 </div>
             </div>
@@ -81,9 +42,9 @@
             <div class="splide single-slider slider-no-arrows slider-no-dots visible-slider" id="double-slider-3">
                 <div class="splide__track">
                     <div class="splide__list">
-                        <div class="splide__slide" v-for="p in prices_private">
+                        <div class="splide__slide" v-for="p in prices_flat">
                             <div class="card card-style mx-3">
-                                <img src="images/store/2w.png" class="img-fluid my-3">
+                                <img :src="p.image"  class="img-fluid my-3">
                                 <div class="content">
                                     <h3 class="mb-0">{{ p.name }}</h3>
                                     <!--  <a href="#">
@@ -154,7 +115,34 @@ export default {
                     'cost': '450',
                     'features': 'делай, все что хочешь - скорости хватит всем'
                 }
+            ],
+            prices_flat: [
+                {
+                    'name': 'Безлим-30',
+                    'cost': '90',
+                    'features': 'достаточно для одного человека',
+                    'image': 'images/prices/high_speed.png'
+                },
+                {
+                    'name': 'Безлим-50',
+                    'cost': '130',
+                    'features': 'комфортно пользоваться нескольким людям',
+                    'image': 'images/prices/high_speed2.png'
+                },
+                {
+                    'name': 'Безлим-100',
+                    'cost': '160',
+                    'features': 'небольшая доплата, а возможностей вагон',
+                    'image': 'images/prices/high_speed5.png'
+                },
+                {
+                    'name': 'Безлим-500',
+                    'cost': '450',
+                    'features': 'делай, все что хочешь - скорости хватит всем',
+                    'image': 'images/prices/high_speed4.png'
+                }
             ]
+
 
         }
     },

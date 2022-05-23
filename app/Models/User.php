@@ -47,7 +47,11 @@ class User extends Authenticatable
 
     public function history_pay()
     {
-        return $this->hasMany(Pay::class,'id_user')->take(5);
+        return $this->hasMany(
+            Pay::class,'id_user')
+            ->leftJoin('planbill','planbill.item','=','pay.item')
+            ->orderBy('date','desc')
+            ->take(5);
     }
 
     public function balance()

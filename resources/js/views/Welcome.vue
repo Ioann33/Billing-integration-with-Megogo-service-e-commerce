@@ -48,8 +48,8 @@
         name: "Welcome",
         data() {
             return {
-              user_login: 'graf',
-              user_password: 'Rkfcnth45'
+              //user_login: 'graf',
+              //user_password: 'Rkfcnth45'
             }
         },
         methods: {

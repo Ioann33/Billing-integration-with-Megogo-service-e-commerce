@@ -18,8 +18,14 @@ class HistoryPayController extends Controller
      */
     public function index()
     {
-        //return 3333;
-        return HistoryPayResource::collection( Pay::where('id_user', Auth::id())->orderBy('date','desc')->limit(5)->get() );
+        // не используется
+        return 333;
+        return HistoryPayResource::collection(
+            Pay::where('id_user', Auth::id())
+            ->orderBy('date','desc')
+            ->leftJoin('planbill', 'pay.item','=','planbill.item')
+            ->limit(6)
+            ->get() );
     }
 
     /**

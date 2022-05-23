@@ -6439,6 +6439,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "historyPay",
   // data(){
@@ -7459,45 +7463,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -7528,6 +7493,27 @@ __webpack_require__.r(__webpack_exports__);
         'name': 'Безлим-500',
         'cost': '450',
         'features': 'делай, все что хочешь - скорости хватит всем'
+      }],
+      prices_flat: [{
+        'name': 'Безлим-30',
+        'cost': '90',
+        'features': 'достаточно для одного человека',
+        'image': 'images/prices/high_speed.png'
+      }, {
+        'name': 'Безлим-50',
+        'cost': '130',
+        'features': 'комфортно пользоваться нескольким людям',
+        'image': 'images/prices/high_speed2.png'
+      }, {
+        'name': 'Безлим-100',
+        'cost': '160',
+        'features': 'небольшая доплата, а возможностей вагон',
+        'image': 'images/prices/high_speed5.png'
+      }, {
+        'name': 'Безлим-500',
+        'cost': '450',
+        'features': 'делай, все что хочешь - скорости хватит всем',
+        'image': 'images/prices/high_speed4.png'
       }]
     };
   },
@@ -7599,9 +7585,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Welcome",
   data: function data() {
-    return {
-      user_login: 'graf',
-      user_password: 'Rkfcnth45'
+    return {//user_login: 'graf',
+      //user_password: 'Rkfcnth45'
     };
   },
   methods: {
@@ -33348,9 +33333,13 @@ var render = function () {
                             staticClass:
                               "icon icon-s rounded-xl me-3 bg-red-dark",
                           },
-                          [_c("i", { staticClass: "fa fa-bolt font-16" })]
+                          [
+                            _c("i", {
+                              staticClass: "fa fa-calendar-alt font-16",
+                            }),
+                          ]
                         )
-                      : h.type === "charge"
+                      : h.type === "fresh_account"
                       ? _c(
                           "span",
                           {
@@ -33370,7 +33359,7 @@ var render = function () {
                             staticClass:
                               "icon icon-s rounded-xl me-3 bg-yellow-dark",
                           },
-                          [_c("i", { staticClass: "fab fa-apple font-18" })]
+                          [_c("i", { staticClass: "fas fa-bolt font-18" })]
                         )
                       : h.type === "paid_service"
                       ? _c(
@@ -33384,6 +33373,28 @@ var render = function () {
                               staticClass: "fab fa-superpowers font-18",
                             }),
                           ]
+                        )
+                      : h.type === "balance_9999"
+                      ? _c(
+                          "span",
+                          {
+                            staticClass:
+                              "icon icon-s rounded-xl me-3 bg-mint-dark",
+                          },
+                          [
+                            _c("i", {
+                              staticClass: "fas fa-money-check font-18",
+                            }),
+                          ]
+                        )
+                      : h.type === "internet_8888"
+                      ? _c(
+                          "span",
+                          {
+                            staticClass:
+                              "icon icon-s rounded-xl me-3 bg-blue-dark",
+                          },
+                          [_c("i", { staticClass: "fas fa-globe font-18" })]
                         )
                       : _c(
                           "span",
@@ -33417,25 +33428,37 @@ var render = function () {
                         ? _c(
                             "h2",
                             { staticClass: "mb-n1 font-18 color-red-dark" },
-                            [_vm._v(" " + _vm._s(h.size_pay))]
+                            [_vm._v("      " + _vm._s(h.size_pay) + " ₴")]
                           )
-                        : h.type === "charge"
+                        : h.type === "fresh_account"
                         ? _c(
                             "h2",
                             { staticClass: "mb-n1 font-18 color-green-dark" },
-                            [_vm._v(" " + _vm._s(h.size_pay) + " ₴ ")]
+                            [_vm._v("    " + _vm._s(h.size_pay) + " ₴ ")]
                           )
                         : h.type === "real_ip"
                         ? _c(
                             "h2",
                             { staticClass: "mb-n1 font-18 color-red-dark" },
-                            [_vm._v(" " + _vm._s(h.size_pay))]
+                            [_vm._v("      " + _vm._s(h.size_pay) + " ₴")]
                           )
                         : h.type === "paid_service"
                         ? _c(
                             "h2",
                             { staticClass: "mb-n1 font-18 color-red-dark" },
-                            [_vm._v(" " + _vm._s(h.size_pay))]
+                            [_vm._v("      " + _vm._s(h.size_pay) + " ₴")]
+                          )
+                        : h.type === "balance_9999"
+                        ? _c(
+                            "h2",
+                            { staticClass: "mb-n1 font-18 color-mint-dark" },
+                            [_vm._v("      " + _vm._s(h.size_pay) + " ₴")]
+                          )
+                        : h.type === "internet_8888"
+                        ? _c(
+                            "h2",
+                            { staticClass: "mb-n1 font-18 color-blue-dark" },
+                            [_vm._v("      " + _vm._s(h.size_pay) + " ₴")]
                           )
                         : _c(
                             "h2",
@@ -34965,62 +34988,6 @@ var render = function () {
             )
           }),
           _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "splide single-slider slider-no-arrows slider-no-dots visible-slider",
-              attrs: { id: "double-slider-2" },
-            },
-            [
-              _c("div", { staticClass: "splide__track" }, [
-                _c(
-                  "div",
-                  { staticClass: "splide__list" },
-                  _vm._l(_vm.prices_private, function (p) {
-                    return _c("div", { staticClass: "splide__slide" }, [
-                      _c("div", { staticClass: "card card-style mx-3" }, [
-                        _c("img", {
-                          staticClass: "img-fluid my-3",
-                          attrs: { src: "images/store/2w.png" },
-                        }),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "content" }, [
-                          _c("h3", { staticClass: "mb-0" }, [
-                            _vm._v(_vm._s(p.name)),
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "h5",
-                            {
-                              staticClass:
-                                "font-13 font-600 opacity-50 pt-1 pb-2",
-                            },
-                            [_vm._v(_vm._s(p.features))]
-                          ),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "divider mb-2" }),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "d-flex" }, [
-                            _c("div", { staticClass: "align-self-center" }, [
-                              _c("h1", { staticClass: "mt-1 mb-n2 font-800" }, [
-                                _vm._v(" " + _vm._s(p.cost) + " "),
-                                _c("sup", { staticClass: "font-400 font-14" }, [
-                                  _vm._v("₴"),
-                                ]),
-                              ]),
-                            ]),
-                          ]),
-                        ]),
-                      ]),
-                    ])
-                  }),
-                  0
-                ),
-              ]),
-            ]
-          ),
-          _vm._v(" "),
           _vm._m(1),
           _vm._v(" "),
           _c(
@@ -35035,12 +35002,12 @@ var render = function () {
                 _c(
                   "div",
                   { staticClass: "splide__list" },
-                  _vm._l(_vm.prices_private, function (p) {
+                  _vm._l(_vm.prices_flat, function (p) {
                     return _c("div", { staticClass: "splide__slide" }, [
                       _c("div", { staticClass: "card card-style mx-3" }, [
                         _c("img", {
                           staticClass: "img-fluid my-3",
-                          attrs: { src: "images/store/2w.png" },
+                          attrs: { src: p.image },
                         }),
                         _vm._v(" "),
                         _c("div", { staticClass: "content" }, [
@@ -35113,31 +35080,9 @@ var staticRenderFns = [
     return _c("div", { staticClass: "content mt-2" }, [
       _c("div", { staticClass: "d-flex" }, [
         _c("div", { staticClass: "align-self-center" }, [
-          _c("h1", { staticClass: "font-30" }, [_vm._v("Тарифы высотки")]),
+          _c("h1", { staticClass: "font-30" }, [_vm._v("Тарифы в квартиру")]),
           _vm._v(" "),
           _c("p", { staticClass: "mb-0 mt-n2 font-11" }, [_vm._v("Интернет")]),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "align-self-center ms-auto" }, [
-          _c(
-            "a",
-            {
-              staticClass:
-                "icon icon-s bg-theme rounded-l shadow-l rounded-m ms-2 color-theme",
-              attrs: { href: "#" },
-            },
-            [_c("i", { staticClass: "fa fa-heart color-red-dark font-14" })]
-          ),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass:
-                "icon icon-s bg-theme rounded-l shadow-l rounded-m ms-2 color-theme",
-              attrs: { href: "#" },
-            },
-            [_c("i", { staticClass: "fa fa-shopping-bag font-14" })]
-          ),
         ]),
       ]),
     ])
