@@ -7585,8 +7585,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Welcome",
   data: function data() {
-    return {//user_login: 'graf',
-      //user_password: 'Rkfcnth45'
+    return {
+      //user_login: 'graf',
+      user_login: '',
+      user_password: '' //user_password: 'Rkfcnth45'
+
     };
   },
   methods: {

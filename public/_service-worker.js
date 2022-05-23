@@ -1,7 +1,7 @@
 // To clear cache on devices, always increase APP_VER number after making changes.
 // The app will serve fresh content right away or after 2-3 refreshes (open / close)
-var APP_NAME = 'StickyMobile';
-var APP_VER = '4.8.1';
+var APP_NAME = 'My.HomeNet.Online';
+var APP_VER = '4.8.2';
 var CACHE_NAME = APP_NAME + '-' + APP_VER;
 
 // Files required to make this app work offline.
@@ -39,7 +39,7 @@ var REQUIRED_FILES = [
 ];
 
 // Service Worker Diagnostic. Set true to get console logs.
-var APP_DIAG = false;
+var APP_DIAG = true;
 
 //Service Worker Function Below.
 self.addEventListener('install', function(event) {

@@ -49,6 +49,8 @@
         data() {
             return {
               //user_login: 'graf',
+              user_login: '',
+              user_password: ''
               //user_password: 'Rkfcnth45'
             }
         },
