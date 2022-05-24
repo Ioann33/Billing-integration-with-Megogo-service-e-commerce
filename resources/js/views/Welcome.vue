@@ -13,7 +13,7 @@
 
                         <div class="input-style no-borders has-icon validate-field">
                             <i class="fa fa-user"></i>
-                            <input v-model="user_login" type="name" class="form-control validate-name" id="form1a" placeholder="Логин" value="d@d.com">
+                            <input v-model="user_login" type="name" class="form-control validate-name" id="form1a" placeholder="Логин">
                             <label for="form1a" class="color-blue-dark font-10 mt-1">Логин</label>
                             <i class="fa fa-times disabled invalid color-red-dark"></i>
                             <i class="fa fa-check disabled valid color-green-dark"></i>
@@ -22,7 +22,7 @@
 
                         <div class="input-style no-borders has-icon validate-field mt-4">
                             <i class="fa fa-lock"></i>
-                            <input v-model="user_password"  type="password" class="form-control validate-password" id="form3a" placeholder="Пароль" value="11111111">
+                            <input v-model="user_password"  type="password" class="form-control validate-password" id="form3a" placeholder="Пароль">
                             <label for="form3a" class="color-blue-dark font-10 mt-1">Пароль</label>
                             <i class="fa fa-times disabled invalid color-red-dark"></i>
                             <i class="fa fa-check disabled valid color-green-dark"></i>

@@ -48,42 +48,50 @@
 
         <!-- Menu - пополнить счет -->
         <div id="menu-add-funds" class="menu menu-box-bottom menu-box-detached">
-            <div class="menu-title"><h1>Add Funds</h1><p class="color-highlight">Top off your Account</p><a href="#" class="close-menu"><i class="fa fa-times"></i></a></div>
+            <div class="menu-title"><h1>Пополнить счет</h1><p class="color-highlight">on-line</p><a href="#" class="close-menu"><i class="fa fa-times"></i></a></div>
             <div class="divider divider-margins mb-1 mt-3"></div>
             <div class="content px-1">
 
-                <div class="input-style input-style-always-active no-borders no-icon">
-                    <label for="f1" class="color-theme opacity-30 text-uppercase font-700 font-10 mt-1">Add Funds To</label>
-                    <select id="f1">
-                        <option value="default" selected>Default Account</option>
-                        <option value="1">Business Account</option>
-                        <option value="2">Savings Account</option>
-                    </select>
-                    <span><i class="fa fa-chevron-down"></i></span>
-                    <i class="fa fa-check disabled valid color-green-dark"></i>
-                    <em></em>
-                </div>
-
-                <div class="input-style input-style-always-active no-borders no-icon">
-                    <label for="f1a" class="color-theme opacity-30 text-uppercase font-700 font-10 mt-1">Add Funds From</label>
-                    <select id="f1a">
-                        <option value="default" selected>Visa Credit Card</option>
-                        <option value="1">Mater Card Limited</option>
-                        <option value="2">PayPal Account</option>
-                    </select>
-                    <span><i class="fa fa-chevron-down"></i></span>
-                    <i class="fa fa-check disabled valid color-green-dark"></i>
-                    <em></em>
-                </div>
-
-                <div class="input-style input-style-always-active validate-field no-borders no-icon">
-                    <input type="number" class="form-control validate-number" id="f3ab" placeholder="12,250">
-                    <label for="f3ab" class="color-theme opacity-30 text-uppercase font-700 font-10 mt-1">Amount in USD</label>
-                    <i class="fa fa-times disabled invalid color-red-dark"></i>
-                    <i class="fa fa-check disabled valid color-green-dark"></i>
-                    <em>(required)</em>
-                </div>
-                <a href="#" class="close-menu btn btn-full btn-m bg-highlight rounded-sm text-uppercase font-800 mb-4">Add Funds</a>
+<!--                <div class="card card-style mx-3">-->
+                    <div class="card card-style mx-0">
+                        <div class="content">
+                            <div class="row mb-0">
+                                <a href="https://my-payments.privatbank.ua/mypayments/customauth/identification/fp/static?staticToken=cedc3b270b2557db02d8c5bca8ece918k0dbw2nq" class="close-menu col-6 pe-0">
+<!--                                    <div class="col-6">-->
+                                        <div class="card card-style m-0" style="background-image: url(images/privatbank.jpeg); width: 140px; height: 140px; background-size: 90%; background-repeat: no-repeat;"  data-card-height="140">
+                                            <div class="card-top p-2">
+                                                <span class="bg-green-dark p-2 py-1 rounded-sm font-13 font-600">on-line</span>
+                                            </div>
+    <!--                                        <div class="card-bottom text-center pb-3">-->
+    <!--                                            <a href="#" data-toast="snackbar-favorites" class="icon icon-xxs bg-theme rounded-l shadow-xl rounded-m mx-2 color-theme"><i class="fa fa-heart color-red-dark font-12"></i></a>-->
+    <!--                                            <a href="#" data-toast="snackbar-cart" class="icon icon-xxs bg-theme rounded-l shadow-xl rounded-m mx-2 color-theme"><i class="fa fa-shopping-bag font-12"></i></a>-->
+    <!--                                        </div>-->
+                                        </div>
+                                        <h5 class="font-600 font-16 line-height-sm pt-3">PrivatBank</h5>
+    <!--                                    <span class="color-blue-dark d-block font-11 font-600">Featured this Week</span>-->
+    <!--                                    <h2 class="pb-3 mt-n1">$2999.<sup class="font-14 font-400 opacity-50">99</sup></h2>-->
+<!--                                    </div>-->
+                                </a>
+                                <a href="https://easypay.ua/internet-tv/home-net-link" class="close-menu col-6 pe-0">
+<!--                                <div class="col-6">-->
+                                    <div class="card card-style m-0"  style="background-image: url(images/easypay.svg);  width: 140px; height: 140px; background-size: 90%; background-repeat: no-repeat;" data-card-height="140">
+                                        <div class="card-top p-2">
+                                            <span class="bg-red-dark p-2 py-1 rounded-sm font-13 font-600">on-line</span>
+                                        </div>
+<!--                                        <div class="card-bottom text-center pb-3">-->
+<!--                                            <a href="#" data-toast="snackbar-favorites" class="icon icon-xxs bg-theme rounded-l shadow-xl rounded-m mx-2 color-theme"><i class="fa fa-heart color-red-dark font-12"></i></a>-->
+<!--                                            <a href="#" data-toast="snackbar-cart" class="icon icon-xxs bg-theme rounded-l shadow-xl rounded-m mx-2 color-theme"><i class="fa fa-shopping-bag font-12"></i></a>-->
+<!--                                        </div>-->
+                                    </div>
+                                    <h5 class="font-600 font-16 line-height-sm pt-3">EasyPay</h5>
+<!--                                    <span class="color-red-dark d-block font-11 font-600">Out of Stock</span>-->
+<!--                                    <h2 class="pb-3 mt-n1">$1999.<sup class="font-14 font-400 opacity-50">99</sup></h2>-->
+<!--                                </div>-->
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+<!--                </div>-->
             </div>
         </div>
 

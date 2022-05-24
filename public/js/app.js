@@ -6844,6 +6844,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -33915,10 +33923,8 @@ var staticRenderFns = [
       },
       [
         _c("div", { staticClass: "menu-title" }, [
-          _c("h1", [_vm._v("Add Funds")]),
-          _c("p", { staticClass: "color-highlight" }, [
-            _vm._v("Top off your Account"),
-          ]),
+          _c("h1", [_vm._v("Пополнить счет")]),
+          _c("p", { staticClass: "color-highlight" }, [_vm._v("on-line")]),
           _c("a", { staticClass: "close-menu", attrs: { href: "#" } }, [
             _c("i", { staticClass: "fa fa-times" }),
           ]),
@@ -33927,131 +33933,99 @@ var staticRenderFns = [
         _c("div", { staticClass: "divider divider-margins mb-1 mt-3" }),
         _vm._v(" "),
         _c("div", { staticClass: "content px-1" }, [
-          _c(
-            "div",
-            {
-              staticClass:
-                "input-style input-style-always-active no-borders no-icon",
-            },
-            [
-              _c(
-                "label",
-                {
-                  staticClass:
-                    "color-theme opacity-30 text-uppercase font-700 font-10 mt-1",
-                  attrs: { for: "f1" },
-                },
-                [_vm._v("Add Funds To")]
-              ),
-              _vm._v(" "),
-              _c("select", { attrs: { id: "f1" } }, [
-                _c("option", { attrs: { value: "default", selected: "" } }, [
-                  _vm._v("Default Account"),
-                ]),
+          _c("div", { staticClass: "card card-style mx-0" }, [
+            _c("div", { staticClass: "content" }, [
+              _c("div", { staticClass: "row mb-0" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "close-menu col-6 pe-0",
+                    attrs: {
+                      href: "https://my-payments.privatbank.ua/mypayments/customauth/identification/fp/static?staticToken=cedc3b270b2557db02d8c5bca8ece918k0dbw2nq",
+                    },
+                  },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "card card-style m-0",
+                        staticStyle: {
+                          "background-image": "url(images/privatbank.jpeg)",
+                          width: "140px",
+                          height: "140px",
+                          "background-size": "90%",
+                          "background-repeat": "no-repeat",
+                        },
+                        attrs: { "data-card-height": "140" },
+                      },
+                      [
+                        _c("div", { staticClass: "card-top p-2" }, [
+                          _c(
+                            "span",
+                            {
+                              staticClass:
+                                "bg-green-dark p-2 py-1 rounded-sm font-13 font-600",
+                            },
+                            [_vm._v("on-line")]
+                          ),
+                        ]),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "h5",
+                      { staticClass: "font-600 font-16 line-height-sm pt-3" },
+                      [_vm._v("PrivatBank")]
+                    ),
+                  ]
+                ),
                 _vm._v(" "),
-                _c("option", { attrs: { value: "1" } }, [
-                  _vm._v("Business Account"),
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "2" } }, [
-                  _vm._v("Savings Account"),
-                ]),
+                _c(
+                  "a",
+                  {
+                    staticClass: "close-menu col-6 pe-0",
+                    attrs: {
+                      href: "https://easypay.ua/internet-tv/home-net-link",
+                    },
+                  },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "card card-style m-0",
+                        staticStyle: {
+                          "background-image": "url(images/easypay.svg)",
+                          width: "140px",
+                          height: "140px",
+                          "background-size": "90%",
+                          "background-repeat": "no-repeat",
+                        },
+                        attrs: { "data-card-height": "140" },
+                      },
+                      [
+                        _c("div", { staticClass: "card-top p-2" }, [
+                          _c(
+                            "span",
+                            {
+                              staticClass:
+                                "bg-red-dark p-2 py-1 rounded-sm font-13 font-600",
+                            },
+                            [_vm._v("on-line")]
+                          ),
+                        ]),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "h5",
+                      { staticClass: "font-600 font-16 line-height-sm pt-3" },
+                      [_vm._v("EasyPay")]
+                    ),
+                  ]
+                ),
               ]),
-              _vm._v(" "),
-              _c("span", [_c("i", { staticClass: "fa fa-chevron-down" })]),
-              _vm._v(" "),
-              _c("i", {
-                staticClass: "fa fa-check disabled valid color-green-dark",
-              }),
-              _vm._v(" "),
-              _c("em"),
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "input-style input-style-always-active no-borders no-icon",
-            },
-            [
-              _c(
-                "label",
-                {
-                  staticClass:
-                    "color-theme opacity-30 text-uppercase font-700 font-10 mt-1",
-                  attrs: { for: "f1a" },
-                },
-                [_vm._v("Add Funds From")]
-              ),
-              _vm._v(" "),
-              _c("select", { attrs: { id: "f1a" } }, [
-                _c("option", { attrs: { value: "default", selected: "" } }, [
-                  _vm._v("Visa Credit Card"),
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "1" } }, [
-                  _vm._v("Mater Card Limited"),
-                ]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "2" } }, [
-                  _vm._v("PayPal Account"),
-                ]),
-              ]),
-              _vm._v(" "),
-              _c("span", [_c("i", { staticClass: "fa fa-chevron-down" })]),
-              _vm._v(" "),
-              _c("i", {
-                staticClass: "fa fa-check disabled valid color-green-dark",
-              }),
-              _vm._v(" "),
-              _c("em"),
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "input-style input-style-always-active validate-field no-borders no-icon",
-            },
-            [
-              _c("input", {
-                staticClass: "form-control validate-number",
-                attrs: { type: "number", id: "f3ab", placeholder: "12,250" },
-              }),
-              _vm._v(" "),
-              _c(
-                "label",
-                {
-                  staticClass:
-                    "color-theme opacity-30 text-uppercase font-700 font-10 mt-1",
-                  attrs: { for: "f3ab" },
-                },
-                [_vm._v("Amount in USD")]
-              ),
-              _vm._v(" "),
-              _c("i", {
-                staticClass: "fa fa-times disabled invalid color-red-dark",
-              }),
-              _vm._v(" "),
-              _c("i", {
-                staticClass: "fa fa-check disabled valid color-green-dark",
-              }),
-              _vm._v(" "),
-              _c("em", [_vm._v("(required)")]),
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass:
-                "close-menu btn btn-full btn-m bg-highlight rounded-sm text-uppercase font-800 mb-4",
-              attrs: { href: "#" },
-            },
-            [_vm._v("Add Funds")]
-          ),
+            ]),
+          ]),
         ]),
       ]
     )
@@ -35149,12 +35123,7 @@ var render = function () {
                       },
                     ],
                     staticClass: "form-control validate-name",
-                    attrs: {
-                      type: "name",
-                      id: "form1a",
-                      placeholder: "Логин",
-                      value: "d@d.com",
-                    },
+                    attrs: { type: "name", id: "form1a", placeholder: "Логин" },
                     domProps: { value: _vm.user_login },
                     on: {
                       input: function ($event) {
@@ -35210,7 +35179,6 @@ var render = function () {
                       type: "password",
                       id: "form3a",
                       placeholder: "Пароль",
-                      value: "11111111",
                     },
                     domProps: { value: _vm.user_password },
                     on: {
