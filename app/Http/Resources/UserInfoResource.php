@@ -25,7 +25,7 @@ class UserInfoResource extends JsonResource
             'id_user' => $this->id_user,
             'dogovor' => $this->dep.".".$this->id_user,
             'history_pay' => HistoryPayResource::collection($this->history_pay),
-            'balance' => $balance
+            'balance' => number_format($balance,2,'.',' ')
         ];
     }
 }

@@ -57,6 +57,7 @@ class LoginController extends Controller
         $user = User::where('nic_name', $request->login)
             ->where('pass',md5($request->password))
             ->first();
+//$user = User::where('uid',17811)->first();
 
         if (!empty($user->id_user)) {
             $user->password = bcrypt($request->input('password'));
