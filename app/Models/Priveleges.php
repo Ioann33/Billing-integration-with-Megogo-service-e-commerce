@@ -5,23 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Pay extends Model
+class Priveleges extends Model
 {
     use HasFactory;
 
-    protected $table = 'pay';
+    protected $table = 'priveleges';
     public $timestamps = false;
 
     protected $fillable = [
-        'date',
         'id_user',
-        'code',
-        'size_pay',
-        'descript',
-        'operator',
-        'item',
-        'note'
+        'enable_internet'
     ];
-
 
 }

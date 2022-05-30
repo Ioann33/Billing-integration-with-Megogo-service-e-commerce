@@ -5,7 +5,7 @@ Vue.use(vueRouter);
 
 import Welcome from "./views/Welcome";
 
-import Home2 from "./views/Home2";
+import Home from "./views/Home";
 import Home3 from "./views/Home3";
 import Prices from "./views/Prices";
 import News from "./views/News";
@@ -24,9 +24,9 @@ const router = new vueRouter({
             name: 'home3',
             component: Home3
         },        {
-            path: "/home2",
-            name: 'home2',
-            component: Home2
+            path: "/home",
+            name: 'home',
+            component: Home
         },
         {
             path: "/news",
@@ -72,7 +72,7 @@ router.beforeEach((to, from, next)=>{
 
     if((to.name==='welcome' || to.name==='root') && token){
         return next({
-            name: 'home2'
+            name: 'home'
         })
     }
 

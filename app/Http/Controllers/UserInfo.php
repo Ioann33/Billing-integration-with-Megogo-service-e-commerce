@@ -115,7 +115,7 @@ class UserInfo extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return "store";
     }
 
     /**

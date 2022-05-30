@@ -24,7 +24,8 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
         'get' => \App\Http\Controllers\Get2::class,
         'balance' => \App\Http\Controllers\Balance::class,
         'userinfo' => \App\Http\Controllers\UserInfo::class,
-        'historypay' => \App\Http\Controllers\HistoryPayController::class
+        'historypay' => \App\Http\Controllers\HistoryPayController::class,
+        'enableinternet' => \App\Http\Controllers\EnableInternetController::class
     ]);
 
 });

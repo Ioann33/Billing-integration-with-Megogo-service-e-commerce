@@ -33,6 +33,26 @@
             </card-balance>
 
 
+
+<!--     Включен / Отключен Интернет       -->
+<!--            -->
+            <div  v-if="userinfo.enable_internet == 1" class="ms-3 me-3 mb-4 alert alert-small rounded-s shadow-bg shadow-bg-l bg-green-dark" role="alert">
+                <span><i class="fa fa-check-circle font-18"></i></span>
+                <h4 class="text-uppercase color-white">Интернет подключен</h4>
+                <strong>вы можете пользоваться интернетом</strong>
+<!--                <button type="button" class="close color-white opacity-60 font-16" data-bs-dismiss="alert" aria-label="Close">&times;</button>-->
+            </div>
+<!--            -->
+            <div v-else class="alert me-3 ms-3 rounded-s bg-red-dark shadow-bg shadow-bg-l mb-4" role="alert">
+                <span class="alert-icon"><i class="fa fa-times-circle font-18"></i></span>
+                <h4 class="text-uppercase color-white">Интернет отключен</h4>
+                <strong class="alert-icon-text">но вы можете самостоятельно включить его на 1 день</strong> <br>
+                <strong class="alert-icon-text"><a @click.prevent="enable_internet" href="#" class="shadow-bg shadow-bg-m rounded-s btn btn-m mb-3 rounded-0 text-uppercase font-900 shadow-s border-0 color-white gradient-green">Включить Интернет на 1 день</a></strong> <br>
+<!--                <button type="button" class="close color-white opacity-60 font-16" data-bs-dismiss="alert" aria-label="Close">&times;</button>-->
+            </div>
+ <!--     Включен / Отключен Интернет       -->
+
+
             <history-pay
                 :history_pay="userinfo.history_pay_short"
             >
@@ -246,6 +266,20 @@ export default {
         init_template2()
     },
     methods: {
+        enable_internet(){
+            console.log('enable')
+            axios.post('/api/enableinternet').then(res => {
+                console.log('enableinsternet()')
+                console.log(res.data)
+                this.userinfo.enable_internet = res.data
+                //this.userinfo = res.data.data[0]
+                //this.userinfo = res.data.data[0]
+                //this.userinfo.history_pay_short = this.userinfo.history_pay.slice(0,5)
+            })
+                .catch(err => {
+                    console.log(err.response)
+                })
+        },
          getData() {
             // axios.get('/api/balance').then(res => {
             //     console.log('get balance')
