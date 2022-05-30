@@ -46,7 +46,8 @@
             <div v-else class="alert me-3 ms-3 rounded-s bg-red-dark shadow-bg shadow-bg-l mb-4" role="alert">
                 <span class="alert-icon"><i class="fa fa-times-circle font-18"></i></span>
                 <h4 class="text-uppercase color-white">Интернет отключен</h4>
-                <strong class="alert-icon-text">но вы можете самостоятельно включить его на 1 день</strong> <br>
+                <strong>но вы можете самостоятельно </strong> <br>
+                <strong>включить его на 1 день</strong> <br> <br>
                 <strong class="alert-icon-text"><a @click.prevent="enable_internet" href="#" class="shadow-bg shadow-bg-m rounded-s btn btn-m mb-3 rounded-0 text-uppercase font-900 shadow-s border-0 color-white gradient-green">Включить Интернет на 1 день</a></strong> <br>
 <!--                <button type="button" class="close color-white opacity-60 font-16" data-bs-dismiss="alert" aria-label="Close">&times;</button>-->
             </div>
