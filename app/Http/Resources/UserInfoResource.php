@@ -26,7 +26,7 @@ class UserInfoResource extends JsonResource
 
         return [
             'id_user' => $this->id_user,
-            'dogovor' => $this->dep.".".$this->id_user,
+            'dogovor' => $this->dep.".".$this->uid,
             'enable_internet' => $priveleges->enable_internet,
             'balance' => number_format($balance,2,'.',' '),
             'history_pay' => HistoryPayResource::collection($this->history_pay),
