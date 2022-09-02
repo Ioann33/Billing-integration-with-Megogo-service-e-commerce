@@ -10,6 +10,7 @@ import Home3 from "./views/Home3";
 import Prices from "./views/Prices";
 import News from "./views/News";
 import Contacts from "./views/Contacts";
+import Iptv from "./views/Iptv";
 
 const router = new vueRouter({
     mode: "history",
@@ -52,7 +53,12 @@ const router = new vueRouter({
             path: '/:catchAll(.*)*',
             name: "PageNotFound",
             component: Welcome
-        }
+        },
+        {
+            path: "/iptv",
+            name: 'iptv',
+            component: Iptv
+        },
     ]
 })
 

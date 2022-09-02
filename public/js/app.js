@@ -6493,6 +6493,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "navBar",
   mounted: function mounted() {
@@ -6657,6 +6658,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_footerAds__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/footerAds */ "./resources/js/components/footerAds.vue");
 /* harmony import */ var _components_fundsMenu__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/fundsMenu */ "./resources/js/components/fundsMenu.vue");
 /* harmony import */ var _components_HistoryPayMenu__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/HistoryPayMenu */ "./resources/js/components/HistoryPayMenu.vue");
+//
 //
 //
 //
@@ -7224,6 +7226,114 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/Iptv.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/Iptv.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _components_headBar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/headBar */ "./resources/js/components/headBar.vue");
+/* harmony import */ var _components_navBar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/navBar */ "./resources/js/components/navBar.vue");
+/* harmony import */ var _components_navBarMenu__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/navBarMenu */ "./resources/js/components/navBarMenu.vue");
+/* harmony import */ var _components_footerAds__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/footerAds */ "./resources/js/components/footerAds.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "Iptv",
+  components: {
+    navBar: _components_navBar__WEBPACK_IMPORTED_MODULE_1__["default"],
+    navBarMenu: _components_navBarMenu__WEBPACK_IMPORTED_MODULE_2__["default"],
+    headBar: _components_headBar__WEBPACK_IMPORTED_MODULE_0__["default"],
+    footerAds: _components_footerAds__WEBPACK_IMPORTED_MODULE_3__["default"]
+  },
+  data: function data() {
+    return {
+      login: null,
+      current_tariff: null,
+      tariff_plans: []
+    };
+  },
+  methods: {
+    //TODO  сделать обработку ответа на массив и строку
+    getUserInfo: function getUserInfo() {
+      var _this = this;
+
+      axios.get('/api/getUserInfo').then(function (response) {
+        console.log(response.data.data);
+
+        if (response.data.data.svod[0]) {
+          _this.current_tariff = response.data.data.svod[0].serviceName;
+        }
+
+        _this.login = response.data.data.login;
+      })["catch"](console.log('some problem'));
+    },
+    getTariffPlans: function getTariffPlans() {
+      var _this2 = this;
+
+      axios.get('/api/getTariffPlans').then(function (res) {
+        _this2.tariff_plans = res.data.data;
+      });
+    },
+    connectService: function connectService(serviceID) {
+      console.log(serviceID);
+    }
+  },
+  updated: function updated() {
+    init_template2();
+  },
+  mounted: function mounted() {
+    this.getTariffPlans();
+    this.getUserInfo();
+    init_template2();
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/News.vue?vue&type=script&lang=js&":
 /*!******************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/News.vue?vue&type=script&lang=js& ***!
@@ -7774,9 +7884,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_Prices__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./views/Prices */ "./resources/js/views/Prices.vue");
 /* harmony import */ var _views_News__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/News */ "./resources/js/views/News.vue");
 /* harmony import */ var _views_Contacts__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./views/Contacts */ "./resources/js/views/Contacts.vue");
+/* harmony import */ var _views_Iptv__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./views/Iptv */ "./resources/js/views/Iptv.vue");
 
 
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
+
 
 
 
@@ -7817,6 +7929,10 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     path: '/:catchAll(.*)*',
     name: "PageNotFound",
     component: _views_Welcome__WEBPACK_IMPORTED_MODULE_2__["default"]
+  }, {
+    path: "/iptv",
+    name: 'iptv',
+    component: _views_Iptv__WEBPACK_IMPORTED_MODULE_8__["default"]
   }]
 });
 router.beforeEach(function (to, from, next) {
@@ -30719,6 +30835,45 @@ component.options.__file = "resources/js/views/Home3.vue"
 
 /***/ }),
 
+/***/ "./resources/js/views/Iptv.vue":
+/*!*************************************!*\
+  !*** ./resources/js/views/Iptv.vue ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Iptv_vue_vue_type_template_id_77c23108___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Iptv.vue?vue&type=template&id=77c23108& */ "./resources/js/views/Iptv.vue?vue&type=template&id=77c23108&");
+/* harmony import */ var _Iptv_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Iptv.vue?vue&type=script&lang=js& */ "./resources/js/views/Iptv.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Iptv_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Iptv_vue_vue_type_template_id_77c23108___WEBPACK_IMPORTED_MODULE_0__.render,
+  _Iptv_vue_vue_type_template_id_77c23108___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/Iptv.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/views/News.vue":
 /*!*************************************!*\
   !*** ./resources/js/views/News.vue ***!
@@ -31012,6 +31167,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/views/Iptv.vue?vue&type=script&lang=js&":
+/*!**************************************************************!*\
+  !*** ./resources/js/views/Iptv.vue?vue&type=script&lang=js& ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Iptv_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Iptv.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/Iptv.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Iptv_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/views/News.vue?vue&type=script&lang=js&":
 /*!**************************************************************!*\
   !*** ./resources/js/views/News.vue?vue&type=script&lang=js& ***!
@@ -31243,6 +31414,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Home3_vue_vue_type_template_id_1593d8b6___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Home3_vue_vue_type_template_id_1593d8b6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Home3.vue?vue&type=template&id=1593d8b6& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/Home3.vue?vue&type=template&id=1593d8b6&");
+
+
+/***/ }),
+
+/***/ "./resources/js/views/Iptv.vue?vue&type=template&id=77c23108&":
+/*!********************************************************************!*\
+  !*** ./resources/js/views/Iptv.vue?vue&type=template&id=77c23108& ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Iptv_vue_vue_type_template_id_77c23108___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Iptv_vue_vue_type_template_id_77c23108___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Iptv_vue_vue_type_template_id_77c23108___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Iptv.vue?vue&type=template&id=77c23108& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/Iptv.vue?vue&type=template&id=77c23108&");
 
 
 /***/ }),
@@ -33563,6 +33751,11 @@ var render = function () {
         _c("span", [_vm._v("Тарифы")]),
       ]),
       _vm._v(" "),
+      _c("router-link", { attrs: { to: { name: "iptv" } } }, [
+        _c("i", { staticClass: "fa fa-tv" }),
+        _c("span", [_vm._v("Цифровое ТВ")]),
+      ]),
+      _vm._v(" "),
       _c("router-link", { attrs: { to: { name: "contacts" } } }, [
         _c("i", { staticClass: "fa fa-heart" }),
         _c("span", [_vm._v("Контакты")]),
@@ -33956,11 +34149,13 @@ var render = function () {
                     _vm._v("Интернет отключен"),
                   ]),
                   _vm._v(" "),
-                  _c("strong", { staticClass: "alert-icon-text" }, [
-                    _vm._v(
-                      "но вы можете самостоятельно включить его на 1 день"
-                    ),
-                  ]),
+                  _c("strong", [_vm._v("но вы можете самостоятельно ")]),
+                  _vm._v(" "),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("strong", [_vm._v("включить его на 1 день")]),
+                  _vm._v(" "),
+                  _c("br"),
                   _vm._v(" "),
                   _c("br"),
                   _vm._v(" "),
@@ -34696,6 +34891,123 @@ var staticRenderFns = [
     )
   },
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/Iptv.vue?vue&type=template&id=77c23108&":
+/*!***********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/views/Iptv.vue?vue&type=template&id=77c23108& ***!
+  \***********************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { attrs: { id: "page" } },
+    [
+      _c("head-bar"),
+      _vm._v(" "),
+      _c("nav-bar"),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "page-content header-clear-medium" },
+        [
+          _c("div", { staticClass: "content mt-2" }, [
+            _c("div", { staticClass: "d-flex" }, [
+              _c("div", { staticClass: "align-self-center" }, [
+                _vm.login
+                  ? _c("h1", { staticClass: "font-30" }, [
+                      _vm._v("Логин в Megogo:  " + _vm._s(_vm.login)),
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.current_tariff
+                  ? _c("p", { staticClass: "mb-0 mt-n2 font-25 mt-5" }, [
+                      _vm._v("Ваш тариф:  " + _vm._s(_vm.current_tariff)),
+                    ])
+                  : _vm._e(),
+              ]),
+            ]),
+          ]),
+          _vm._v(" "),
+          _vm._l(_vm.tariff_plans, function (t) {
+            return _c(
+              "a",
+              {
+                staticClass: "card card-style",
+                attrs: { href: "#" },
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.connectService(t.serviceID)
+                  },
+                },
+              },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass: "card mb-0",
+                    staticStyle: {
+                      "background-image": "url(images/glavnoe.jpeg)",
+                    },
+                    attrs: { "data-card-height": "155" },
+                  },
+                  [
+                    _c("div", { staticClass: "card-top m-2" }, [
+                      _c(
+                        "p",
+                        {
+                          staticClass:
+                            "px-3 py-1 color-black rounded-s text-uppercase font-700 bg-white float-end font-15",
+                        },
+                        [_vm._v(" " + _vm._s(t.price) + " ₴")]
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "card-bottom px-3 py-2" }, [
+                      _c("h1", { staticClass: "color-white font-28 pb-1" }, [
+                        _vm._v(_vm._s(t.name)),
+                      ]),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "color-white opacity-50 mb-2" }, [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(t.description) +
+                            "\n                    "
+                        ),
+                      ]),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "card-overlay bg-gradient" }),
+                  ]
+                ),
+              ]
+            )
+          }),
+          _vm._v(" "),
+          _c("nav-bar-menu"),
+        ],
+        2
+      ),
+    ],
+    1
+  )
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
