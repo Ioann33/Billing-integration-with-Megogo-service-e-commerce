@@ -6,11 +6,13 @@ interface DigitalTV
 {
     public function getUserInfo();
 
-    public function connectService();
+    public function connectService($serviceID);
 
-    public function makePay();
+    public function changeTariffStatus($serviceID, $action);
 
     public function getTariffPlans();
 
     public function sendRequest();
+
+    public function createUser($password);
 }

@@ -31,8 +31,10 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     ]);
 
     Route::get('/getUserInfo', [DigitalTvController::class, 'getUserInfo']);
-    Route::get('/makePay', [DigitalTvController::class, 'makePay']);
+    Route::get('/connectService', [DigitalTvController::class, 'connectService']);
+    Route::get('/changeTariffStatus', [DigitalTvController::class, 'changeTariffStatus']);
     Route::get('/getTariffPlans', [DigitalTvController::class, 'getTariffPlans']);
+    Route::get('/createUser', [DigitalTvController::class, 'createUser']);
 });
 
 

@@ -14,7 +14,7 @@
                 </div>
             </div>
 
-            <a href="#" v-on:click.prevent="connectService(t.serviceID)" class="card card-style" v-for="t in tariff_plans">
+            <a href="#" v-on:click.prevent="connectService(t.serviceID, t.price)" class="card card-style" v-for="t in tariff_plans">
                 <div class="card mb-0" data-card-height="155" style="background-image:url(images/glavnoe.jpeg)">
                     <div class="card-top m-2">
                         <p class="px-3 py-1 color-black rounded-s text-uppercase font-700 bg-white float-end font-15"> {{t.price}} ₴</p>
@@ -58,23 +58,28 @@ export default {
         getUserInfo(){
             axios.get('/api/getUserInfo')
                 .then(response => {
-                    console.log(response.data.data)
-                    if (response.data.data.svod[0]){
-                        this.current_tariff = response.data.data.svod[0].serviceName
+                    console.log(response.data.login)
+                    if (response.data.plan_name){
+                        this.current_tariff = response.data.plan_name
+                    }
+                    if (response.data.login){
+                        this.login = response.data.login
                     }
 
-                    this.login = response.data.data.login
                 })
-                .catch(console.log('some problem'))
+                .catch(er => {
+                    console.log(er.status)
+                })
         },
         getTariffPlans(){
             axios.get('/api/getTariffPlans')
                 .then(res => {
-                    this.tariff_plans = res.data.data;
+                    console.log(res)
+                    this.tariff_plans = res.data;
                 })
         },
-        connectService(serviceID){
-            console.log(serviceID)
+        connectService(serviceID, price){
+            console.log(serviceID+price)
         }
     },
     updated() {

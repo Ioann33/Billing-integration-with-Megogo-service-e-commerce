@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class IptvPlan extends Model
 {
     protected $table = 'iptv_plans';
+    public $timestamps = false;
 }

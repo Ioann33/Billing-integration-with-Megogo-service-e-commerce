@@ -3,41 +3,129 @@
 namespace App\Services\Ipty;
 
 use App\Contracts\DigitalTV;
+use App\Exceptions\ChangeCredentialsProblem;
+use App\Exceptions\ChangeTariffStatusProblem;
+use App\Exceptions\NotAuthenticate;
+use App\Exceptions\NotEnoughMoney;
 use App\Models\IptvPlan;
 use App\Models\IptvUser;
+use App\Services\HelperServices\CreateMegogoUser;
+use App\Services\HelperServices\GetTariffByServiceId;
+use App\Services\HelperServices\MakePay;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class Megogo implements DigitalTV
 {
+    protected $inner_contract;
+    protected $uid;
+
+    public function __construct()
+    {
+        $this->inner_contract = Auth::user()->dep.'.'.Auth::user()->uid;
+        $this->uid = Auth::user()->uid;
+    }
 
     public function getUserInfo()
     {
-        $uid =  Auth::user()->uid.'.'.Auth::user()->dep;
-        $response = Http::get("https://billing.megogo.net/partners/homenetonlineprod/user/subscriptions?identifier=$uid");
-        $iptv_login = IptvUser::where('uid', '=', $uid)->get('login');
-        $info =  json_decode($response->body(), true);
-        $info['login'] = $iptv_login[0]['login'];
-        return $info;
+
+        $iptv_user = IptvUser::where('uid', '=', $this->uid)->get();
+
+        if (count($iptv_user)>0){
+            $plan_name = IptvPlan::find($iptv_user[0]['plan_id']);
+            if ($plan_name){
+                $name = $plan_name->name;
+            }else{
+                $name = null;
+            }
+            $iptv_user[0]['plan_name'] = $name;
+            return $iptv_user[0];
+        }
+        return [];
     }
 
-    public function connectService()
+    /**
+     * @throws ChangeTariffStatusProblem
+     */
+    public function changeTariffStatus($serviceID, $action)
     {
-        return 'Mogogo connectService';
+        $changeStatus = Http::get("https://billing.megogo.net/partners/homenetonlineprod/subscription/$action?userId=$this->inner_contract&serviceId=$serviceID");
+
+        $iptv_user = IptvUser::where('uid', '=', $this->uid)->get();
+
+        if ($changeStatus['successful']){
+            $tariff = new GetTariffByServiceId();
+            $iptv_user = IptvUser::findOrFail($iptv_user[0]['id']);
+            if ($action == 'unsubscribe'){
+                $iptv_user->plan_id = null;
+            }elseif ($action == 'suspend'){
+                $iptv_user->plan_id = null;
+            }elseif ($action == 'resume'){
+                $iptv_user->plan_id = $tariff($serviceID)->id;
+            }
+            $iptv_user->save();
+
+            return 'tariff '.$tariff($serviceID)->name.' '.$tariff($serviceID)->description.' successfuly '.$action;
+        }else{
+            throw new ChangeTariffStatusProblem();
+        }
     }
 
-    public function makePay()
+    /**
+     * @throws NotEnoughMoney
+     * @throws NotAuthenticate
+     * @throws ChangeTariffStatusProblem
+     * @return mixed
+     */
+    public function connectService($serviceID)
     {
-        return 'Mogogo makePay';
+
+        $iptv_user = IptvUser::where('uid', '=', $this->uid)->get();
+
+        if (count($iptv_user) == 0){
+            throw new NotAuthenticate();
+        }
+        $tariff = new GetTariffByServiceId();
+        $payment = new MakePay();
+
+
+        if (!$payment($tariff($serviceID))){
+            throw new NotEnoughMoney();
+        }
+
+        $changeStatus = Http::get("https://billing.megogo.net/partners/homenetonlineprod/subscription/subscribe?userId=$this->inner_contract&serviceId=$serviceID");
+
+        if ($changeStatus['successful']){
+
+            $iptv_user = IptvUser::findOrFail($iptv_user[0]['id']);
+            $iptv_user->plan_id = $tariff($serviceID)->id;
+            $iptv_user->save();
+
+            return 'tariff '.$tariff($serviceID)->name.' '.$tariff($serviceID)->description.' successfuly connected ';
+        }else{
+            throw new ChangeTariffStatusProblem();
+        }
     }
 
     public function getTariffPlans()
     {
-        return $iptv_plans = IptvPlan::where('provider', '=', 'megogo')->get();
+        return $iptv_plans = IptvPlan::where('provider', '=', 'megogo')->where('enable', '=', 1)->get();
     }
 
     public function sendRequest()
     {
         return 'Mogogo sendRequest';
+    }
+
+
+    /**
+     * @throws \App\Exceptions\ChangeCredentialsProblem
+     */
+    public function createUser($password)
+    {
+        $newIptvUser = new CreateMegogoUser();
+
+        return $newIptvUser($this->inner_contract, $password);
     }
 }

@@ -7302,24 +7302,29 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get('/api/getUserInfo').then(function (response) {
-        console.log(response.data.data);
+        console.log(response.data.login);
 
-        if (response.data.data.svod[0]) {
-          _this.current_tariff = response.data.data.svod[0].serviceName;
+        if (response.data.plan_name) {
+          _this.current_tariff = response.data.plan_name;
         }
 
-        _this.login = response.data.data.login;
-      })["catch"](console.log('some problem'));
+        if (response.data.login) {
+          _this.login = response.data.login;
+        }
+      })["catch"](function (er) {
+        console.log(er.status);
+      });
     },
     getTariffPlans: function getTariffPlans() {
       var _this2 = this;
 
       axios.get('/api/getTariffPlans').then(function (res) {
-        _this2.tariff_plans = res.data.data;
+        console.log(res);
+        _this2.tariff_plans = res.data;
       });
     },
-    connectService: function connectService(serviceID) {
-      console.log(serviceID);
+    connectService: function connectService(serviceID, price) {
+      console.log(serviceID + price);
     }
   },
   updated: function updated() {
@@ -34952,7 +34957,7 @@ var render = function () {
                 on: {
                   click: function ($event) {
                     $event.preventDefault()
-                    return _vm.connectService(t.serviceID)
+                    return _vm.connectService(t.serviceID, t.price)
                   },
                 },
               },
