@@ -7277,6 +7277,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -7292,8 +7302,12 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       login: null,
-      current_tariff: null,
-      tariff_plans: []
+      current_tariff: [],
+      tariff_plans: [],
+      alertWindow: true,
+      name: null,
+      price: null,
+      serviceID: null
     };
   },
   methods: {
@@ -7305,7 +7319,7 @@ __webpack_require__.r(__webpack_exports__);
         console.log(response.data.login);
 
         if (response.data.plan_name) {
-          _this.current_tariff = response.data.plan_name;
+          _this.current_tariff = response.data;
         }
 
         if (response.data.login) {
@@ -7323,8 +7337,28 @@ __webpack_require__.r(__webpack_exports__);
         _this2.tariff_plans = res.data;
       });
     },
-    connectService: function connectService(serviceID, price) {
-      console.log(serviceID + price);
+    choiceService: function choiceService(serviceID, price, name) {
+      console.log(serviceID + price + name);
+      this.serviceID = serviceID;
+      this.name = name;
+      this.price = price;
+      this.alertWindow = false;
+    },
+    cancel: function cancel() {
+      this.alertWindow = true;
+    },
+    connectService: function connectService() {
+      if (this.current_tariff) {
+        console.log('turn off current');
+        axios.get("api/changeTariffStatus?serviceID=".concat(this.current_tariff['plan_serviceID'], "&action=unsubscribe")).then(function (res) {
+          console.log('status unsubscribe ' + res.status);
+        });
+      }
+
+      console.log('turn on new tariff');
+      axios.get("api/connectService?serviceID=".concat(this.serviceID)).then(function (res) {
+        console.log(res.data);
+      });
     }
   },
   updated: function updated() {
@@ -34939,74 +34973,138 @@ var render = function () {
                     ])
                   : _vm._e(),
                 _vm._v(" "),
-                _vm.current_tariff
+                _vm.current_tariff["plan_name"]
                   ? _c("p", { staticClass: "mb-0 mt-n2 font-25 mt-5" }, [
-                      _vm._v("Ваш тариф:  " + _vm._s(_vm.current_tariff)),
+                      _vm._v(
+                        "Ваш активный тариф:  " +
+                          _vm._s(_vm.current_tariff["plan_name"])
+                      ),
                     ])
                   : _vm._e(),
               ]),
             ]),
           ]),
           _vm._v(" "),
-          _vm._l(_vm.tariff_plans, function (t) {
-            return _c(
-              "a",
-              {
-                staticClass: "card card-style",
-                attrs: { href: "#" },
-                on: {
-                  click: function ($event) {
-                    $event.preventDefault()
-                    return _vm.connectService(t.serviceID, t.price)
-                  },
-                },
-              },
-              [
+          _vm.alertWindow
+            ? _c(
+                "div",
+                _vm._l(_vm.tariff_plans, function (t) {
+                  return _c(
+                    "a",
+                    {
+                      staticClass: "card card-style",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function ($event) {
+                          $event.preventDefault()
+                          return _vm.choiceService(t.serviceID, t.price, t.name)
+                        },
+                      },
+                    },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass: "card mb-0",
+                          staticStyle: {
+                            "background-image": "url(images/glavnoe.jpeg)",
+                          },
+                          attrs: { "data-card-height": "155" },
+                        },
+                        [
+                          _c("div", { staticClass: "card-top m-2" }, [
+                            _c(
+                              "p",
+                              {
+                                staticClass:
+                                  "px-3 py-1 color-black rounded-s text-uppercase font-700 bg-white float-end font-15",
+                              },
+                              [_vm._v(" " + _vm._s(t.price) + " ₴")]
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "card-bottom px-3 py-2" }, [
+                            _c(
+                              "h1",
+                              { staticClass: "color-white font-28 pb-1" },
+                              [_vm._v(_vm._s(t.name))]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "p",
+                              { staticClass: "color-white opacity-50 mb-2" },
+                              [
+                                _vm._v(
+                                  "\n                            " +
+                                    _vm._s(t.description) +
+                                    "\n                        "
+                                ),
+                              ]
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c("div", {
+                            staticClass: "card-overlay bg-gradient",
+                          }),
+                        ]
+                      ),
+                    ]
+                  )
+                }),
+                0
+              )
+            : _c("div", { staticClass: "alert-warning text-center h-25" }, [
+                _vm.current_tariff["plan_name"]
+                  ? _c("div", { staticClass: "alert-info" }, [
+                      _vm._v(
+                        'Ваша текущая подписка : "' +
+                          _vm._s(_vm.current_tariff["plan_name"]) +
+                          '", хотите сменить на "' +
+                          _vm._s(_vm.name) +
+                          ' ?"'
+                      ),
+                    ])
+                  : _vm._e(),
+                _vm._v(
+                  '\n            Подтвердить подключение подписки: "' +
+                    _vm._s(_vm.name) +
+                    '".  Стоимость подключения:  ' +
+                    _vm._s(_vm.price) +
+                    " грн\n            "
+                ),
                 _c(
                   "div",
                   {
-                    staticClass: "card mb-0",
                     staticStyle: {
-                      "background-image": "url(images/glavnoe.jpeg)",
+                      display: "flex",
+                      "justify-content": "space-around",
                     },
-                    attrs: { "data-card-height": "155" },
                   },
                   [
-                    _c("div", { staticClass: "card-top m-2" }, [
-                      _c(
-                        "p",
-                        {
-                          staticClass:
-                            "px-3 py-1 color-black rounded-s text-uppercase font-700 bg-white float-end font-15",
-                        },
-                        [_vm._v(" " + _vm._s(t.price) + " ₴")]
-                      ),
-                    ]),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-success",
+                        on: { click: _vm.connectService },
+                      },
+                      [_vm._v("Подтвердить")]
+                    ),
                     _vm._v(" "),
-                    _c("div", { staticClass: "card-bottom px-3 py-2" }, [
-                      _c("h1", { staticClass: "color-white font-28 pb-1" }, [
-                        _vm._v(_vm._s(t.name)),
-                      ]),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "color-white opacity-50 mb-2" }, [
-                        _vm._v(
-                          "\n                        " +
-                            _vm._s(t.description) +
-                            "\n                    "
-                        ),
-                      ]),
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "card-overlay bg-gradient" }),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger ",
+                        on: { click: _vm.cancel },
+                      },
+                      [_vm._v("Отменить")]
+                    ),
                   ]
                 ),
-              ]
-            )
-          }),
+              ]),
           _vm._v(" "),
           _c("nav-bar-menu"),
         ],
-        2
+        1
       ),
     ],
     1

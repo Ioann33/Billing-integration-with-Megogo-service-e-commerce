@@ -36,10 +36,13 @@ class Megogo implements DigitalTV
             $plan_name = IptvPlan::find($iptv_user[0]['plan_id']);
             if ($plan_name){
                 $name = $plan_name->name;
+                $serviceID = $plan_name->serviceID;
             }else{
                 $name = null;
+                $serviceID = null;
             }
             $iptv_user[0]['plan_name'] = $name;
+            $iptv_user[0]['plan_serviceID'] = $serviceID;
             return $iptv_user[0];
         }
         return [];
@@ -47,12 +50,16 @@ class Megogo implements DigitalTV
 
     /**
      * @throws ChangeTariffStatusProblem
+     * @throws NotAuthenticate
      */
     public function changeTariffStatus($serviceID, $action)
     {
         $changeStatus = Http::get("https://billing.megogo.net/partners/homenetonlineprod/subscription/$action?userId=$this->inner_contract&serviceId=$serviceID");
 
         $iptv_user = IptvUser::where('uid', '=', $this->uid)->get();
+        if (count($iptv_user) == 0){
+            throw new NotAuthenticate();
+        }
 
         if ($changeStatus['successful']){
             $tariff = new GetTariffByServiceId();

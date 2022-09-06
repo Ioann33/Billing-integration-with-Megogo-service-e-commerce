@@ -28,6 +28,8 @@ class DigitalTvController extends Controller
         ]);
         try {
             $finalAnswer = $digitalTV->changeTariffStatus($request->serviceID, $request->action);
+        }catch (NotAuthenticate $e){
+            return response()->json(['message'=>$e->resMess()], 401);
         }catch (ChangeTariffStatusProblem $e){
             return response()->json(['message'=>$e->resMess()], 500);
         }
