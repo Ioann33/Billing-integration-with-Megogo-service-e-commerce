@@ -7289,6 +7289,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -7350,8 +7351,18 @@ __webpack_require__.r(__webpack_exports__);
     cancel: function cancel() {
       this.alertWindow = true;
     },
-    connectService: function connectService() {
+    disconnectService: function disconnectService() {
       var _this3 = this;
+
+      axios.get("api/changeTariffStatus?serviceID=".concat(this.current_tariff['plan_serviceID'], "&action=unsubscribe")).then(function (res) {
+        if (res.status === 200) {
+          _this3.current_tariff = [];
+          _this3.serviceID = null;
+        }
+      });
+    },
+    connectService: function connectService() {
+      var _this4 = this;
 
       if (this.current_tariff['plan_name']) {
         console.log(this.current_tariff);
@@ -7365,16 +7376,16 @@ __webpack_require__.r(__webpack_exports__);
       axios.get("api/connectService?serviceID=".concat(this.serviceID)).then(function (res) {
         if (res.status === 200) {
           console.log(res.data);
-          _this3.current_tariff['plan_name'] = res.data.name;
-          _this3.current_tariff['plan_serviceID'] = res.data.serviceID;
-          _this3.alertWindow = true;
+          _this4.current_tariff['plan_name'] = res.data.name;
+          _this4.current_tariff['plan_serviceID'] = res.data.serviceID;
+          _this4.alertWindow = true;
         }
       })["catch"](function (err) {
         if (err.response.status === 400) {
           console.log('return to login');
-          localStorage.setItem('serviceID', _this3.serviceID);
+          localStorage.setItem('serviceID', _this4.serviceID);
 
-          _this3.$router.push({
+          _this4.$router.push({
             name: 'pass'
           });
         }
@@ -7663,6 +7674,7 @@ __webpack_require__.r(__webpack_exports__);
             console.log('user created');
             axios.get("api/connectService?serviceID=".concat(_this.serviceID)).then(function (res) {
               if (res.status === 200) {
+                localStorage.removeItem('serviceID');
                 console.log('service connected');
 
                 _this.$router.push({
@@ -35181,6 +35193,24 @@ var render = function () {
                       ])
                     : _vm._e(),
                 ]),
+                _vm._v(" "),
+                _vm.current_tariff["plan_name"]
+                  ? _c(
+                      "a",
+                      {
+                        staticClass:
+                          "btn shadow-bg shadow-bg-m btn-m btn-full mb-3 rounded-s text-uppercase font-900 shadow-s bg-red-dark mt-1",
+                        attrs: { href: "#" },
+                        on: {
+                          click: function ($event) {
+                            $event.preventDefault()
+                            return _vm.disconnectService.apply(null, arguments)
+                          },
+                        },
+                      },
+                      [_vm._v("Оменить подписку")]
+                    )
+                  : _vm._e(),
               ])
             : _vm._e(),
           _vm._v(" "),

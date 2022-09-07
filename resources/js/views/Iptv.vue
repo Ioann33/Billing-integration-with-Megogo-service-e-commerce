@@ -11,6 +11,7 @@
                         Ваш активный тариф:  {{current_tariff['plan_name']}}
                     </p>
                 </div>
+                <a href="#" v-if="current_tariff['plan_name']" v-on:click.prevent="disconnectService" class="btn shadow-bg shadow-bg-m btn-m btn-full mb-3 rounded-s text-uppercase font-900 shadow-s bg-red-dark mt-1">Оменить подписку</a>
             </div>
             <div v-if="alertError" class="alert-danger font-14">
                 {{ alertError }}
@@ -105,6 +106,15 @@ export default {
         },
         cancel(){
             this.alertWindow = true;
+        },
+        disconnectService(){
+            axios.get(`api/changeTariffStatus?serviceID=${this.current_tariff['plan_serviceID']}&action=unsubscribe`)
+                .then(res => {
+                    if (res.status === 200){
+                        this.current_tariff = [];
+                        this.serviceID = null;
+                    }
+                })
         },
         connectService(){
             if (this.current_tariff['plan_name']){

@@ -73,6 +73,7 @@ export default {
                             axios.get(`api/connectService?serviceID=${this.serviceID}`)
                                 .then(res => {
                                     if (res.status === 200){
+                                        localStorage.removeItem('serviceID')
                                         console.log('service connected')
                                         this.$router.push({name: 'iptv'})
                                     }
