@@ -44,13 +44,13 @@ class DigitalTvController extends Controller
         try {
             $finalAnswer = $digitalTV->connectService($request->serviceID);
         }catch (NotAuthenticate $e){
-            return response()->json(['message'=>$e->resMess()], 401);
+            return response()->json(['message'=>$e->resMess()], 400);
         }catch (NotEnoughMoney $e){
             return response()->json(['message'=>$e->resMess()], 402);
         }catch (ChangeTariffStatusProblem $e){
             return response()->json(['message'=>$e->resMess()], 500);
         }
-        return response()->json(['message'=>$finalAnswer]);
+        return response()->json($finalAnswer);
     }
 
     public function createUser(Request $request, DigitalTV $digitalTV){
@@ -62,6 +62,6 @@ class DigitalTvController extends Controller
         }catch (ChangeCredentialsProblem $e){
             return response()->json(['message'=>$e->resMess(), 400]);
         }
-        return response()->json(['message'=>'user created successful', 201]);
+        return response()->json(['message'=>'user created successful'], 201);
     }
 }

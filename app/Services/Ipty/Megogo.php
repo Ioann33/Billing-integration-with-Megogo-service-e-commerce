@@ -109,7 +109,12 @@ class Megogo implements DigitalTV
             $iptv_user->plan_id = $tariff($serviceID)->id;
             $iptv_user->save();
 
-            return 'tariff '.$tariff($serviceID)->name.' '.$tariff($serviceID)->description.' successfuly connected ';
+            return  [
+                        'message'=>'tariff '.$tariff($serviceID)->name.' '.$tariff($serviceID)->description.' successfuly connected ',
+                        'name' => $tariff($serviceID)->name,
+                        'serviceID' => $serviceID,
+                        'price' => $tariff($serviceID)->price,
+                    ];
         }else{
             throw new ChangeTariffStatusProblem();
         }

@@ -11,6 +11,7 @@ import Prices from "./views/Prices";
 import News from "./views/News";
 import Contacts from "./views/Contacts";
 import Iptv from "./views/Iptv";
+import Password from "./views/Password";
 
 const router = new vueRouter({
     mode: "history",
@@ -59,6 +60,11 @@ const router = new vueRouter({
             name: 'iptv',
             component: Iptv
         },
+        {
+            path: "/pass",
+            name: 'pass',
+            component: Password
+        }
     ]
 })
 

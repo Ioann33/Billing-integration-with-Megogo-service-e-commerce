@@ -4,19 +4,20 @@
         <nav-bar></nav-bar>
 
         <div class="page-content header-clear-medium">
-
-            <div class="content mt-2">
-                <div class="d-flex">
-                    <div class="align-self-center">
-                        <h1 class="font-30" v-if="login">Логин в Megogo:  {{ login }}</h1>
-                        <p class="mb-0 mt-n2 font-25 mt-5" v-if="current_tariff['plan_name']">Ваш активный тариф:  {{current_tariff['plan_name']}}</p>
-                    </div>
+            <div class="card" v-if="login">
+                <div class="content">
+                    <h3>Логин в Megogo:  {{ login }}</h3>
+                    <p v-if="current_tariff['plan_name']">
+                        Ваш активный тариф:  {{current_tariff['plan_name']}}
+                    </p>
                 </div>
             </div>
-
+            <div v-if="alertError" class="alert-danger font-14">
+                {{ alertError }}
+            </div>
             <div v-if="alertWindow">
                 <a href="#" v-on:click.prevent="choiceService(t.serviceID, t.price, t.name)" class="card card-style" v-for="t in tariff_plans">
-                    <div class="card mb-0" data-card-height="155" style="background-image:url(images/glavnoe.jpeg)">
+                    <div class="card mb-0" data-card-height="155" style="background-image:url(images/iptv.jpeg)">
                         <div class="card-top m-2">
                             <p class="px-3 py-1 color-black rounded-s text-uppercase font-700 bg-white float-end font-15"> {{t.price}} ₴</p>
                         </div>
@@ -30,7 +31,7 @@
                     </div>
                 </a>
             </div>
-            <div class="alert-warning text-center h-25" v-else>
+            <div class="alert-warning text-center p-2 h-25 font-14" v-else>
                 <div class="alert-info" v-if="current_tariff['plan_name']">Ваша текущая подписка : "{{ current_tariff['plan_name']}}", хотите сменить на "{{ name }} ?"</div>
                 Подтвердить подключение подписки: "{{name}}".  Стоимость подключения:  {{ price}} грн
                 <div style="display: flex; justify-content: space-around">
@@ -41,6 +42,7 @@
 
         <nav-bar-menu></nav-bar-menu>
     </div>
+
     </div>
 </template>
 
@@ -62,6 +64,7 @@ export default {
             current_tariff : [],
             tariff_plans: [],
             alertWindow: true,
+            alertError : false,
             name: null,
             price: null,
             serviceID: null,
@@ -98,22 +101,37 @@ export default {
             this.name = name;
             this.price = price
             this.alertWindow = false;
+
         },
         cancel(){
             this.alertWindow = true;
         },
         connectService(){
-            if (this.current_tariff){
+            if (this.current_tariff['plan_name']){
+                console.log(this.current_tariff)
                 console.log('turn off current')
                 axios.get(`api/changeTariffStatus?serviceID=${this.current_tariff['plan_serviceID']}&action=unsubscribe`)
                     .then(res => {
                         console.log('status unsubscribe '+res.status)
+
                     })
             }
             console.log('turn on new tariff')
             axios.get(`api/connectService?serviceID=${this.serviceID}`)
                 .then(res => {
-                    console.log(res.data)
+                    if (res.status === 200){
+                        console.log(res.data)
+                        this.current_tariff['plan_name'] = res.data.name
+                        this.current_tariff['plan_serviceID'] = res.data.serviceID
+                        this.alertWindow = true;
+                    }
+                })
+                .catch(err => {
+                    if (err.response.status === 400){
+                        console.log('return to login')
+                        localStorage.setItem('serviceID', this.serviceID)
+                        this.$router.push({name: 'pass'})
+                    }
                 })
         }
     },
