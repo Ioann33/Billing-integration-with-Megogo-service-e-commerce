@@ -11,14 +11,28 @@
                         Ваш активный тариф:  {{current_tariff['plan_name']}}
                     </p>
                 </div>
-                <a href="#" v-if="current_tariff['plan_name']" v-on:click.prevent="disconnectService" class="btn shadow-bg shadow-bg-m btn-m btn-full mb-3 rounded-s text-uppercase font-900 shadow-s bg-red-dark mt-1">Оменить подписку</a>
+                <div v-if="alertDisConnect">
+                    <a href="#" v-if="current_tariff['plan_name']" v-on:click.prevent="choiceDisConnect" class="btn shadow-bg shadow-bg-m btn-m btn-full mb-3 rounded-s text-uppercase font-900 shadow-s bg-red-dark mt-1">Оменить подписку</a>
+                </div>
+                <div v-else class="p-2 alert-warning">
+                    <p class="alert-danger">Доступное количество отключений на месяц: {{current_tariff['prolong_time']}}</p>
+                    <p>Вы уверенны что хотите отключить текущий тариф?</p>
+                    <div style="display: flex; justify-content: space-around">
+                        <button class="btn btn-success" v-on:click="disconnectService" v-if="current_tariff['prolong_time']>0">Подтвердить</button>
+                        <div class="alert-warning text-center" v-else>
+                            Вы исчерпали разрешенное количество отключений на месяц
+                        </div>
+                        <button class="btn btn-danger " v-on:click="cancel(2)">Отменить</button>
+                    </div>
+                </div>
+
             </div>
             <div class="card card-style bg-red-dark" v-if="alertError">
                 <div class="content">
                     <h4 class="color-white">{{ alertError }}</h4>
                 </div>
             </div>
-            <div v-if="alertWindow">
+            <div v-if="alertConnect">
                 <a href="#" v-on:click.prevent="choiceService(t.serviceID, t.price, t.name)" class="card card-style" v-for="t in tariff_plans">
                     <div class="card mb-0" data-card-height="155" style="background-image:url(images/iptv.jpeg)">
                         <div class="card-top m-2">
@@ -35,12 +49,20 @@
                 </a>
             </div>
             <div class="alert-warning text-center p-2 h-25 font-14" v-else>
-                <div class="alert-info" v-if="current_tariff['plan_name']">Ваша текущая подписка : "{{ current_tariff['plan_name']}}", хотите сменить на "{{ name }} ?"</div>
-                Подтвердить подключение подписки: "{{name}}".  Стоимость подключения:  {{ price}} грн
-                <div style="display: flex; justify-content: space-around">
-                    <button class="btn btn-success" v-on:click="connectService">Подтвердить</button>
-                    <button class="btn btn-danger " v-on:click="cancel">Отменить</button>
+                <div class="alert-info" v-if="current_tariff['plan_name']">
+                    Ваша текущая подписка : "{{ current_tariff['plan_name']}}", хотите сменить на "{{ name }} ?"
                 </div>
+                <p class="alert-danger">Доступное количество переплодключений на месяц: {{current_tariff['prolong_time']}}</p>
+                Подтвердить подключение подписки: "{{name}}".  Ежемесячная стоимость:  {{ price }} грн.
+                <p>До конца текущего месяца с вас будет списано: {{ diffPrice }} грн</p>
+                <div style="display: flex; justify-content: space-around">
+                    <button class="btn btn-success" v-on:click="connectService" v-if="current_tariff['prolong_time']>0">Подтвердить</button>
+                    <div class="alert-warning text-center" v-else>
+                        Вы исчерпали разрешенное количество переподключений на месяц
+                    </div>
+                    <button class="btn btn-danger " v-on:click="cancel(1)">Отменить</button>
+                </div>
+
             </div>
 
         <nav-bar-menu></nav-bar-menu>
@@ -66,15 +88,16 @@ export default {
             login: null,
             current_tariff : [],
             tariff_plans: [],
-            alertWindow: true,
+            alertConnect: true,
+            alertDisConnect: true,
             alertError : false,
             name: null,
             price: null,
+            diffPrice:null,
             serviceID: null,
         }
     },
     methods : {
-        //TODO  сделать обработку ответа на массив и строку
         getUserInfo(){
             axios.get('/api/getUserInfo')
                 .then(response => {
@@ -82,8 +105,11 @@ export default {
                     if (response.data.plan_name){
                         this.current_tariff = response.data
                     }
+
                     if (response.data.login){
                         this.login = response.data.login
+                        console.log(response.data['prolong_time'])
+                        this.current_tariff['prolong_time'] = response.data['prolong_time']
                     }
 
                 })
@@ -99,28 +125,43 @@ export default {
                 })
         },
         choiceService(serviceID, price, name){
+            axios.get(`api/calculateCost?price=${price}`)
+                .then(res =>{
+                    this.diffPrice = res.data.cost
+                })
             console.log(serviceID+price+name)
             this.serviceID = serviceID
             this.name = name;
             this.price = price
-            this.alertWindow = false;
+            this.alertConnect = false;
 
         },
-        cancel(){
-            this.alertWindow = true;
+        choiceDisConnect(){
+            this.alertDisConnect = false;
+        },
+        cancel(window){
+            if (window === 1){
+                this.alertConnect = true;
+            }if(window === 2){
+                this.alertDisConnect = true
+            }
+
         },
         disconnectService(){
-            axios.get(`api/changeTariffStatus?serviceID=${this.current_tariff['plan_serviceID']}&action=unsubscribe`)
+            axios.get(`api/disConnectService?serviceID=${this.current_tariff['plan_serviceID']}`)
                 .then(res => {
+                    console.log('disconnect data'+res.data)
                     if (res.status === 200){
                         this.current_tariff = [];
+                        this.current_tariff['prolong_time'] = res.data
+                        this.alertDisConnect = true;
                         this.serviceID = null;
                     }
                 })
                 .catch(err => {
                     if (err.response.status === 500){
                         console.log(err.response.status+'dfgergerv')
-                        this.alertWindow = true;
+                        this.alertConnect = true;
                         this.alertError = 'Сервервис временно недоступен, попробуйте позже или обратитесь в службу поддержки.'
                     }
                 })
@@ -129,31 +170,32 @@ export default {
             if (this.current_tariff['plan_name']){
                 console.log(this.current_tariff)
                 console.log('turn off current')
-                axios.get(`api/changeTariffStatus?serviceID=${this.current_tariff['plan_serviceID']}&action=unsubscribe`)
+                axios.get(`api/disConnectService?serviceID=${this.current_tariff['plan_serviceID']}&double=1`)
                     .then(res => {
                         console.log('status unsubscribe '+res.status)
                     })
                     .catch(err => {
                         if (err.response.status === 400){
                             console.log(err.response.status+'dfgergerv')
-                            this.alertWindow = true;
+                            this.alertConnect = true;
                             this.alertError = 'Авторизируйтесь на сервесе.'
                         }
                         if (err.response.status === 500){
                             console.log(err.response.status+'dfgergerv')
-                            this.alertWindow = true;
+                            this.alertConnect = true;
                             this.alertError = 'Сервервис временно недоступен, попробуйте позже или обратитесь в службу поддержки.'
                         }
                     })
             }
             console.log('turn on new tariff')
-            axios.get(`api/connectService?serviceID=${this.serviceID}`)
+            axios.get(`api/connectService?serviceID=${this.serviceID}&price=${this.diffPrice}`)
                 .then(res => {
                     if (res.status === 200){
                         console.log(res.data)
                         this.current_tariff['plan_name'] = res.data.name
                         this.current_tariff['plan_serviceID'] = res.data.serviceID
-                        this.alertWindow = true;
+                        this.current_tariff['prolong_time'] = res.data.prolong_time
+                        this.alertConnect = true;
                         this.alertError = false;
                     }
                 })
@@ -161,16 +203,18 @@ export default {
                     if (err.response.status === 400){
                         console.log('return to login')
                         localStorage.setItem('serviceID', this.serviceID)
+                        localStorage.setItem('diffPrice', this.diffPrice)
                         this.$router.push({name: 'pass'})
                     }
                     if (err.response.status === 402){
                         console.log(err.response.status+'dfgergerv')
-                        this.alertWindow = true;
+                        this.current_tariff['plan_name'] = null
+                        this.alertConnect = true;
                         this.alertError = 'Недостаточно средств на счету, пополните ваш баланс.'
                     }
                     if (err.response.status === 500){
                         console.log(err.response.status+'dfgergerv')
-                        this.alertWindow = true;
+                        this.alertConnect = true;
                         this.alertError = 'Сервервис временно недоступен, попробуйте позже или обратитесь в службу поддержки.'
                     }
                 })

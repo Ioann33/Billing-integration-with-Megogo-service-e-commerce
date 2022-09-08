@@ -15,7 +15,9 @@ class IptvUser extends Model
         'login',
         'provider',
         'inner_contract',
-        'plan_id'
+        'plan_id',
+        'prolong',
+        'prolong_time',
     ];
 
     public function plan(){

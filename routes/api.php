@@ -35,6 +35,8 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/changeTariffStatus', [DigitalTvController::class, 'changeTariffStatus']);
     Route::get('/getTariffPlans', [DigitalTvController::class, 'getTariffPlans']);
     Route::get('/createUser', [DigitalTvController::class, 'createUser']);
+    Route::get('/calculateCost', [DigitalTvController::class, 'calculateCost']);
+    Route::get('/disConnectService', [DigitalTvController::class, 'disConnectService']);
 });
 
 

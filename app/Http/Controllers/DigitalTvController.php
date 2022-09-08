@@ -36,13 +36,38 @@ class DigitalTvController extends Controller
         return response()->json(['message'=>$finalAnswer]);
     }
 
+    public function calculateCost(Request $request, DigitalTV $digitalTV){
+        $this->validate($request,[
+            'price'=> 'required'
+        ]);
+        $cost = $digitalTV->calculateCost($request->price);
+        return response()->json(['cost' => $cost]);
 
+    }
+    public function disConnectService(Request $request, DigitalTV $digitalTV){
+        $this->validate($request,[
+            'serviceID'=> 'required',
+        ]);
+        if (isset($request->double)){
+            $double = false;
+        }else{
+            $double = true;
+        }
+        try {
+            $prolong_time = $digitalTV->disConnectService($request->serviceID, $double);
+        }catch (ChangeTariffStatusProblem $e){
+            return response()->json(['message'=>$e->resMess()], 500);
+        }
+        return response()->json($prolong_time);
+
+    }
     public function connectService(Request $request, DigitalTV $digitalTV){
         $this->validate($request,[
             'serviceID'=>'required',
+            'price'=>'required',
         ]);
         try {
-            $finalAnswer = $digitalTV->connectService($request->serviceID);
+            $finalAnswer = $digitalTV->connectService($request->serviceID, $request->price);
         }catch (NotAuthenticate $e){
             return response()->json(['message'=>$e->resMess()], 400);
         }catch (NotEnoughMoney $e){

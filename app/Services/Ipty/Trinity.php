@@ -12,7 +12,7 @@ class Trinity implements DigitalTV
         return 'Trinity getUserInfo';
     }
 
-    public function connectService($serviceID)
+    public function connectService($serviceID, $price)
     {
         // TODO: Implement connectService() method.
     }
@@ -27,7 +27,7 @@ class Trinity implements DigitalTV
         return 'Trinity getTariffPlans';
     }
 
-    public function sendRequest()
+    public function calculateCost($price)
     {
         return 'Trinity sendRequest';
     }
@@ -36,5 +36,10 @@ class Trinity implements DigitalTV
     public function createUser($password)
     {
         // TODO: Implement createUser() method.
+    }
+
+    public function disConnectService($serviceID, $double)
+    {
+        // TODO: Implement disConnectService() method.
     }
 }

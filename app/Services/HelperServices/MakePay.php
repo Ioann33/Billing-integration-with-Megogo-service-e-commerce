@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class MakePay
 {
-    public function __invoke($tariff)
+    public function __invoke($tariff, $price)
     {
         $date_event = date('Y-m-d H:i:s');
         $operator = 'iptv';
@@ -17,7 +17,7 @@ class MakePay
         $checkBalance = Pay::where('id_user', $user_id)
             ->where('date', '>=', date("Y-m-01 00:00:00"))
             ->sum('size_pay');
-        if ($tariff->price > $checkBalance){
+        if ($price > $checkBalance){
             return false;
         }
 
@@ -25,7 +25,7 @@ class MakePay
         $newPay->date = $date_event;
         $newPay->id_user = $user_id;
         $newPay->code = $tariff->id;
-        $newPay->size_pay = -1 * abs($tariff->price);
+        $newPay->size_pay = -1 * abs($price);
         $newPay->descript = $tariff->name.' '.$tariff->description;
         $newPay->operator = $operator;
         $newPay->item = 103011;

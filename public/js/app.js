@@ -7292,6 +7292,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -7309,15 +7331,16 @@ __webpack_require__.r(__webpack_exports__);
       login: null,
       current_tariff: [],
       tariff_plans: [],
-      alertWindow: true,
+      alertConnect: true,
+      alertDisConnect: true,
       alertError: false,
       name: null,
       price: null,
+      diffPrice: null,
       serviceID: null
     };
   },
   methods: {
-    //TODO  сделать обработку ответа на массив и строку
     getUserInfo: function getUserInfo() {
       var _this = this;
 
@@ -7330,6 +7353,8 @@ __webpack_require__.r(__webpack_exports__);
 
         if (response.data.login) {
           _this.login = response.data.login;
+          console.log(response.data['prolong_time']);
+          _this.current_tariff['prolong_time'] = response.data['prolong_time'];
         }
       })["catch"](function (er) {
         console.log(er.status);
@@ -7344,83 +7369,104 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     choiceService: function choiceService(serviceID, price, name) {
+      var _this3 = this;
+
+      axios.get("api/calculateCost?price=".concat(price)).then(function (res) {
+        _this3.diffPrice = res.data.cost;
+      });
       console.log(serviceID + price + name);
       this.serviceID = serviceID;
       this.name = name;
       this.price = price;
-      this.alertWindow = false;
+      this.alertConnect = false;
     },
-    cancel: function cancel() {
-      this.alertWindow = true;
+    choiceDisConnect: function choiceDisConnect() {
+      this.alertDisConnect = false;
+    },
+    cancel: function cancel(window) {
+      if (window === 1) {
+        this.alertConnect = true;
+      }
+
+      if (window === 2) {
+        this.alertDisConnect = true;
+      }
     },
     disconnectService: function disconnectService() {
-      var _this3 = this;
+      var _this4 = this;
 
-      axios.get("api/changeTariffStatus?serviceID=".concat(this.current_tariff['plan_serviceID'], "&action=unsubscribe")).then(function (res) {
+      axios.get("api/disConnectService?serviceID=".concat(this.current_tariff['plan_serviceID'])).then(function (res) {
+        console.log('disconnect data' + res.data);
+
         if (res.status === 200) {
-          _this3.current_tariff = [];
-          _this3.serviceID = null;
+          _this4.current_tariff = [];
+          _this4.current_tariff['prolong_time'] = res.data;
+          _this4.alertDisConnect = true;
+          _this4.serviceID = null;
         }
       })["catch"](function (err) {
         if (err.response.status === 500) {
           console.log(err.response.status + 'dfgergerv');
-          _this3.alertWindow = true;
-          _this3.alertError = 'Сервервис временно недоступен, попробуйте позже или обратитесь в службу поддержки.';
+          _this4.alertConnect = true;
+          _this4.alertError = 'Сервервис временно недоступен, попробуйте позже или обратитесь в службу поддержки.';
         }
       });
     },
     connectService: function connectService() {
-      var _this4 = this;
+      var _this5 = this;
 
       if (this.current_tariff['plan_name']) {
         console.log(this.current_tariff);
         console.log('turn off current');
-        axios.get("api/changeTariffStatus?serviceID=".concat(this.current_tariff['plan_serviceID'], "&action=unsubscribe")).then(function (res) {
+        axios.get("api/disConnectService?serviceID=".concat(this.current_tariff['plan_serviceID'], "&double=1")).then(function (res) {
           console.log('status unsubscribe ' + res.status);
         })["catch"](function (err) {
           if (err.response.status === 400) {
             console.log(err.response.status + 'dfgergerv');
-            _this4.alertWindow = true;
-            _this4.alertError = 'Авторизируйтесь на сервесе.';
+            _this5.alertConnect = true;
+            _this5.alertError = 'Авторизируйтесь на сервесе.';
           }
 
           if (err.response.status === 500) {
             console.log(err.response.status + 'dfgergerv');
-            _this4.alertWindow = true;
-            _this4.alertError = 'Сервервис временно недоступен, попробуйте позже или обратитесь в службу поддержки.';
+            _this5.alertConnect = true;
+            _this5.alertError = 'Сервервис временно недоступен, попробуйте позже или обратитесь в службу поддержки.';
           }
         });
       }
 
       console.log('turn on new tariff');
-      axios.get("api/connectService?serviceID=".concat(this.serviceID)).then(function (res) {
+      axios.get("api/connectService?serviceID=".concat(this.serviceID, "&price=").concat(this.diffPrice)).then(function (res) {
         if (res.status === 200) {
           console.log(res.data);
-          _this4.current_tariff['plan_name'] = res.data.name;
-          _this4.current_tariff['plan_serviceID'] = res.data.serviceID;
-          _this4.alertWindow = true;
-          _this4.alertError = false;
+          _this5.current_tariff['plan_name'] = res.data.name;
+          _this5.current_tariff['plan_serviceID'] = res.data.serviceID;
+          _this5.current_tariff['prolong_time'] = res.data.prolong_time;
+          _this5.alertConnect = true;
+          _this5.alertError = false;
         }
       })["catch"](function (err) {
         if (err.response.status === 400) {
           console.log('return to login');
-          localStorage.setItem('serviceID', _this4.serviceID);
+          localStorage.setItem('serviceID', _this5.serviceID);
+          localStorage.setItem('diffPrice', _this5.diffPrice);
 
-          _this4.$router.push({
+          _this5.$router.push({
             name: 'pass'
           });
         }
 
         if (err.response.status === 402) {
           console.log(err.response.status + 'dfgergerv');
-          _this4.alertWindow = true;
-          _this4.alertError = 'Недостаточно средств на счету, пополните ваш баланс.';
+          _this5.current_tariff['plan_name'] = null;
+          _this5.alertConnect = true;
+          _this5.alertError = 'Недостаточно средств на счету, пополните ваш баланс.';
         }
 
         if (err.response.status === 500) {
           console.log(err.response.status + 'dfgergerv');
-          _this4.alertWindow = true;
-          _this4.alertError = 'Сервервис временно недоступен, попробуйте позже или обратитесь в службу поддержки.';
+          _this5.alertConnect = true;
+          _this5.alertError = 'Сервервис временно недоступен, попробуйте позже или обратитесь в службу поддержки.';
         }
       });
     }
@@ -7688,7 +7734,8 @@ __webpack_require__.r(__webpack_exports__);
       password: null,
       error: null,
       serviceID: null,
-      actual: true
+      actual: true,
+      diffPrice: null
     };
   },
   mounted: function mounted() {},
@@ -7700,15 +7747,17 @@ __webpack_require__.r(__webpack_exports__);
       if (this.password) {
         console.log('attempt create user');
         this.serviceID = localStorage.getItem('serviceID');
+        this.diffPrice = localStorage.getItem('diffPrice');
         axios.get("api/createUser?password=".concat(this.password)).then(function (res) {
           console.log(res.data);
           console.log(res.status);
 
           if (res.status === 201) {
             console.log('user created');
-            axios.get("api/connectService?serviceID=".concat(_this.serviceID)).then(function (res) {
+            axios.get("api/connectService?serviceID=".concat(_this.serviceID, "&price=").concat(_this.diffPrice)).then(function (res) {
               if (res.status === 200) {
                 localStorage.removeItem('serviceID');
+                localStorage.removeItem('diffPrice');
                 console.log('service connected');
 
                 _this.$router.push({
@@ -35250,23 +35299,86 @@ var render = function () {
                     : _vm._e(),
                 ]),
                 _vm._v(" "),
-                _vm.current_tariff["plan_name"]
-                  ? _c(
-                      "a",
-                      {
-                        staticClass:
-                          "btn shadow-bg shadow-bg-m btn-m btn-full mb-3 rounded-s text-uppercase font-900 shadow-s bg-red-dark mt-1",
-                        attrs: { href: "#" },
-                        on: {
-                          click: function ($event) {
-                            $event.preventDefault()
-                            return _vm.disconnectService.apply(null, arguments)
+                _vm.alertDisConnect
+                  ? _c("div", [
+                      _vm.current_tariff["plan_name"]
+                        ? _c(
+                            "a",
+                            {
+                              staticClass:
+                                "btn shadow-bg shadow-bg-m btn-m btn-full mb-3 rounded-s text-uppercase font-900 shadow-s bg-red-dark mt-1",
+                              attrs: { href: "#" },
+                              on: {
+                                click: function ($event) {
+                                  $event.preventDefault()
+                                  return _vm.choiceDisConnect.apply(
+                                    null,
+                                    arguments
+                                  )
+                                },
+                              },
+                            },
+                            [_vm._v("Оменить подписку")]
+                          )
+                        : _vm._e(),
+                    ])
+                  : _c("div", { staticClass: "p-2 alert-warning" }, [
+                      _c("p", { staticClass: "alert-danger" }, [
+                        _vm._v(
+                          "Доступное количество отключений на месяц: " +
+                            _vm._s(_vm.current_tariff["prolong_time"])
+                        ),
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm._v(
+                          "Вы уверенны что хотите отключить текущий тариф?"
+                        ),
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticStyle: {
+                            display: "flex",
+                            "justify-content": "space-around",
                           },
                         },
-                      },
-                      [_vm._v("Оменить подписку")]
-                    )
-                  : _vm._e(),
+                        [
+                          _vm.current_tariff["prolong_time"] > 0
+                            ? _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-success",
+                                  on: { click: _vm.disconnectService },
+                                },
+                                [_vm._v("Подтвердить")]
+                              )
+                            : _c(
+                                "div",
+                                { staticClass: "alert-warning text-center" },
+                                [
+                                  _vm._v(
+                                    "\n                        Вы исчерпали разрешенное количество отключений на месяц\n                    "
+                                  ),
+                                ]
+                              ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-danger ",
+                              on: {
+                                click: function ($event) {
+                                  return _vm.cancel(2)
+                                },
+                              },
+                            },
+                            [_vm._v("Отменить")]
+                          ),
+                        ]
+                      ),
+                    ]),
               ])
             : _vm._e(),
           _vm._v(" "),
@@ -35280,7 +35392,7 @@ var render = function () {
               ])
             : _vm._e(),
           _vm._v(" "),
-          _vm.alertWindow
+          _vm.alertConnect
             ? _c(
                 "div",
                 _vm._l(_vm.tariff_plans, function (t) {
@@ -35355,21 +35467,36 @@ var render = function () {
                   _vm.current_tariff["plan_name"]
                     ? _c("div", { staticClass: "alert-info" }, [
                         _vm._v(
-                          'Ваша текущая подписка : "' +
+                          '\n                Ваша текущая подписка : "' +
                             _vm._s(_vm.current_tariff["plan_name"]) +
                             '", хотите сменить на "' +
                             _vm._s(_vm.name) +
-                            ' ?"'
+                            ' ?"\n            '
                         ),
                       ])
                     : _vm._e(),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "alert-danger" }, [
+                    _vm._v(
+                      "Доступное количество переплодключений на месяц: " +
+                        _vm._s(_vm.current_tariff["prolong_time"])
+                    ),
+                  ]),
                   _vm._v(
                     '\n            Подтвердить подключение подписки: "' +
                       _vm._s(_vm.name) +
-                      '".  Стоимость подключения:  ' +
+                      '".  Ежемесячная стоимость:  ' +
                       _vm._s(_vm.price) +
-                      " грн\n            "
+                      " грн.\n            "
                   ),
+                  _c("p", [
+                    _vm._v(
+                      "До конца текущего месяца с вас будет списано: " +
+                        _vm._s(_vm.diffPrice) +
+                        " грн"
+                    ),
+                  ]),
+                  _vm._v(" "),
                   _c(
                     "div",
                     {
@@ -35379,20 +35506,34 @@ var render = function () {
                       },
                     },
                     [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-success",
-                          on: { click: _vm.connectService },
-                        },
-                        [_vm._v("Подтвердить")]
-                      ),
+                      _vm.current_tariff["prolong_time"] > 0
+                        ? _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-success",
+                              on: { click: _vm.connectService },
+                            },
+                            [_vm._v("Подтвердить")]
+                          )
+                        : _c(
+                            "div",
+                            { staticClass: "alert-warning text-center" },
+                            [
+                              _vm._v(
+                                "\n                    Вы исчерпали разрешенное количество переподключений на месяц\n                "
+                              ),
+                            ]
+                          ),
                       _vm._v(" "),
                       _c(
                         "button",
                         {
                           staticClass: "btn btn-danger ",
-                          on: { click: _vm.cancel },
+                          on: {
+                            click: function ($event) {
+                              return _vm.cancel(1)
+                            },
+                          },
                         },
                         [_vm._v("Отменить")]
                       ),

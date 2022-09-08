@@ -9,11 +9,14 @@ use App\Exceptions\NotAuthenticate;
 use App\Exceptions\NotEnoughMoney;
 use App\Models\IptvPlan;
 use App\Models\IptvUser;
+use App\Models\Pay;
+use App\Services\HelperServices\CostCalculation;
 use App\Services\HelperServices\CreateMegogoUser;
 use App\Services\HelperServices\GetTariffByServiceId;
 use App\Services\HelperServices\MakePay;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 class Megogo implements DigitalTV
@@ -85,7 +88,7 @@ class Megogo implements DigitalTV
      * @throws ChangeTariffStatusProblem
      * @return mixed
      */
-    public function connectService($serviceID)
+    public function connectService($serviceID, $price)
     {
 
         $iptv_user = IptvUser::where('uid', '=', $this->uid)->get();
@@ -96,7 +99,7 @@ class Megogo implements DigitalTV
         $tariff = new GetTariffByServiceId();
         $payment = new MakePay();
 
-        if (!$payment($tariff($serviceID))){
+        if (!$payment($tariff($serviceID), $price)){
             throw new NotEnoughMoney();
         }
 
@@ -106,6 +109,7 @@ class Megogo implements DigitalTV
 
             $iptv_user = IptvUser::findOrFail($iptv_user[0]['id']);
             $iptv_user->plan_id = $tariff($serviceID)->id;
+            $iptv_user->prolong_time -= 1;
             $iptv_user->save();
 
             return  [
@@ -113,6 +117,7 @@ class Megogo implements DigitalTV
                         'name' => $tariff($serviceID)->name,
                         'serviceID' => $serviceID,
                         'price' => $tariff($serviceID)->price,
+                        'prolong_time' => $iptv_user->prolong_time,
                     ];
         }else{
             throw new ChangeTariffStatusProblem();
@@ -124,9 +129,15 @@ class Megogo implements DigitalTV
         return $iptv_plans = IptvPlan::where('provider', '=', 'megogo')->where('enable', '=', 1)->get();
     }
 
-    public function sendRequest()
+    public function calculateCost($price)
     {
-        return 'Mogogo sendRequest';
+
+        $time = strtotime(date('Y-m-t 23:59'));
+        $diff = $time - time();
+        $amountDays =  round($diff / 86400);
+        $costPerDay = $price/date('t');
+
+        return number_format($amountDays * $costPerDay,2,'.','');
     }
 
 
@@ -138,5 +149,42 @@ class Megogo implements DigitalTV
         $newIptvUser = new CreateMegogoUser();
 
         return $newIptvUser($this->inner_contract, $password);
+    }
+
+    /**
+     * @throws ChangeTariffStatusProblem
+     */
+    public function disConnectService($serviceID, $double)
+    {
+        DB::beginTransaction();
+
+        $calculate = new CostCalculation();
+        $refund = $calculate($serviceID);
+
+        $transaction = Pay::findOrFail($refund['id']);
+        $transaction->size_pay = -1 * abs($refund['actualPayment']);
+        $transaction->descript .= '( за пользование в течение '.$refund['daysAmount'].' дней)';
+        if($transaction->save()){
+            $iptv_user = IptvUser::where('uid', '=', Auth::user()->uid)->get('id');
+            $changeProlong = IptvUser::findOrFail($iptv_user[0]['id']);
+            if ($double){
+                $changeProlong->prolong_time -=1;
+            }
+            $changeProlong->plan_id = null;
+            $changeProlong->save();
+            $changeStatus = Http::get("https://billing.megogo.net/partners/homenetonlineprod/subscription/unsubscribe?userId=$this->inner_contract&serviceId=$serviceID");
+
+            if ($changeStatus['successful']){
+                DB::commit();
+                return $changeProlong->prolong_time;
+            }else{
+                DB::rollBack();
+                throw new ChangeTariffStatusProblem();
+            }
+        }else{
+            DB::rollBack();
+            throw new ChangeTariffStatusProblem();
+        }
+
     }
 }
