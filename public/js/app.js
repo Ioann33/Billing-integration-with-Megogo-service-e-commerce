@@ -7355,6 +7355,8 @@ __webpack_require__.r(__webpack_exports__);
           _this.login = response.data.login;
           console.log(response.data['prolong_time']);
           _this.current_tariff['prolong_time'] = response.data['prolong_time'];
+        } else {
+          _this.current_tariff['prolong_time'] = 1;
         }
       })["catch"](function (er) {
         console.log(er.status);

@@ -101,6 +101,7 @@ export default {
         getUserInfo(){
             axios.get('/api/getUserInfo')
                 .then(response => {
+
                     console.log(response.data.login)
                     if (response.data.plan_name){
                         this.current_tariff = response.data
@@ -110,6 +111,8 @@ export default {
                         this.login = response.data.login
                         console.log(response.data['prolong_time'])
                         this.current_tariff['prolong_time'] = response.data['prolong_time']
+                    }else {
+                        this.current_tariff['prolong_time'] = 1;
                     }
 
                 })

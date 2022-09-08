@@ -7,6 +7,7 @@ use App\Exceptions\ChangeCredentialsProblem;
 use App\Exceptions\ChangeTariffStatusProblem;
 use App\Exceptions\NotAuthenticate;
 use App\Exceptions\NotEnoughMoney;
+use App\Services\Logs\LogService;
 use Illuminate\Http\Request;
 
 class DigitalTvController extends Controller
@@ -44,7 +45,7 @@ class DigitalTvController extends Controller
         return response()->json(['cost' => $cost]);
 
     }
-    public function disConnectService(Request $request, DigitalTV $digitalTV){
+    public function disConnectService(Request $request, DigitalTV $digitalTV, LogService $logService){
         $this->validate($request,[
             'serviceID'=> 'required',
         ]);
@@ -58,10 +59,11 @@ class DigitalTvController extends Controller
         }catch (ChangeTariffStatusProblem $e){
             return response()->json(['message'=>$e->resMess()], 500);
         }
+        $logService->log('iptv', 'disConnectService', 'Отключение подписки '.$request->serviceID);
         return response()->json($prolong_time);
 
     }
-    public function connectService(Request $request, DigitalTV $digitalTV){
+    public function connectService(Request $request, DigitalTV $digitalTV, LogService $logService){
         $this->validate($request,[
             'serviceID'=>'required',
             'price'=>'required',
@@ -75,10 +77,11 @@ class DigitalTvController extends Controller
         }catch (ChangeTariffStatusProblem $e){
             return response()->json(['message'=>$e->resMess()], 500);
         }
+        $logService->log('iptv', 'connectService', 'Подключена подписка '.$request->serviceID.' , оплачено пользователем '.$request->price.' грн');
         return response()->json($finalAnswer);
     }
 
-    public function createUser(Request $request, DigitalTV $digitalTV){
+    public function createUser(Request $request, DigitalTV $digitalTV, LogService $logService){
         $this->validate($request,[
             'password'=>'required|min:6'
         ]);
@@ -87,6 +90,7 @@ class DigitalTvController extends Controller
         }catch (ChangeCredentialsProblem $e){
             return response()->json(['message'=>$e->resMess()], 400);
         }
+        $logService->log('iptv', 'createUser', 'Создание  IPTV учетки пользователем');
         return response()->json(['message'=>'user created successful'], 201);
     }
 }

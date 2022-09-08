@@ -38,7 +38,6 @@ class CreateMegogoUser
         $iptv_user->login = $email;
         $iptv_user->provider = 'megogo';
         $iptv_user->inner_contract = $isdn;
-        $iptv_user->prolong = 1;
         $iptv_user->prolong_time = 3;
         $iptv_user->save();
 
