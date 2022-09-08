@@ -29,7 +29,7 @@ class DigitalTvController extends Controller
         try {
             $finalAnswer = $digitalTV->changeTariffStatus($request->serviceID, $request->action);
         }catch (NotAuthenticate $e){
-            return response()->json(['message'=>$e->resMess()], 401);
+            return response()->json(['message'=>$e->resMess()], 400);
         }catch (ChangeTariffStatusProblem $e){
             return response()->json(['message'=>$e->resMess()], 500);
         }
@@ -55,12 +55,12 @@ class DigitalTvController extends Controller
 
     public function createUser(Request $request, DigitalTV $digitalTV){
         $this->validate($request,[
-            'password'=>'required'
+            'password'=>'required|min:6'
         ]);
         try {
             $digitalTV->createUser($request->password);
         }catch (ChangeCredentialsProblem $e){
-            return response()->json(['message'=>$e->resMess(), 400]);
+            return response()->json(['message'=>$e->resMess()], 400);
         }
         return response()->json(['message'=>'user created successful'], 201);
     }

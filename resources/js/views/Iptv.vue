@@ -13,8 +13,10 @@
                 </div>
                 <a href="#" v-if="current_tariff['plan_name']" v-on:click.prevent="disconnectService" class="btn shadow-bg shadow-bg-m btn-m btn-full mb-3 rounded-s text-uppercase font-900 shadow-s bg-red-dark mt-1">Оменить подписку</a>
             </div>
-            <div v-if="alertError" class="alert-danger font-14">
-                {{ alertError }}
+            <div class="card card-style bg-red-dark" v-if="alertError">
+                <div class="content">
+                    <h4 class="color-white">{{ alertError }}</h4>
+                </div>
             </div>
             <div v-if="alertWindow">
                 <a href="#" v-on:click.prevent="choiceService(t.serviceID, t.price, t.name)" class="card card-style" v-for="t in tariff_plans">
@@ -115,6 +117,13 @@ export default {
                         this.serviceID = null;
                     }
                 })
+                .catch(err => {
+                    if (err.response.status === 500){
+                        console.log(err.response.status+'dfgergerv')
+                        this.alertWindow = true;
+                        this.alertError = 'Сервервис временно недоступен, попробуйте позже или обратитесь в службу поддержки.'
+                    }
+                })
         },
         connectService(){
             if (this.current_tariff['plan_name']){
@@ -123,7 +132,18 @@ export default {
                 axios.get(`api/changeTariffStatus?serviceID=${this.current_tariff['plan_serviceID']}&action=unsubscribe`)
                     .then(res => {
                         console.log('status unsubscribe '+res.status)
-
+                    })
+                    .catch(err => {
+                        if (err.response.status === 400){
+                            console.log(err.response.status+'dfgergerv')
+                            this.alertWindow = true;
+                            this.alertError = 'Авторизируйтесь на сервесе.'
+                        }
+                        if (err.response.status === 500){
+                            console.log(err.response.status+'dfgergerv')
+                            this.alertWindow = true;
+                            this.alertError = 'Сервервис временно недоступен, попробуйте позже или обратитесь в службу поддержки.'
+                        }
                     })
             }
             console.log('turn on new tariff')
@@ -134,6 +154,7 @@ export default {
                         this.current_tariff['plan_name'] = res.data.name
                         this.current_tariff['plan_serviceID'] = res.data.serviceID
                         this.alertWindow = true;
+                        this.alertError = false;
                     }
                 })
                 .catch(err => {
@@ -141,6 +162,16 @@ export default {
                         console.log('return to login')
                         localStorage.setItem('serviceID', this.serviceID)
                         this.$router.push({name: 'pass'})
+                    }
+                    if (err.response.status === 402){
+                        console.log(err.response.status+'dfgergerv')
+                        this.alertWindow = true;
+                        this.alertError = 'Недостаточно средств на счету, пополните ваш баланс.'
+                    }
+                    if (err.response.status === 500){
+                        console.log(err.response.status+'dfgergerv')
+                        this.alertWindow = true;
+                        this.alertError = 'Сервервис временно недоступен, попробуйте позже или обратитесь в службу поддержки.'
                     }
                 })
         }

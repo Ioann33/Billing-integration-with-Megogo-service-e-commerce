@@ -96,7 +96,6 @@ class Megogo implements DigitalTV
         $tariff = new GetTariffByServiceId();
         $payment = new MakePay();
 
-
         if (!$payment($tariff($serviceID))){
             throw new NotEnoughMoney();
         }

@@ -3,7 +3,7 @@
         <head-bar></head-bar>
         <nav-bar></nav-bar>
         <div class="page-content header-clear-medium">
-            <div class="card card-style bg-red-dark">
+            <div class="card card-style bg-red-dark" v-if="actual">
                 <div class="content">
                     <h4 class="color-white">Введите пароль</h4>
                     <p class="color-white">
@@ -11,10 +11,10 @@
                     </p>
                 </div>
             </div>
-            <div class="card card-style">
+            <div class="card card-style" v-if="actual">
                 <div class="content mb-0">
                     <div class="input-style has-borders no-icon validate-field mb-4">
-                        <input type="text" class="form-control validate-text" id="form3" placeholder="Password" v-model="password">
+                        <input type="text" class="form-control validate-text" id="form3" placeholder="Password | min: 6" v-model="password">
                         <label for="form3" class="color-highlight">Password</label>
                         <i class="fa fa-times disabled invalid color-red-dark"></i>
                         <i class="fa fa-check disabled valid color-green-dark"></i>
@@ -51,6 +51,7 @@ export default {
             password: null,
             error: null,
             serviceID: null,
+            actual: true,
         }
     },
     mounted() {
@@ -78,6 +79,28 @@ export default {
                                         this.$router.push({name: 'iptv'})
                                     }
                                 })
+                                .catch(err => {
+                                    if (err.response.status === 402){
+                                        this.actual = false
+                                        console.log(err.response.status+'dfgergerv')
+                                        this.error = 'Недостаточно средств на счету, пополните ваш баланс.'
+                                        console.log(this.error)
+                                    }
+                                    if (err.response.status === 500){
+                                        console.log(err.response.status+'dfgergerv')
+                                        this.error = 'Сервервис временно недоступен, попробуйте позже или обратитесь в службу поддержки.'
+                                    }
+                                })
+                        }
+                    })
+                    .catch(err => {
+                        if (err.response.status === 400){
+                            console.log(err.response.status+'dfgergerv')
+                            this.error = 'Сервервис временно недоступен, попробуйте позже или обратитесь в службу поддержки.'
+                        }
+                        if (err.response.status === 422){
+                            console.log(err.response.status+'dfgergerv')
+                            this.error = 'Неверный формат пароля.(мин. 6 символов)'
                         }
                     })
             }else{

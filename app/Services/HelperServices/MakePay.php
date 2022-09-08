@@ -9,17 +9,28 @@ class MakePay
 {
     public function __invoke($tariff)
     {
-        //TODO check user balance before pay off
+        $date_event = date('Y-m-d H:i:s');
+        $operator = 'iptv';
+        $event = 'iptv_pay';
+        $user_id = Auth::user()->uid;
+
+        $checkBalance = Pay::where('id_user', $user_id)
+            ->where('date', '>=', date("Y-m-01 00:00:00"))
+            ->sum('size_pay');
+        if ($tariff->price > $checkBalance){
+            return false;
+        }
 
         $newPay = new Pay();
-        $newPay->date = date('Y-m-d H:i:s');
-        $newPay->id_user = Auth::user()->uid;
-        $newPay->code = 999999999;
-        $newPay->size_pay = -$tariff->price;
+        $newPay->date = $date_event;
+        $newPay->id_user = $user_id;
+        $newPay->code = $tariff->id;
+        $newPay->size_pay = -1 * abs($tariff->price);
         $newPay->descript = $tariff->name.' '.$tariff->description;
-        $newPay->operator = 'billing';
-        $newPay->item = 99999999;
+        $newPay->operator = $operator;
+        $newPay->item = 103011;
         if ($newPay->save()){
+            // add log event
             return true;
         }else{
             return false;

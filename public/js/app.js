@@ -7290,6 +7290,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -7359,6 +7361,12 @@ __webpack_require__.r(__webpack_exports__);
           _this3.current_tariff = [];
           _this3.serviceID = null;
         }
+      })["catch"](function (err) {
+        if (err.response.status === 500) {
+          console.log(err.response.status + 'dfgergerv');
+          _this3.alertWindow = true;
+          _this3.alertError = 'Сервервис временно недоступен, попробуйте позже или обратитесь в службу поддержки.';
+        }
       });
     },
     connectService: function connectService() {
@@ -7369,6 +7377,18 @@ __webpack_require__.r(__webpack_exports__);
         console.log('turn off current');
         axios.get("api/changeTariffStatus?serviceID=".concat(this.current_tariff['plan_serviceID'], "&action=unsubscribe")).then(function (res) {
           console.log('status unsubscribe ' + res.status);
+        })["catch"](function (err) {
+          if (err.response.status === 400) {
+            console.log(err.response.status + 'dfgergerv');
+            _this4.alertWindow = true;
+            _this4.alertError = 'Авторизируйтесь на сервесе.';
+          }
+
+          if (err.response.status === 500) {
+            console.log(err.response.status + 'dfgergerv');
+            _this4.alertWindow = true;
+            _this4.alertError = 'Сервервис временно недоступен, попробуйте позже или обратитесь в службу поддержки.';
+          }
         });
       }
 
@@ -7379,6 +7399,7 @@ __webpack_require__.r(__webpack_exports__);
           _this4.current_tariff['plan_name'] = res.data.name;
           _this4.current_tariff['plan_serviceID'] = res.data.serviceID;
           _this4.alertWindow = true;
+          _this4.alertError = false;
         }
       })["catch"](function (err) {
         if (err.response.status === 400) {
@@ -7388,6 +7409,18 @@ __webpack_require__.r(__webpack_exports__);
           _this4.$router.push({
             name: 'pass'
           });
+        }
+
+        if (err.response.status === 402) {
+          console.log(err.response.status + 'dfgergerv');
+          _this4.alertWindow = true;
+          _this4.alertError = 'Недостаточно средств на счету, пополните ваш баланс.';
+        }
+
+        if (err.response.status === 500) {
+          console.log(err.response.status + 'dfgergerv');
+          _this4.alertWindow = true;
+          _this4.alertError = 'Сервервис временно недоступен, попробуйте позже или обратитесь в службу поддержки.';
         }
       });
     }
@@ -7654,7 +7687,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       password: null,
       error: null,
-      serviceID: null
+      serviceID: null,
+      actual: true
     };
   },
   mounted: function mounted() {},
@@ -7681,7 +7715,29 @@ __webpack_require__.r(__webpack_exports__);
                   name: 'iptv'
                 });
               }
+            })["catch"](function (err) {
+              if (err.response.status === 402) {
+                _this.actual = false;
+                console.log(err.response.status + 'dfgergerv');
+                _this.error = 'Недостаточно средств на счету, пополните ваш баланс.';
+                console.log(_this.error);
+              }
+
+              if (err.response.status === 500) {
+                console.log(err.response.status + 'dfgergerv');
+                _this.error = 'Сервервис временно недоступен, попробуйте позже или обратитесь в службу поддержки.';
+              }
             });
+          }
+        })["catch"](function (err) {
+          if (err.response.status === 400) {
+            console.log(err.response.status + 'dfgergerv');
+            _this.error = 'Сервервис временно недоступен, попробуйте позже или обратитесь в службу поддержки.';
+          }
+
+          if (err.response.status === 422) {
+            console.log(err.response.status + 'dfgergerv');
+            _this.error = 'Неверный формат пароля.(мин. 6 символов)';
           }
         });
       } else {
@@ -35215,10 +35271,12 @@ var render = function () {
             : _vm._e(),
           _vm._v(" "),
           _vm.alertError
-            ? _c("div", { staticClass: "alert-danger font-14" }, [
-                _vm._v(
-                  "\n            " + _vm._s(_vm.alertError) + "\n        "
-                ),
+            ? _c("div", { staticClass: "card card-style bg-red-dark" }, [
+                _c("div", { staticClass: "content" }, [
+                  _c("h4", { staticClass: "color-white" }, [
+                    _vm._v(_vm._s(_vm.alertError)),
+                  ]),
+                ]),
               ])
             : _vm._e(),
           _vm._v(" "),
@@ -35681,72 +35739,87 @@ var render = function () {
       _c("nav-bar"),
       _vm._v(" "),
       _c("div", { staticClass: "page-content header-clear-medium" }, [
-        _vm._m(0),
+        _vm.actual
+          ? _c("div", { staticClass: "card card-style bg-red-dark" }, [
+              _vm._m(0),
+            ])
+          : _vm._e(),
         _vm._v(" "),
-        _c("div", { staticClass: "card card-style" }, [
-          _c("div", { staticClass: "content mb-0" }, [
-            _c(
-              "div",
-              {
-                staticClass:
-                  "input-style has-borders no-icon validate-field mb-4",
-              },
-              [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.password,
-                      expression: "password",
-                    },
-                  ],
-                  staticClass: "form-control validate-text",
-                  attrs: { type: "text", id: "form3", placeholder: "Password" },
-                  domProps: { value: _vm.password },
-                  on: {
-                    input: function ($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.password = $event.target.value
-                    },
-                  },
-                }),
-                _vm._v(" "),
+        _vm.actual
+          ? _c("div", { staticClass: "card card-style" }, [
+              _c("div", { staticClass: "content mb-0" }, [
                 _c(
-                  "label",
-                  { staticClass: "color-highlight", attrs: { for: "form3" } },
-                  [_vm._v("Password")]
+                  "div",
+                  {
+                    staticClass:
+                      "input-style has-borders no-icon validate-field mb-4",
+                  },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.password,
+                          expression: "password",
+                        },
+                      ],
+                      staticClass: "form-control validate-text",
+                      attrs: {
+                        type: "text",
+                        id: "form3",
+                        placeholder: "Password | min: 6",
+                      },
+                      domProps: { value: _vm.password },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.password = $event.target.value
+                        },
+                      },
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "label",
+                      {
+                        staticClass: "color-highlight",
+                        attrs: { for: "form3" },
+                      },
+                      [_vm._v("Password")]
+                    ),
+                    _vm._v(" "),
+                    _c("i", {
+                      staticClass:
+                        "fa fa-times disabled invalid color-red-dark",
+                    }),
+                    _vm._v(" "),
+                    _c("i", {
+                      staticClass:
+                        "fa fa-check disabled valid color-green-dark",
+                    }),
+                  ]
                 ),
                 _vm._v(" "),
-                _c("i", {
-                  staticClass: "fa fa-times disabled invalid color-red-dark",
-                }),
-                _vm._v(" "),
-                _c("i", {
-                  staticClass: "fa fa-check disabled valid color-green-dark",
-                }),
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass:
-                  "btn shadow-bg shadow-bg-m btn-m btn-full mb-3 rounded-s text-uppercase font-900 shadow-s bg-green-dark mt-1",
-                attrs: { href: "#" },
-                on: {
-                  click: function ($event) {
-                    $event.preventDefault()
-                    return _vm.createUser.apply(null, arguments)
+                _c(
+                  "a",
+                  {
+                    staticClass:
+                      "btn shadow-bg shadow-bg-m btn-m btn-full mb-3 rounded-s text-uppercase font-900 shadow-s bg-green-dark mt-1",
+                    attrs: { href: "#" },
+                    on: {
+                      click: function ($event) {
+                        $event.preventDefault()
+                        return _vm.createUser.apply(null, arguments)
+                      },
+                    },
                   },
-                },
-              },
-              [_vm._v("Подтвердить")]
-            ),
-          ]),
-        ]),
+                  [_vm._v("Подтвердить")]
+                ),
+              ]),
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _vm.error
           ? _c("div", { staticClass: "card card-style bg-red-dark" }, [
@@ -35769,15 +35842,13 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card card-style bg-red-dark" }, [
-      _c("div", { staticClass: "content" }, [
-        _c("h4", { staticClass: "color-white" }, [_vm._v("Введите пароль")]),
-        _vm._v(" "),
-        _c("p", { staticClass: "color-white" }, [
-          _vm._v(
-            "\n                    это пароль будет использован для  вашей учетной записи в Megogo\n                "
-          ),
-        ]),
+    return _c("div", { staticClass: "content" }, [
+      _c("h4", { staticClass: "color-white" }, [_vm._v("Введите пароль")]),
+      _vm._v(" "),
+      _c("p", { staticClass: "color-white" }, [
+        _vm._v(
+          "\n                    это пароль будет использован для  вашей учетной записи в Megogo\n                "
+        ),
       ]),
     ])
   },
