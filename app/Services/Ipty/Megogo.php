@@ -109,7 +109,6 @@ class Megogo implements DigitalTV
 
             $iptv_user = IptvUser::findOrFail($iptv_user[0]['id']);
             $iptv_user->plan_id = $tariff($serviceID)->id;
-            $iptv_user->prolong_time -= 1;
             $iptv_user->save();
 
             return  [
@@ -154,7 +153,7 @@ class Megogo implements DigitalTV
     /**
      * @throws ChangeTariffStatusProblem
      */
-    public function disConnectService($serviceID, $double)
+    public function disConnectService($serviceID)
     {
         DB::beginTransaction();
 
@@ -167,9 +166,7 @@ class Megogo implements DigitalTV
         if($transaction->save()){
             $iptv_user = IptvUser::where('uid', '=', Auth::user()->uid)->get('id');
             $changeProlong = IptvUser::findOrFail($iptv_user[0]['id']);
-            if ($double){
-                $changeProlong->prolong_time -=1;
-            }
+            $changeProlong->prolong_time -=1;
             $changeProlong->plan_id = null;
             $changeProlong->save();
             $changeStatus = Http::get("https://billing.megogo.net/partners/homenetonlineprod/subscription/unsubscribe?userId=$this->inner_contract&serviceId=$serviceID");

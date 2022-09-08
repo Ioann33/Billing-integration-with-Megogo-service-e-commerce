@@ -12,7 +12,7 @@ interface DigitalTV
 
     public function getTariffPlans();
 
-    public function disConnectService($serviceID, $double);
+    public function disConnectService($serviceID);
 
     public function calculateCost($price);
 

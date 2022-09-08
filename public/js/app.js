@@ -7420,7 +7420,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.current_tariff['plan_name']) {
         console.log(this.current_tariff);
         console.log('turn off current');
-        axios.get("api/disConnectService?serviceID=".concat(this.current_tariff['plan_serviceID'], "&double=1")).then(function (res) {
+        axios.get("api/disConnectService?serviceID=".concat(this.current_tariff['plan_serviceID'])).then(function (res) {
           console.log('status unsubscribe ' + res.status);
         })["catch"](function (err) {
           if (err.response.status === 400) {
@@ -35508,7 +35508,8 @@ var render = function () {
                       },
                     },
                     [
-                      _vm.current_tariff["prolong_time"] > 0
+                      _vm.current_tariff["prolong_time"] > 0 ||
+                      !_vm.current_tariff["plan_name"]
                         ? _c(
                             "button",
                             {

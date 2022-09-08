@@ -38,7 +38,7 @@ class Trinity implements DigitalTV
         // TODO: Implement createUser() method.
     }
 
-    public function disConnectService($serviceID, $double)
+    public function disConnectService($serviceID)
     {
         // TODO: Implement disConnectService() method.
     }

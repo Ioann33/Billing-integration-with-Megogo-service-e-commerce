@@ -49,13 +49,8 @@ class DigitalTvController extends Controller
         $this->validate($request,[
             'serviceID'=> 'required',
         ]);
-        if (isset($request->double)){
-            $double = false;
-        }else{
-            $double = true;
-        }
         try {
-            $prolong_time = $digitalTV->disConnectService($request->serviceID, $double);
+            $prolong_time = $digitalTV->disConnectService($request->serviceID);
         }catch (ChangeTariffStatusProblem $e){
             return response()->json(['message'=>$e->resMess()], 500);
         }

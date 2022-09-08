@@ -56,7 +56,7 @@
                 Подтвердить подключение подписки: "{{name}}".  Ежемесячная стоимость:  {{ price }} грн.
                 <p>До конца текущего месяца с вас будет списано: {{ diffPrice }} грн</p>
                 <div style="display: flex; justify-content: space-around">
-                    <button class="btn btn-success" v-on:click="connectService" v-if="current_tariff['prolong_time']>0">Подтвердить</button>
+                    <button class="btn btn-success" v-on:click="connectService" v-if="current_tariff['prolong_time']>0 || !current_tariff['plan_name'] ">Подтвердить</button>
                     <div class="alert-warning text-center" v-else>
                         Вы исчерпали разрешенное количество переподключений на месяц
                     </div>
@@ -173,7 +173,7 @@ export default {
             if (this.current_tariff['plan_name']){
                 console.log(this.current_tariff)
                 console.log('turn off current')
-                axios.get(`api/disConnectService?serviceID=${this.current_tariff['plan_serviceID']}&double=1`)
+                axios.get(`api/disConnectService?serviceID=${this.current_tariff['plan_serviceID']}`)
                     .then(res => {
                         console.log('status unsubscribe '+res.status)
                     })
