@@ -184,4 +184,23 @@ class Megogo implements DigitalTV
         }
 
     }
+
+    /**
+     * @throws ChangeCredentialsProblem
+     */
+    public function changeCredentials($email, $password)
+    {
+        $credentials =
+            [
+                'isdn' => $this->inner_contract,
+                'email' => $email,
+                'password' => $password,
+            ];
+
+        $setPassword = Http::withBody(json_encode($credentials),'application/json')->post("https://billing.megogo.net/partners/homenetonlineprod/user/changeCredentials");
+        if (isset($setPassword['result'])){
+            throw new ChangeCredentialsProblem();
+        }
+        return 'success change';
+    }
 }

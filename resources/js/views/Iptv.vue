@@ -6,7 +6,11 @@
         <div class="page-content header-clear-medium">
             <div class="card" v-if="login">
                 <div class="content">
-                    <h3>Логин в Megogo:  {{ login }}</h3>
+                    <div class="font-18 color-black">Логин в Megogo: <b>{{ login }}</b></div>
+                    <div style="display: flex; justify-content: space-between" class="pt-2">
+                        <div class="font-18 color-black pt-2">Пароль: <b>******</b></div>
+                        <a href="#" v-on:click.prevent="changeCredentials" class="btn shadow-bg shadow-bg-m btn-m btn-full mb-3 rounded-s text-uppercase font-900 shadow-s bg-green-dark mt-1">Сменить</a>
+                    </div>
                     <p v-if="current_tariff['plan_name']">
                         Ваш активный тариф:  {{current_tariff['plan_name']}}
                     </p>
@@ -221,6 +225,10 @@ export default {
                         this.alertError = 'Сервервис временно недоступен, попробуйте позже или обратитесь в службу поддержки.'
                     }
                 })
+        },
+        changeCredentials(){
+            localStorage.setItem('email', this.login)
+            this.$router.push({name: 'changePass'})
         }
     },
     updated() {

@@ -42,4 +42,9 @@ class Trinity implements DigitalTV
     {
         // TODO: Implement disConnectService() method.
     }
+
+    public function changeCredentials($email, $password)
+    {
+        // TODO: Implement changeCredentials() method.
+    }
 }

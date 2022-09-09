@@ -17,4 +17,6 @@ interface DigitalTV
     public function calculateCost($price);
 
     public function createUser($password);
+
+    public function changeCredentials($email, $password);
 }

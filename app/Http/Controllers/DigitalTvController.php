@@ -88,4 +88,19 @@ class DigitalTvController extends Controller
         $logService->log('iptv', 'createUser', 'Создание  IPTV учетки пользователем');
         return response()->json(['message'=>'user created successful'], 201);
     }
+
+    public function changeCredentials(Request $request, DigitalTV $digitalTV, LogService $logService){
+        $this->validate($request, [
+            'email'=>'required',
+            'password'=>'required|min:6'
+        ]);
+        try {
+            $res = $digitalTV->changeCredentials($request->email, $request->password);
+        }catch (ChangeCredentialsProblem $e){
+            return response()->json(['message'=>$e->resMess()], 422);
+        }
+        $logService->log('iptv', 'changeCredentials', 'Изменение пароля IPTV учетки пользователем');
+        return response()->json(['message'=>$res]);
+
+    }
 }
