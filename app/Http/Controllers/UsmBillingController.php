@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\GetServiceResource;
 use App\Http\Resources\GetTariffListResource;
+use App\Http\Resources\GetUserStateListResource;
 use App\Models\PriceModel;
 use App\Models\ServiceModel;
 use Illuminate\Http\Request;
@@ -28,5 +29,9 @@ class UsmBillingController extends Controller
     public function getServicesList(){
         $services = ServiceModel::query()->select()->where('id_service', '>', 1)->get();
         return GetServiceResource::collection($services);
+    }
+
+    public function getUserStateList(){
+        return GetUserStateListResource::responce();
     }
 }
