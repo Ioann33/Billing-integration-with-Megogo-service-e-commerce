@@ -4,30 +4,30 @@ namespace App\Http\Resources;
 
 class GetUserStateListResource
 {
-    public static function responce(){
+    public static function response(){
         $resArr = [
-            1 => [
-                'id' => 1,
+            0 => [
+                'id' => 0,
                 'name' => 'Включен',
                 'functional' => 'work'
             ],
-            2 => [
-                'id' => 2,
+            1 => [
+                'id' => 1,
                 'name' => 'Недостаточно средств',
                 'functional' => 'nomoney'
             ],
-            3 => [
-                'id' => 3,
+            2 => [
+                'id' => 2,
                 'name' => 'Консервация линии',
                 'functional' => 'pause'
             ],
-            4 => [
-                'id' => 4,
+            3 => [
+                'id' => 3,
                 'name' => 'Абонент без включения',
                 'functional' => 'new'
             ],
-            5 => [
-                'id' => 5,
+            4 => [
+                'id' => 4,
                 'name' => 'Отключен',
                 'functional' => 'stop'
             ],

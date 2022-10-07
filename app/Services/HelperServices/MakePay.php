@@ -2,6 +2,7 @@
 
 namespace App\Services\HelperServices;
 
+use App\Action\GetUserBalanceAction;
 use App\Models\Pay;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,9 +15,7 @@ class MakePay
         $event = 'iptv_pay';
         $user_id = Auth::user()->uid;
 
-        $checkBalance = Pay::where('id_user', $user_id)
-            ->where('date', '>=', date("Y-m-01 00:00:00"))
-            ->sum('size_pay');
+        $checkBalance = GetUserBalanceAction::handle($user_id);
         if ($price > $checkBalance){
             return false;
         }
