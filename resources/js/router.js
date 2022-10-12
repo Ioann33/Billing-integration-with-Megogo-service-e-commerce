@@ -52,11 +52,6 @@ const router = new vueRouter({
             component: Welcome
         },
         {
-            path: '/:catchAll(.*)*',
-            name: "PageNotFound",
-            component: Welcome
-        },
-        {
             path: "/iptv",
             name: 'iptv',
             component: Iptv
@@ -71,6 +66,12 @@ const router = new vueRouter({
             name: 'changePass',
             component: ChangePassword
         },
+        {
+            path: '/:catchAll(.*)*',
+            name: "PageNotFound",
+            component: Welcome
+        },
+
     ]
 })
 

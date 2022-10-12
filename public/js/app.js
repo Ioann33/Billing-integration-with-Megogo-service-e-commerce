@@ -8334,10 +8334,6 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     name: 'welcome',
     component: _views_Welcome__WEBPACK_IMPORTED_MODULE_2__["default"]
   }, {
-    path: '/:catchAll(.*)*',
-    name: "PageNotFound",
-    component: _views_Welcome__WEBPACK_IMPORTED_MODULE_2__["default"]
-  }, {
     path: "/iptv",
     name: 'iptv',
     component: _views_Iptv__WEBPACK_IMPORTED_MODULE_8__["default"]
@@ -8349,6 +8345,10 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     path: "/changePass",
     name: 'changePass',
     component: _views_ChangePassword__WEBPACK_IMPORTED_MODULE_10__["default"]
+  }, {
+    path: '/:catchAll(.*)*',
+    name: "PageNotFound",
+    component: _views_Welcome__WEBPACK_IMPORTED_MODULE_2__["default"]
   }]
 });
 router.beforeEach(function (to, from, next) {
