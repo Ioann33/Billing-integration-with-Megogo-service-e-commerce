@@ -14,6 +14,7 @@ use App\Models\Pay;
 use App\Services\HelperServices\CostCalculation;
 use App\Services\HelperServices\CreateMegogoUser;
 use App\Services\HelperServices\GetTariffByServiceId;
+use App\Services\HelperServices\IptvConfig;
 use App\Services\HelperServices\MakePay;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,9 +31,7 @@ class Megogo implements DigitalTV
     {
         $this->inner_contract = Auth::user()->dep.'.'.Auth::user()->uid;
         $this->uid = Auth::user()->uid;
-        $q = ConfigModel::query()->select('value')->where('name', '=', 'iptv')->get();
-        $res = json_decode($q[0]['value'],1);
-        $this->partner_key = $res['megogo']['partner_key'];
+        $this->partner_key = IptvConfig::getPartnerKey('megogo');
     }
 
     public function getUserInfo()
