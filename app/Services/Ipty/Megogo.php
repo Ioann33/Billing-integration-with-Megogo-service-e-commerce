@@ -7,6 +7,7 @@ use App\Exceptions\ChangeCredentialsProblem;
 use App\Exceptions\ChangeTariffStatusProblem;
 use App\Exceptions\NotAuthenticate;
 use App\Exceptions\NotEnoughMoney;
+use App\Models\ConfigModel;
 use App\Models\IptvPlan;
 use App\Models\IptvUser;
 use App\Models\Pay;
@@ -23,11 +24,15 @@ class Megogo implements DigitalTV
 {
     protected $inner_contract;
     protected $uid;
+    protected $partner_key;
 
     public function __construct()
     {
         $this->inner_contract = Auth::user()->dep.'.'.Auth::user()->uid;
         $this->uid = Auth::user()->uid;
+        $q = ConfigModel::query()->select('value')->where('name', '=', 'iptv')->get();
+        $res = json_decode($q[0]['value'],1);
+        $this->partner_key = $res['megogo']['partner_key'];
     }
 
     public function getUserInfo()
@@ -59,7 +64,7 @@ class Megogo implements DigitalTV
      */
     public function changeTariffStatus($serviceID, $action)
     {
-        $changeStatus = Http::get("https://billing.megogo.net/partners/testprod_ua/subscription/$action?userId=$this->inner_contract&serviceId=$serviceID");
+        $changeStatus = Http::get("https://billing.megogo.net/partners/".$this->partner_key."/subscription/$action?userId=$this->inner_contract&serviceId=$serviceID");
 
         $iptv_user = IptvUser::where('uid', '=', $this->uid)
             ->where('provider','=','megogo')
@@ -110,7 +115,7 @@ class Megogo implements DigitalTV
             throw new NotEnoughMoney();
         }
 
-        $changeStatus = Http::get("https://billing.megogo.net/partners/testprod_ua/subscription/subscribe?userId=$this->inner_contract&serviceId=$serviceID");
+        $changeStatus = Http::get("https://billing.megogo.net/partners/".$this->partner_key."/subscription/subscribe?userId=$this->inner_contract&serviceId=$serviceID");
 
         if ($changeStatus['successful']){
 
@@ -178,7 +183,7 @@ class Megogo implements DigitalTV
             $changeProlong->prolong_time -=1;
             $changeProlong->plan_id = null;
             $changeProlong->save();
-            $changeStatus = Http::get("https://billing.megogo.net/partners/testprod_ua/subscription/unsubscribe?userId=$this->inner_contract&serviceId=$serviceID");
+            $changeStatus = Http::get("https://billing.megogo.net/partners/".$this->partner_key."/subscription/unsubscribe?userId=$this->inner_contract&serviceId=$serviceID");
 
             if ($changeStatus['successful']){
                 DB::commit();
