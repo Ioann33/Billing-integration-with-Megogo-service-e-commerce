@@ -80,6 +80,7 @@ import headBar from "../components/headBar";
 import navBar from "../components/navBar";
 import navBarMenu from "../components/navBarMenu";
 import footerAds from "../components/footerAds";
+
 export default {
     name: "Iptv",
     components:{
@@ -232,12 +233,11 @@ export default {
         }
     },
     updated() {
-         init_template2()
+        update_template()
     },
     mounted() {
         this.getTariffPlans()
         this.getUserInfo()
-        init_template2()
     }
 }
 </script>

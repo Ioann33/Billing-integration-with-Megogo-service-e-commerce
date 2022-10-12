@@ -52,11 +52,6 @@ const router = new vueRouter({
             component: Welcome
         },
         {
-            path: '/:catchAll(.*)*',
-            name: "PageNotFound",
-            component: Welcome
-        },
-        {
             path: "/iptv",
             name: 'iptv',
             component: Iptv
@@ -71,6 +66,13 @@ const router = new vueRouter({
             name: 'changePass',
             component: ChangePassword
         },
+        // LAST ITEM
+        {
+            path: '/:catchAll(.*)*',
+            name: "PageNotFound",
+            component: Welcome
+        }
+        // NO route AFTER THIS LINE
     ]
 })
 
@@ -82,6 +84,7 @@ router.beforeEach((to, from, next)=>{
         if(to.name==='welcome' || to.name==='root'){
             return next()
         } else {
+            console.log('route to welcome')
             return next({
                 name: 'welcome'
             })
@@ -93,8 +96,8 @@ router.beforeEach((to, from, next)=>{
             name: 'home'
         })
     }
-
-    next()
+    console.log('to.name: '+to.name)
+   next()
 })
 
 export default router

@@ -33,7 +33,9 @@ class Megogo implements DigitalTV
     public function getUserInfo()
     {
 
-        $iptv_user = IptvUser::where('uid', '=', $this->uid)->get();
+        $iptv_user = IptvUser::where('uid', '=', $this->uid)
+            ->where('provider','=','megogo')
+            ->get();
 
         if (count($iptv_user)>0){
             $plan_name = IptvPlan::find($iptv_user[0]['plan_id']);
@@ -57,9 +59,12 @@ class Megogo implements DigitalTV
      */
     public function changeTariffStatus($serviceID, $action)
     {
-        $changeStatus = Http::get("https://billing.megogo.net/partners/homenetonlineprod/subscription/$action?userId=$this->inner_contract&serviceId=$serviceID");
+        $changeStatus = Http::get("https://billing.megogo.net/partners/testprod_ua/subscription/$action?userId=$this->inner_contract&serviceId=$serviceID");
 
-        $iptv_user = IptvUser::where('uid', '=', $this->uid)->get();
+        $iptv_user = IptvUser::where('uid', '=', $this->uid)
+            ->where('provider','=','megogo')
+            ->get();
+
         if (count($iptv_user) == 0){
             throw new NotAuthenticate();
         }
@@ -91,7 +96,9 @@ class Megogo implements DigitalTV
     public function connectService($serviceID, $price)
     {
 
-        $iptv_user = IptvUser::where('uid', '=', $this->uid)->get();
+        $iptv_user = IptvUser::where('uid', '=', $this->uid)
+            ->where('provider','=','megogo')
+            ->get();
 
         if (count($iptv_user) == 0){
             throw new NotAuthenticate();
@@ -103,7 +110,7 @@ class Megogo implements DigitalTV
             throw new NotEnoughMoney();
         }
 
-        $changeStatus = Http::get("https://billing.megogo.net/partners/homenetonlineprod/subscription/subscribe?userId=$this->inner_contract&serviceId=$serviceID");
+        $changeStatus = Http::get("https://billing.megogo.net/partners/testprod_ua/subscription/subscribe?userId=$this->inner_contract&serviceId=$serviceID");
 
         if ($changeStatus['successful']){
 
@@ -125,7 +132,9 @@ class Megogo implements DigitalTV
 
     public function getTariffPlans()
     {
-        return $iptv_plans = IptvPlan::where('provider', '=', 'megogo')->where('enable', '=', 1)->get();
+        return $iptv_plans = IptvPlan::where('provider', '=', 'megogo')
+            ->where('enable', '=', 1)
+            ->get();
     }
 
     public function calculateCost($price)
@@ -169,7 +178,7 @@ class Megogo implements DigitalTV
             $changeProlong->prolong_time -=1;
             $changeProlong->plan_id = null;
             $changeProlong->save();
-            $changeStatus = Http::get("https://billing.megogo.net/partners/homenetonlineprod/subscription/unsubscribe?userId=$this->inner_contract&serviceId=$serviceID");
+            $changeStatus = Http::get("https://billing.megogo.net/partners/testprod_ua/subscription/unsubscribe?userId=$this->inner_contract&serviceId=$serviceID");
 
             if ($changeStatus['successful']){
                 DB::commit();
@@ -197,7 +206,7 @@ class Megogo implements DigitalTV
                 'password' => $password,
             ];
 
-        $setPassword = Http::withBody(json_encode($credentials),'application/json')->post("https://billing.megogo.net/partners/homenetonlineprod/user/changeCredentials");
+        $setPassword = Http::withBody(json_encode($credentials),'application/json')->post("https://billing.megogo.net/partners/testprod_ua/user/changeCredentials");
         if (isset($setPassword['result'])){
             throw new ChangeCredentialsProblem();
         }
