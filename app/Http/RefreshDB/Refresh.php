@@ -88,6 +88,7 @@ class Refresh
             $user_tags = DB::select('select tag_id from users_tag where uid= :id and tag_id in (select tag_id from tags where type=3 )', ['id' => $user->id_user]);
             if (count($user_tags) == 0){
                 echo "\n\tне имеет тега с районом\n";
+                echo "____________\n";
                 continue;
             }
 
@@ -97,6 +98,7 @@ class Refresh
 
             if (count($user_tags)>1){
                 echo "у пользователя ".count($user_tags)." локационных тэга \n";
+                echo "____________\n";
                 continue;
             }
 
