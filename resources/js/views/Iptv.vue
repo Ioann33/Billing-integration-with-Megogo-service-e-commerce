@@ -16,13 +16,30 @@
                     </p>
                 </div>
                 <div v-if="alertDisConnect">
-                    <a href="#" v-if="current_tariff['plan_name']" v-on:click.prevent="choiceDisConnect" class="btn shadow-bg shadow-bg-m btn-m btn-full mb-3 rounded-s text-uppercase font-900 shadow-s bg-red-dark mt-1">Оменить подписку</a>
+                    <a href="#"
+                       v-if="current_tariff['plan_name']"
+                       v-on:click.prevent="choiceDisConnect"
+                       class="btn shadow-bg shadow-bg-m btn-m btn-full mb-3 rounded-s text-uppercase font-900 shadow-s bg-red-dark mt-1"
+                    >
+
+                        Отменить подписку
+
+                    </a>
                 </div>
                 <div v-else class="p-2 alert-warning">
                     <p class="alert-danger">Доступное количество отключений на месяц: {{current_tariff['prolong_time']}}</p>
                     <p>Вы уверенны что хотите отключить текущий тариф?</p>
                     <div style="display: flex; justify-content: space-around">
-                        <button class="btn btn-success" v-on:click="disconnectService" v-if="current_tariff['prolong_time']>0">Подтвердить</button>
+
+                        <button
+                            class="btn btn-success"
+                            v-on:click="disconnectService"
+                            v-if="current_tariff['prolong_time']>0"
+                        >
+
+                            Подтвердить
+                        </button>
+
                         <div class="alert-warning text-center" v-else>
                             Вы исчерпали разрешенное количество отключений на месяц
                         </div>
@@ -60,7 +77,15 @@
                 Подтвердить подключение подписки: "{{name}}".  Ежемесячная стоимость:  {{ price }} грн.
                 <p>До конца текущего месяца с вас будет списано: {{ diffPrice }} грн</p>
                 <div style="display: flex; justify-content: space-around">
-                    <button class="btn btn-success" v-on:click="connectService" v-if="current_tariff['prolong_time']>0 || !current_tariff['plan_name'] ">Подтвердить</button>
+
+                    <button class="btn btn-success"
+                            v-on:click="connectService"
+                            v-if="current_tariff['prolong_time']>0 || !current_tariff['plan_name'] "
+                    >
+                        Подтвердить
+
+                    </button>
+
                     <div class="alert-warning text-center" v-else>
                         Вы исчерпали разрешенное количество переподключений на месяц
                     </div>
@@ -168,7 +193,7 @@ export default {
                 })
                 .catch(err => {
                     if (err.response.status === 500){
-                        console.log(err.response.status+'dfgergerv')
+                        console.error('error status: '+ err.response.status+'. Сервервис временно недоступен, попробуйте позже или обратитесь в службу поддержки')
                         this.alertConnect = true;
                         this.alertError = 'Сервервис временно недоступен, попробуйте позже или обратитесь в службу поддержки.'
                     }

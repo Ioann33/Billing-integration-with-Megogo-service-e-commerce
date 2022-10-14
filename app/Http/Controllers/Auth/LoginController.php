@@ -49,7 +49,6 @@ class LoginController extends Controller
     {
 //return $request;
 //{
-//            "email": "graf",
 //"login": "graf",
 //"password": "Rkfcnth45"
 //}
@@ -57,12 +56,12 @@ class LoginController extends Controller
         $user = User::where('nic_name', $request->login)
             ->where('pass',md5($request->password))
             ->first();
-//$user = User::where('uid',17811)->first();
+            //$user = User::where('uid',17811)->first();
 
-        if (!empty($user->id_user)) {
+        if ($user->password == null) {
             $user->password = bcrypt($request->input('password'));
             $user->login = $request->login;
-//            $user->nic_name = '';
+            //            $user->nic_name = '';
             $user->save();
         }
 
@@ -78,7 +77,6 @@ class LoginController extends Controller
 
             return $this->sendLockoutResponse($request);
         }
-
         if ($this->attemptLogin($request)) {
             if ($request->hasSession()) {
                 $request->session()->put('auth.password_confirmed_at', time());

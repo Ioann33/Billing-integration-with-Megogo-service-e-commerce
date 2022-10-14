@@ -107,6 +107,8 @@ class Megogo implements DigitalTV
         if (count($iptv_user) == 0){
             throw new NotAuthenticate();
         }
+
+
         $tariff = new GetTariffByServiceId();
         $payment = new MakePay();
 
@@ -175,10 +177,12 @@ class Megogo implements DigitalTV
 
         $transaction = Pay::findOrFail($refund['id']);
         $transaction->size_pay = -1 * abs($refund['actualPayment']);
-        $transaction->descript .= '( за пользование в течение '.$refund['daysAmount'].' дней)';
+        $transaction->descript .= '( за використання протягом '.$refund['daysAmount'].' дн)';
         if($transaction->save()){
-            $iptv_user = IptvUser::where('uid', '=', Auth::user()->uid)->get('id');
-            $changeProlong = IptvUser::findOrFail($iptv_user[0]['id']);
+            $iptv_user = IptvUser::where('uid', '=', Auth::user()->uid)
+                ->where('provider','megogo')
+                ->first();
+            $changeProlong = IptvUser::findOrFail($iptv_user->id);
             $changeProlong->prolong_time -=1;
             $changeProlong->plan_id = null;
             $changeProlong->save();

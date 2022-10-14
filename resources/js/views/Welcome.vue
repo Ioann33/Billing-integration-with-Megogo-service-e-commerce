@@ -67,7 +67,7 @@
               console.log('Auth...');
               axios.get('/sanctum/csrf-cookie').then(response => {
                   axios.post('/login', {
-                      email: this.user_login,
+                      // email: this.user_login,
                       login: this.user_login,
                       password: this.user_password
                   })
@@ -106,7 +106,7 @@
         },
         updated() {
             console.log('Component Welcome updated.')
-            update_template()
+            //update_template()
         }
 
     }
