@@ -215,4 +215,14 @@ class Refresh
             echo "____________\n";
         } // foreach $users
     }
+
+    public function getOnu(){
+        $sub_user = User::query()
+            ->select()
+            ->where('code', '=', 132)
+            ->get();
+
+
+        $user_tags = DB::select('select uid from users_tag where uid= :id and tag_id in (select tag_id from tags where tag_id=79 )', ['id' => $user->id_user]);
+    }
 }
