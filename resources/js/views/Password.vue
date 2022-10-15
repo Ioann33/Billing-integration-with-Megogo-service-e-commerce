@@ -73,7 +73,7 @@ export default {
                         console.log(res.status)
                         if (res.status === 201){
                             console.log('user created')
-                            axios.get(`api/connectService?serviceID=${this.serviceID}&price=${this.diffPrice}`)
+                            axios.get(`api/connectService?serviceID=${this.serviceID}`)
                                 .then(res => {
                                     if (res.status === 200){
                                         localStorage.removeItem('serviceID')

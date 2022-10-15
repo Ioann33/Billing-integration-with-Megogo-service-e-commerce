@@ -76,18 +76,23 @@
                 <p class="alert-danger">Доступное количество переплодключений на месяц: {{current_tariff['prolong_time']}}</p>
                 Подтвердить подключение подписки: "{{name}}".  Ежемесячная стоимость:  {{ price }} грн.
                 <p>До конца текущего месяца с вас будет списано: {{ diffPrice }} грн</p>
+
                 <div style="display: flex; justify-content: space-around">
+                    <div v-if="stateBalance">
+                        <button class="btn btn-success"
+                                v-on:click="connectService"
+                                v-if="current_tariff['prolong_time']>0 || !current_tariff['plan_name'] "
+                        >
+                            Подтвердить
 
-                    <button class="btn btn-success"
-                            v-on:click="connectService"
-                            v-if="current_tariff['prolong_time']>0 || !current_tariff['plan_name'] "
-                    >
-                        Подтвердить
+                        </button>
 
-                    </button>
-
-                    <div class="alert-warning text-center" v-else>
-                        Вы исчерпали разрешенное количество переподключений на месяц
+                        <div class="alert-warning text-center" v-else>
+                            Вы исчерпали разрешенное количество переподключений на месяц
+                        </div>
+                    </div>
+                    <div v-else>
+                        <p class="alert-danger">Недостаточно средств на счету</p>
                     </div>
                     <button class="btn btn-danger " v-on:click="cancel(1)">Отменить</button>
                 </div>
@@ -125,6 +130,7 @@ export default {
             price: null,
             diffPrice:null,
             serviceID: null,
+            stateBalance: null,
         }
     },
     methods : {
@@ -161,6 +167,7 @@ export default {
             axios.get(`api/calculateCost?price=${price}`)
                 .then(res =>{
                     this.diffPrice = res.data.cost
+                    this.stateBalance = res.data.stateBalance
                 })
             console.log(serviceID+price+name)
             this.serviceID = serviceID
@@ -221,7 +228,7 @@ export default {
                     })
             }
             console.log('turn on new tariff')
-            axios.get(`api/connectService?serviceID=${this.serviceID}&price=${this.diffPrice}`)
+            axios.get(`api/connectService?serviceID=${this.serviceID}`)
                 .then(res => {
                     if (res.status === 200){
                         console.log(res.data)

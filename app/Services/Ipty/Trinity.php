@@ -12,7 +12,7 @@ class Trinity implements DigitalTV
         return 'Trinity getUserInfo';
     }
 
-    public function connectService($serviceID, $price)
+    public function connectService($serviceID)
     {
         // TODO: Implement connectService() method.
     }

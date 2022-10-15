@@ -7,17 +7,31 @@ use Illuminate\Support\Facades\Auth;
 
 class MakePay
 {
-    public function __invoke($tariff, $price)
+
+    private $restAmount;
+
+    public function __construct()
+    {
+        $this->restAmount = Pay::where('id_user', Auth::user()->uid)
+            ->where('date', '>=', date("Y-m-01 00:00:00"))
+            ->sum('size_pay');
+    }
+
+    public function checkBalance($price){
+
+        if ($price > $this->restAmount){
+            return false;
+        }
+        return true;
+    }
+    public function payment($tariff, $price)
     {
         $date_event = date('Y-m-d H:i:s');
         $operator = 'iptv';
         $event = 'iptv_pay';
         $user_id = Auth::user()->uid;
 
-        $checkBalance = Pay::where('id_user', $user_id)
-            ->where('date', '>=', date("Y-m-01 00:00:00"))
-            ->sum('size_pay');
-        if ($price > $checkBalance){
+        if ($price > $this->restAmount){
             return false;
         }
 

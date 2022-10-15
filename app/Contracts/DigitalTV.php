@@ -6,7 +6,7 @@ interface DigitalTV
 {
     public function getUserInfo();
 
-    public function connectService($serviceID, $price);
+    public function connectService($serviceID);
 
     public function changeTariffStatus($serviceID, $action);
 

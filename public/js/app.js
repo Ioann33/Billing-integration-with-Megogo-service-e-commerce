@@ -7431,6 +7431,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -7454,7 +7484,8 @@ __webpack_require__.r(__webpack_exports__);
       name: null,
       price: null,
       diffPrice: null,
-      serviceID: null
+      serviceID: null,
+      stateBalance: null
     };
   },
   methods: {
@@ -7492,6 +7523,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get("api/calculateCost?price=".concat(price)).then(function (res) {
         _this3.diffPrice = res.data.cost;
+        _this3.stateBalance = res.data.stateBalance;
       });
       console.log(serviceID + price + name);
       this.serviceID = serviceID;
@@ -7525,7 +7557,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       })["catch"](function (err) {
         if (err.response.status === 500) {
-          console.log(err.response.status + 'dfgergerv');
+          console.error('error status: ' + err.response.status + '. Сервервис временно недоступен, попробуйте позже или обратитесь в службу поддержки');
           _this4.alertConnect = true;
           _this4.alertError = 'Сервервис временно недоступен, попробуйте позже или обратитесь в службу поддержки.';
         }
@@ -7555,7 +7587,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       console.log('turn on new tariff');
-      axios.get("api/connectService?serviceID=".concat(this.serviceID, "&price=").concat(this.diffPrice)).then(function (res) {
+      axios.get("api/connectService?serviceID=".concat(this.serviceID)).then(function (res) {
         if (res.status === 200) {
           console.log(res.data);
           _this5.current_tariff['plan_name'] = res.data.name;
@@ -7878,7 +7910,7 @@ __webpack_require__.r(__webpack_exports__);
 
           if (res.status === 201) {
             console.log('user created');
-            axios.get("api/connectService?serviceID=".concat(_this.serviceID, "&price=").concat(_this.diffPrice)).then(function (res) {
+            axios.get("api/connectService?serviceID=".concat(_this.serviceID)).then(function (res) {
               if (res.status === 200) {
                 localStorage.removeItem('serviceID');
                 localStorage.removeItem('diffPrice');
@@ -8162,7 +8194,7 @@ __webpack_require__.r(__webpack_exports__);
       console.log('Auth...');
       axios.get('/sanctum/csrf-cookie').then(function (response) {
         axios.post('/login', {
-          email: _this.user_login,
+          // email: this.user_login,
           login: _this.user_login,
           password: _this.user_password
         }).then(function (r) {
@@ -8195,8 +8227,7 @@ __webpack_require__.r(__webpack_exports__);
     update_template();
   },
   updated: function updated() {
-    console.log('Component Welcome updated.');
-    update_template();
+    console.log('Component Welcome updated.'); //update_template()
   }
 });
 
@@ -35778,7 +35809,11 @@ var render = function () {
                                 },
                               },
                             },
-                            [_vm._v("Оменить подписку")]
+                            [
+                              _vm._v(
+                                "\n\n                    Отменить подписку\n\n                "
+                              ),
+                            ]
                           )
                         : _vm._e(),
                     ])
@@ -35812,7 +35847,11 @@ var render = function () {
                                   staticClass: "btn btn-success",
                                   on: { click: _vm.disconnectService },
                                 },
-                                [_vm._v("Подтвердить")]
+                                [
+                                  _vm._v(
+                                    "\n\n                        Подтвердить\n                    "
+                                  ),
+                                ]
                               )
                             : _c(
                                 "div",
@@ -35966,25 +36005,37 @@ var render = function () {
                       },
                     },
                     [
-                      _vm.current_tariff["prolong_time"] > 0 ||
-                      !_vm.current_tariff["plan_name"]
-                        ? _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-success",
-                              on: { click: _vm.connectService },
-                            },
-                            [_vm._v("Подтвердить")]
-                          )
-                        : _c(
-                            "div",
-                            { staticClass: "alert-warning text-center" },
-                            [
-                              _vm._v(
-                                "\n                    Вы исчерпали разрешенное количество переподключений на месяц\n                "
-                              ),
-                            ]
-                          ),
+                      _vm.stateBalance
+                        ? _c("div", [
+                            _vm.current_tariff["prolong_time"] > 0 ||
+                            !_vm.current_tariff["plan_name"]
+                              ? _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-success",
+                                    on: { click: _vm.connectService },
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                        Подтвердить\n\n                    "
+                                    ),
+                                  ]
+                                )
+                              : _c(
+                                  "div",
+                                  { staticClass: "alert-warning text-center" },
+                                  [
+                                    _vm._v(
+                                      "\n                        Вы исчерпали разрешенное количество переподключений на месяц\n                    "
+                                    ),
+                                  ]
+                                ),
+                          ])
+                        : _c("div", [
+                            _c("p", { staticClass: "alert-danger" }, [
+                              _vm._v("Недостаточно средств на счету"),
+                            ]),
+                          ]),
                       _vm._v(" "),
                       _c(
                         "button",

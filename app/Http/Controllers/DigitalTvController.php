@@ -7,6 +7,7 @@ use App\Exceptions\ChangeCredentialsProblem;
 use App\Exceptions\ChangeTariffStatusProblem;
 use App\Exceptions\NotAuthenticate;
 use App\Exceptions\NotEnoughMoney;
+use App\Services\HelperServices\MakePay;
 use App\Services\Logs\LogService;
 use Illuminate\Http\Request;
 
@@ -42,7 +43,8 @@ class DigitalTvController extends Controller
             'price'=> 'required'
         ]);
         $cost = $digitalTV->calculateCost($request->price);
-        return response()->json(['cost' => $cost]);
+        $checkBalance = new MakePay();
+        return response()->json(['cost' => $cost, 'stateBalance' => $checkBalance->checkBalance($cost)]);
 
     }
     public function disConnectService(Request $request, DigitalTV $digitalTV, LogService $logService){
@@ -61,10 +63,9 @@ class DigitalTvController extends Controller
     public function connectService(Request $request, DigitalTV $digitalTV, LogService $logService){
         $this->validate($request,[
             'serviceID'=>'required',
-            'price'=>'required',
         ]);
         try {
-            $finalAnswer = $digitalTV->connectService($request->serviceID, $request->price);
+            $finalAnswer = $digitalTV->connectService($request->serviceID);
         }catch (NotAuthenticate $e){
             return response()->json(['message'=>$e->resMess()], 400);
         }catch (NotEnoughMoney $e){

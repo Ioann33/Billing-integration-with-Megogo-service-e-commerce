@@ -97,7 +97,7 @@ class Megogo implements DigitalTV
      * @throws ChangeTariffStatusProblem
      * @return mixed
      */
-    public function connectService($serviceID, $price)
+    public function connectService($serviceID)
     {
 
         $iptv_user = IptvUser::where('uid', '=', $this->uid)
@@ -111,14 +111,17 @@ class Megogo implements DigitalTV
 
         $tariff = new GetTariffByServiceId();
         $payment = new MakePay();
-
-        if (!$payment($tariff($serviceID), $price)){
+        $price = $this->calculateCost($tariff($serviceID)->price);
+        if (!$payment->checkBalance($price)){
             throw new NotEnoughMoney();
         }
 
         $changeStatus = Http::get("https://billing.megogo.net/partners/".$this->partner_key."/subscription/subscribe?userId=$this->inner_contract&serviceId=$serviceID");
-
         if ($changeStatus['successful']){
+
+            if (!$payment->payment($tariff, $price)){
+                throw new NotEnoughMoney();
+            }
 
             $iptv_user = IptvUser::findOrFail($iptv_user[0]['id']);
             $iptv_user->plan_id = $tariff($serviceID)->id;
