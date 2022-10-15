@@ -243,7 +243,7 @@ export default {
                     if (err.response.status === 400){
                         console.log('return to login')
                         localStorage.setItem('serviceID', this.serviceID)
-                        localStorage.setItem('diffPrice', this.diffPrice)
+
                         this.$router.push({name: 'pass'})
                     }
                     if (err.response.status === 402){

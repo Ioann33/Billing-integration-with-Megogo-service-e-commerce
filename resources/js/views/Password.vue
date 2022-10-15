@@ -52,7 +52,6 @@ export default {
             error: null,
             serviceID: null,
             actual: true,
-            diffPrice: null,
         }
     },
     mounted() {
@@ -66,7 +65,6 @@ export default {
             if (this.password){
                 console.log('attempt create user')
                 this.serviceID = localStorage.getItem('serviceID')
-                this.diffPrice = localStorage.getItem('diffPrice')
                 axios.get(`api/createUser?password=${this.password}`)
                     .then(res => {
                         console.log(res.data)
@@ -77,7 +75,6 @@ export default {
                                 .then(res => {
                                     if (res.status === 200){
                                         localStorage.removeItem('serviceID')
-                                        localStorage.removeItem('diffPrice')
                                         console.log('service connected')
                                         this.$router.push({name: 'iptv'})
                                     }
