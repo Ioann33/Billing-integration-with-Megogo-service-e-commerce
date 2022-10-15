@@ -7600,7 +7600,6 @@ __webpack_require__.r(__webpack_exports__);
         if (err.response.status === 400) {
           console.log('return to login');
           localStorage.setItem('serviceID', _this5.serviceID);
-          localStorage.setItem('diffPrice', _this5.diffPrice);
 
           _this5.$router.push({
             name: 'pass'
@@ -7890,8 +7889,7 @@ __webpack_require__.r(__webpack_exports__);
       password: null,
       error: null,
       serviceID: null,
-      actual: true,
-      diffPrice: null
+      actual: true
     };
   },
   mounted: function mounted() {},
@@ -7903,7 +7901,6 @@ __webpack_require__.r(__webpack_exports__);
       if (this.password) {
         console.log('attempt create user');
         this.serviceID = localStorage.getItem('serviceID');
-        this.diffPrice = localStorage.getItem('diffPrice');
         axios.get("api/createUser?password=".concat(this.password)).then(function (res) {
           console.log(res.data);
           console.log(res.status);
@@ -7913,7 +7910,6 @@ __webpack_require__.r(__webpack_exports__);
             axios.get("api/connectService?serviceID=".concat(_this.serviceID)).then(function (res) {
               if (res.status === 200) {
                 localStorage.removeItem('serviceID');
-                localStorage.removeItem('diffPrice');
                 console.log('service connected');
 
                 _this.$router.push({
