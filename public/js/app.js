@@ -7484,7 +7484,7 @@ __webpack_require__.r(__webpack_exports__);
       name: null,
       price: null,
       diffPrice: null,
-      serviceID: null,
+      service_id: null,
       stateBalance: null
     };
   },
@@ -7518,15 +7518,15 @@ __webpack_require__.r(__webpack_exports__);
         _this2.tariff_plans = res.data;
       });
     },
-    choiceService: function choiceService(serviceID, price, name) {
+    choiceService: function choiceService(service_id, price, name) {
       var _this3 = this;
 
       axios.get("api/calculateCost?price=".concat(price)).then(function (res) {
         _this3.diffPrice = res.data.cost;
         _this3.stateBalance = res.data.stateBalance;
       });
-      console.log(serviceID + price + name);
-      this.serviceID = serviceID;
+      console.log(service_id + price + name);
+      this.service_id = service_id;
       this.name = name;
       this.price = price;
       this.alertConnect = false;
@@ -7546,14 +7546,14 @@ __webpack_require__.r(__webpack_exports__);
     disconnectService: function disconnectService() {
       var _this4 = this;
 
-      axios.get("api/disConnectService?serviceID=".concat(this.current_tariff['plan_serviceID'])).then(function (res) {
+      axios.get("api/disConnectService?service_id=".concat(this.current_tariff['plan_id'])).then(function (res) {
         console.log('disconnect data' + res.data);
 
         if (res.status === 200) {
           _this4.current_tariff = [];
           _this4.current_tariff['prolong_time'] = res.data;
           _this4.alertDisConnect = true;
-          _this4.serviceID = null;
+          _this4.service_id = null;
         }
       })["catch"](function (err) {
         if (err.response.status === 500) {
@@ -7569,7 +7569,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.current_tariff['plan_name']) {
         console.log(this.current_tariff);
         console.log('turn off current');
-        axios.get("api/disConnectService?serviceID=".concat(this.current_tariff['plan_serviceID'])).then(function (res) {
+        axios.get("api/disConnectService?service_id=".concat(this.current_tariff['plan_id'])).then(function (res) {
           console.log('status unsubscribe ' + res.status);
         })["catch"](function (err) {
           if (err.response.status === 400) {
@@ -7587,11 +7587,11 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       console.log('turn on new tariff');
-      axios.get("api/connectService?serviceID=".concat(this.serviceID)).then(function (res) {
+      axios.get("api/connectService?service_id=".concat(this.service_id)).then(function (res) {
         if (res.status === 200) {
           console.log(res.data);
           _this5.current_tariff['plan_name'] = res.data.name;
-          _this5.current_tariff['plan_serviceID'] = res.data.serviceID;
+          _this5.current_tariff['plan_id'] = res.data.service_id;
           _this5.current_tariff['prolong_time'] = res.data.prolong_time;
           _this5.alertConnect = true;
           _this5.alertError = false;
@@ -7599,7 +7599,7 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (err) {
         if (err.response.status === 400) {
           console.log('return to login');
-          localStorage.setItem('serviceID', _this5.serviceID);
+          localStorage.setItem('service_id', _this5.service_id);
 
           _this5.$router.push({
             name: 'pass'
@@ -7888,7 +7888,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       password: null,
       error: null,
-      serviceID: null,
+      service_id: null,
       actual: true
     };
   },
@@ -7900,16 +7900,16 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.password) {
         console.log('attempt create user');
-        this.serviceID = localStorage.getItem('serviceID');
+        this.service_id = localStorage.getItem('service_id');
         axios.get("api/createUser?password=".concat(this.password)).then(function (res) {
           console.log(res.data);
           console.log(res.status);
 
           if (res.status === 201) {
             console.log('user created');
-            axios.get("api/connectService?serviceID=".concat(_this.serviceID)).then(function (res) {
+            axios.get("api/connectService?service_id=".concat(_this.service_id)).then(function (res) {
               if (res.status === 200) {
-                localStorage.removeItem('serviceID');
+                localStorage.removeItem('service_id');
                 console.log('service connected');
 
                 _this.$router.push({

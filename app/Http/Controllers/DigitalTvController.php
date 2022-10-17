@@ -25,11 +25,11 @@ class DigitalTvController extends Controller
 
     public function changeTariffStatus(Request $request, DigitalTV $digitalTV){
         $this->validate($request,[
-            'serviceID'=>'required',
+            'service_id'=>'required',
             'action'=>'required',
         ]);
         try {
-            $finalAnswer = $digitalTV->changeTariffStatus($request->serviceID, $request->action);
+            $finalAnswer = $digitalTV->changeTariffStatus($request->service_id, $request->action);
         }catch (NotAuthenticate $e){
             return response()->json(['message'=>$e->resMess()], 400);
         }catch (ChangeTariffStatusProblem $e){
@@ -49,23 +49,23 @@ class DigitalTvController extends Controller
     }
     public function disConnectService(Request $request, DigitalTV $digitalTV, LogService $logService){
         $this->validate($request,[
-            'serviceID'=> 'required',
+            'service_id'=> 'required',
         ]);
         try {
-            $prolong_time = $digitalTV->disConnectService($request->serviceID);
+            $prolong_time = $digitalTV->disConnectService($request->service_id);
         }catch (ChangeTariffStatusProblem $e){
             return response()->json(['message'=>$e->resMess()], 500);
         }
-        $logService->log('iptv', 'disConnectService', 'Отключение подписки id = ('.$request->serviceID.')');
+        $logService->log('iptv', 'disConnectService', 'Отключение подписки id = ('.$request->service_id.')');
         return response()->json($prolong_time);
 
     }
     public function connectService(Request $request, DigitalTV $digitalTV, LogService $logService){
         $this->validate($request,[
-            'serviceID'=>'required',
+            'service_id'=>'required',
         ]);
         try {
-            $finalAnswer = $digitalTV->connectService($request->serviceID);
+            $result = $digitalTV->connectService($request->service_id);
         }catch (NotAuthenticate $e){
             return response()->json(['message'=>$e->resMess()], 400);
         }catch (NotEnoughMoney $e){
@@ -73,8 +73,8 @@ class DigitalTvController extends Controller
         }catch (ChangeTariffStatusProblem $e){
             return response()->json(['message'=>$e->resMess()], 500);
         }
-        $logService->log('iptv', 'connectService', 'Подключена подписка '.$finalAnswer['serviceID'].' , оплачено пользователем '.$finalAnswer['diff_price'].' грн');
-        return response()->json($finalAnswer);
+        $logService->log('iptv', 'connectService', 'Подключена подписка '.$result['service_id'].' , оплачено пользователем '.$result['diff_price'].' грн');
+        return response()->json($result);
     }
 
     public function createUser(Request $request, DigitalTV $digitalTV, LogService $logService){

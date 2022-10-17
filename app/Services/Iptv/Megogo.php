@@ -13,7 +13,6 @@ use App\Models\IptvUser;
 use App\Models\Pay;
 use App\Services\HelperServices\CostCalculation;
 use App\Services\HelperServices\CreateMegogoUser;
-use App\Services\HelperServices\GetTariffByServiceId;
 use App\Services\HelperServices\IptvConfig;
 use App\Services\HelperServices\MakePay;
 use Illuminate\Http\Request;
@@ -45,13 +44,10 @@ class Megogo implements DigitalTV
             $plan_name = IptvPlan::find($iptv_user[0]['plan_id']);
             if ($plan_name){
                 $name = $plan_name->name;
-                $serviceID = $plan_name->id;
             }else{
                 $name = null;
-                $serviceID = null;
             }
             $iptv_user[0]['plan_name'] = $name;
-            $iptv_user[0]['plan_serviceID'] = $serviceID;
             return $iptv_user[0];
         }
         return [];
@@ -134,7 +130,7 @@ class Megogo implements DigitalTV
             return  [
                 'message'=>'tariff '.$service->name.' '.$service->description.' successfuly connected ',
                 'name' => $service->name,
-                'serviceID' => $service->id,
+                'service_id' => $service->id,
                 'price' => $service->price,
                 'diff_price' => $price,
                 'prolong_time' => $iptv_user->prolong_time,

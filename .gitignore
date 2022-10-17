@@ -30,6 +30,6 @@ Homestead.json
 /public/js/app.js
 /storage/*.key
 /vendor
-
+/public/css/app.css
 /.idea
 /.vscode

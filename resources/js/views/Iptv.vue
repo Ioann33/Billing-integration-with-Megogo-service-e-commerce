@@ -129,7 +129,7 @@ export default {
             name: null,
             price: null,
             diffPrice:null,
-            serviceID: null,
+            service_id: null,
             stateBalance: null,
         }
     },
@@ -163,14 +163,14 @@ export default {
                     this.tariff_plans = res.data;
                 })
         },
-        choiceService(serviceID, price, name){
+        choiceService(service_id, price, name){
             axios.get(`api/calculateCost?price=${price}`)
                 .then(res =>{
                     this.diffPrice = res.data.cost
                     this.stateBalance = res.data.stateBalance
                 })
-            console.log(serviceID+price+name)
-            this.serviceID = serviceID
+            console.log(service_id+price+name)
+            this.service_id = service_id
             this.name = name;
             this.price = price
             this.alertConnect = false;
@@ -188,14 +188,14 @@ export default {
 
         },
         disconnectService(){
-            axios.get(`api/disConnectService?serviceID=${this.current_tariff['plan_serviceID']}`)
+            axios.get(`api/disConnectService?service_id=${this.current_tariff['plan_id']}`)
                 .then(res => {
                     console.log('disconnect data'+res.data)
                     if (res.status === 200){
                         this.current_tariff = [];
                         this.current_tariff['prolong_time'] = res.data
                         this.alertDisConnect = true;
-                        this.serviceID = null;
+                        this.service_id = null;
                     }
                 })
                 .catch(err => {
@@ -210,7 +210,7 @@ export default {
             if (this.current_tariff['plan_name']){
                 console.log(this.current_tariff)
                 console.log('turn off current')
-                axios.get(`api/disConnectService?serviceID=${this.current_tariff['plan_serviceID']}`)
+                axios.get(`api/disConnectService?service_id=${this.current_tariff['plan_id']}`)
                     .then(res => {
                         console.log('status unsubscribe '+res.status)
                     })
@@ -228,12 +228,12 @@ export default {
                     })
             }
             console.log('turn on new tariff')
-            axios.get(`api/connectService?serviceID=${this.serviceID}`)
+            axios.get(`api/connectService?service_id=${this.service_id}`)
                 .then(res => {
                     if (res.status === 200){
                         console.log(res.data)
                         this.current_tariff['plan_name'] = res.data.name
-                        this.current_tariff['plan_serviceID'] = res.data.serviceID
+                        this.current_tariff['plan_id'] = res.data.service_id
                         this.current_tariff['prolong_time'] = res.data.prolong_time
                         this.alertConnect = true;
                         this.alertError = false;
@@ -242,7 +242,7 @@ export default {
                 .catch(err => {
                     if (err.response.status === 400){
                         console.log('return to login')
-                        localStorage.setItem('serviceID', this.serviceID)
+                        localStorage.setItem('service_id', this.service_id)
 
                         this.$router.push({name: 'pass'})
                     }
