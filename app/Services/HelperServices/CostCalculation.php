@@ -10,9 +10,9 @@ class CostCalculation
     public function __invoke($service)
     {
 
-        $lastPayment = Pay::where('id_user', '=', Auth::user()->uid)->where('item', '=', 103011)->orderBy('date','desc')->limit(1)->get();
+        $lastPayment = Pay::where('id_user', '=', Auth::user()->uid)->where('item', '=', 103011)->orderBy('date','desc')->limit(1)->first();
 
-        $statUsing = date($lastPayment[0]['date']);
+        $statUsing = date($lastPayment->date);
         $during = time() - strtotime($statUsing);
         $daysAmount =  round($during / 86400);
 
@@ -23,8 +23,8 @@ class CostCalculation
         return [
             'daysAmount'=>$daysAmount,
             'actualPayment' => $actualPayment,
-            'previousPrice' => $lastPayment[0]['size_pay'],
-            'id' => $lastPayment[0]['id'],
+            'previousPrice' => $lastPayment->size_pay,
+            'id' => $lastPayment->id,
         ];
     }
 }
