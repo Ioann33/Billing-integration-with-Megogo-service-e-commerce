@@ -10,6 +10,9 @@ import Home3 from "./views/Home3";
 import Prices from "./views/Prices";
 import News from "./views/News";
 import Contacts from "./views/Contacts";
+import Iptv from "./views/Iptv";
+import Password from "./views/Password";
+import ChangePassword from "./views/ChangePassword";
 
 const router = new vueRouter({
     mode: "history",
@@ -49,10 +52,27 @@ const router = new vueRouter({
             component: Welcome
         },
         {
+            path: "/iptv",
+            name: 'iptv',
+            component: Iptv
+        },
+        {
+            path: "/pass",
+            name: 'pass',
+            component: Password
+        },
+        {
+            path: "/changePass",
+            name: 'changePass',
+            component: ChangePassword
+        },
+        // LAST ITEM
+        {
             path: '/:catchAll(.*)*',
             name: "PageNotFound",
             component: Welcome
         }
+        // NO route AFTER THIS LINE
     ]
 })
 
@@ -64,6 +84,7 @@ router.beforeEach((to, from, next)=>{
         if(to.name==='welcome' || to.name==='root'){
             return next()
         } else {
+            console.log('route to welcome')
             return next({
                 name: 'welcome'
             })
@@ -75,8 +96,8 @@ router.beforeEach((to, from, next)=>{
             name: 'home'
         })
     }
-
-    next()
+    console.log('to.name: '+to.name)
+   next()
 })
 
 export default router

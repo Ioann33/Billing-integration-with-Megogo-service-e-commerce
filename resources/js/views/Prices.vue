@@ -150,7 +150,7 @@ export default {
          //init_template2()
     },
     mounted() {
-        init_template2()
+        update_template()
     }
 }
 </script>

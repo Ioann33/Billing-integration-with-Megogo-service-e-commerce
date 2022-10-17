@@ -22,7 +22,14 @@
 
                         <div class="input-style no-borders has-icon validate-field mt-4">
                             <i class="fa fa-lock"></i>
-                            <input v-model="user_password"  type="password" class="form-control validate-password" id="form3a" placeholder="Пароль">
+                            <input
+                                v-model="user_password"
+                                v-on:keydown.enter="login"
+                                type="password"
+                                class="form-control validate-password"
+                                id="form3a"
+                                placeholder="Пароль"
+                            >
                             <label for="form3a" class="color-blue-dark font-10 mt-1">Пароль</label>
                             <i class="fa fa-times disabled invalid color-red-dark"></i>
                             <i class="fa fa-check disabled valid color-green-dark"></i>
@@ -48,10 +55,11 @@
         name: "Welcome",
         data() {
             return {
-              //user_login: 'graf',
-              user_login: '',
-              user_password: ''
-              //user_password: 'Rkfcnth45'
+              // user_login: '',
+              // user_password: ''
+
+              user_login: 'graf',
+              user_password: 'Rkfcnth45'
             }
         },
         methods: {
@@ -59,7 +67,7 @@
               console.log('Auth...');
               axios.get('/sanctum/csrf-cookie').then(response => {
                   axios.post('/login', {
-                      email: this.user_login,
+                      // email: this.user_login,
                       login: this.user_login,
                       password: this.user_password
                   })
@@ -69,15 +77,15 @@
                       console.log('token: '+r.config.headers['X-XSRF-TOKEN']);
 
                       localStorage.setItem('x_xsrf_token', r.config.headers['X-XSRF-TOKEN']);
-                      console.log('Redirect to /home2');
 
 
-                      axios.get('/api/get').then(res => {
-                          console.log('get: '+res.data)
-                      })
+                      // axios.get('/api/get').then(res => {
+                      //     console.log('get: '+res.data)
+                      // })
 
-                      //this.$router.push({name: 'home2'});
-                      location.reload();
+                      console.log('Redirect to /home');
+                      this.$router.push({name: 'home'});
+                      // location.reload();
                   })
                   .catch(err => {
                       console.log('Auth...no');
@@ -94,6 +102,11 @@
         mounted() {
             console.log('Component Welcome mounted.')
             //init_template2()
+            update_template()
+        },
+        updated() {
+            console.log('Component Welcome updated.')
+            //update_template()
         }
 
     }
