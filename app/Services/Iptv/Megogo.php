@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Ipty;
+namespace App\Services\Iptv;
 
 use App\Contracts\DigitalTV;
 use App\Exceptions\ChangeCredentialsProblem;
@@ -45,7 +45,7 @@ class Megogo implements DigitalTV
             $plan_name = IptvPlan::find($iptv_user[0]['plan_id']);
             if ($plan_name){
                 $name = $plan_name->name;
-                $serviceID = $plan_name->serviceID;
+                $serviceID = $plan_name->id;
             }else{
                 $name = null;
                 $serviceID = null;
@@ -61,9 +61,10 @@ class Megogo implements DigitalTV
      * @throws ChangeTariffStatusProblem
      * @throws NotAuthenticate
      */
-    public function changeTariffStatus($serviceID, $action)
+    public function changeTariffStatus($service_id, $action)
     {
-        $changeStatus = Http::get("https://billing.megogo.net/partners/".$this->partner_key."/subscription/$action?userId=$this->inner_contract&serviceId=$serviceID");
+        $service = $this->getServiceById($service_id);
+        $changeStatus = Http::get("https://billing.megogo.net/partners/".$this->partner_key."/subscription/$action?userId=$this->inner_contract&serviceId=$service->serviceID");
 
         $iptv_user = IptvUser::where('uid', '=', $this->uid)
             ->where('provider','=','megogo')
@@ -81,11 +82,11 @@ class Megogo implements DigitalTV
             }elseif ($action == 'suspend'){
                 $iptv_user->plan_id = null;
             }elseif ($action == 'resume'){
-                $iptv_user->plan_id = $tariff($serviceID)->id;
+                $iptv_user->plan_id = $service_id;
             }
             $iptv_user->save();
 
-            return 'tariff '.$tariff($serviceID)->name.' '.$tariff($serviceID)->description.' successfuly '.$action;
+            return 'tariff '.$service->name.' '.$service->description.' successfuly '.$action;
         }else{
             throw new ChangeTariffStatusProblem();
         }
@@ -97,9 +98,9 @@ class Megogo implements DigitalTV
      * @throws ChangeTariffStatusProblem
      * @return mixed
      */
-    public function connectService($serviceID)
+    public function connectService($service_id)
     {
-
+        $service = $this->getServiceById($service_id);
         $iptv_user = IptvUser::where('uid', '=', $this->uid)
             ->where('provider','=','megogo')
             ->get();
@@ -108,32 +109,37 @@ class Megogo implements DigitalTV
             throw new NotAuthenticate();
         }
 
-
-        $tariff = new GetTariffByServiceId();
         $payment = new MakePay();
-        $price = $this->calculateCost($tariff($serviceID)->price);
+        $price = $this->calculateCost($service->price);
         if (!$payment->checkBalance($price)){
             throw new NotEnoughMoney();
         }
 
-        $changeStatus = Http::get("https://billing.megogo.net/partners/".$this->partner_key."/subscription/subscribe?userId=$this->inner_contract&serviceId=$serviceID");
+        $changeStatus = Http::get("https://billing.megogo.net/partners/".$this->partner_key."/subscription/subscribe?userId=$this->inner_contract&serviceId=$service->serviceID");
         if ($changeStatus['successful']){
-
-            if (!$payment->payment($tariff, $price)){
+            DB::beginTransaction();
+            if (!$payment->payment($service, $price)){
+                DB::rollBack();
+                Http::get("https://billing.megogo.net/partners/".$this->partner_key."/subscription/unsubscribe?userId=$this->inner_contract&serviceId=$service->serviceID");
                 throw new NotEnoughMoney();
             }
 
             $iptv_user = IptvUser::findOrFail($iptv_user[0]['id']);
-            $iptv_user->plan_id = $tariff($serviceID)->id;
-            $iptv_user->save();
+            $iptv_user->plan_id = $service->id;
+            if(!$iptv_user->save()){
+                DB::rollBack();
+                throw new ChangeTariffStatusProblem();
+            }
 
+            DB::commit();
             return  [
-                        'message'=>'tariff '.$tariff($serviceID)->name.' '.$tariff($serviceID)->description.' successfuly connected ',
-                        'name' => $tariff($serviceID)->name,
-                        'serviceID' => $serviceID,
-                        'price' => $tariff($serviceID)->price,
-                        'prolong_time' => $iptv_user->prolong_time,
-                    ];
+                'message'=>'tariff '.$service->name.' '.$service->description.' successfuly connected ',
+                'name' => $service->name,
+                'serviceID' => $service->id,
+                'price' => $service->price,
+                'diff_price' => $price,
+                'prolong_time' => $iptv_user->prolong_time,
+            ];
         }else{
             throw new ChangeTariffStatusProblem();
         }
@@ -171,12 +177,12 @@ class Megogo implements DigitalTV
     /**
      * @throws ChangeTariffStatusProblem
      */
-    public function disConnectService($serviceID)
+    public function disConnectService($service_id)
     {
         DB::beginTransaction();
-
+        $service = $this->getServiceById($service_id);
         $calculate = new CostCalculation();
-        $refund = $calculate($serviceID);
+        $refund = $calculate($service);
 
         $transaction = Pay::findOrFail($refund['id']);
         $transaction->size_pay = -1 * abs($refund['actualPayment']);
@@ -189,7 +195,7 @@ class Megogo implements DigitalTV
             $changeProlong->prolong_time -=1;
             $changeProlong->plan_id = null;
             $changeProlong->save();
-            $changeStatus = Http::get("https://billing.megogo.net/partners/".$this->partner_key."/subscription/unsubscribe?userId=$this->inner_contract&serviceId=$serviceID");
+            $changeStatus = Http::get("https://billing.megogo.net/partners/".$this->partner_key."/subscription/unsubscribe?userId=$this->inner_contract&serviceId=$service->serviceID");
 
             if ($changeStatus['successful']){
                 DB::commit();
@@ -222,5 +228,16 @@ class Megogo implements DigitalTV
             throw new ChangeCredentialsProblem();
         }
         return 'success change';
+    }
+
+    public function getServiceById($id)
+    {
+        $service = IptvPlan::find($id);
+
+        if (!$service){
+            return [];
+        }
+
+        return $service;
     }
 }

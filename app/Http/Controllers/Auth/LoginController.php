@@ -58,7 +58,7 @@ class LoginController extends Controller
             ->first();
             //$user = User::where('uid',17811)->first();
 
-        if ($user->password == null) {
+        if ($user && $user->password == null) {
             $user->password = bcrypt($request->input('password'));
             $user->login = $request->login;
             //            $user->nic_name = '';

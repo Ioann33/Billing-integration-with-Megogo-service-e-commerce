@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use App\Contracts\DigitalTV;
-use App\Services\Ipty\Megogo;
-use App\Services\Ipty\Trinity;
+use App\Services\Iptv\Megogo;
+use App\Services\Iptv\Trinity;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

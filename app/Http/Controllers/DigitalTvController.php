@@ -56,7 +56,7 @@ class DigitalTvController extends Controller
         }catch (ChangeTariffStatusProblem $e){
             return response()->json(['message'=>$e->resMess()], 500);
         }
-        $logService->log('iptv', 'disConnectService', 'Отключение подписки '.$request->serviceID);
+        $logService->log('iptv', 'disConnectService', 'Отключение подписки id = ('.$request->serviceID.')');
         return response()->json($prolong_time);
 
     }
@@ -73,7 +73,7 @@ class DigitalTvController extends Controller
         }catch (ChangeTariffStatusProblem $e){
             return response()->json(['message'=>$e->resMess()], 500);
         }
-        $logService->log('iptv', 'connectService', 'Подключена подписка '.$request->serviceID.' , оплачено пользователем '.$request->price.' грн');
+        $logService->log('iptv', 'connectService', 'Подключена подписка '.$finalAnswer['serviceID'].' , оплачено пользователем '.$finalAnswer['diff_price'].' грн');
         return response()->json($finalAnswer);
     }
 

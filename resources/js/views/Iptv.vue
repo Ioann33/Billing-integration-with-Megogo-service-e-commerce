@@ -54,7 +54,7 @@
                 </div>
             </div>
             <div v-if="alertConnect">
-                <a href="#" v-on:click.prevent="choiceService(t.serviceID, t.price, t.name)" class="card card-style" v-for="t in tariff_plans">
+                <a href="#" v-on:click.prevent="choiceService(t.id, t.price, t.name)" class="card card-style" v-for="t in tariff_plans">
                     <div class="card mb-0" data-card-height="155" style="background-image:url(images/iptv.jpeg)">
                         <div class="card-top m-2">
                             <p class="px-3 py-1 color-black rounded-s text-uppercase font-700 bg-white float-end font-15"> {{t.price}} ₴</p>
