@@ -5422,6 +5422,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "historyPayMenu",
   // data(){
@@ -6443,6 +6445,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "historyPay",
   // data(){
@@ -6584,6 +6588,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_navBar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/navBar */ "./resources/js/components/navBar.vue");
 /* harmony import */ var _components_navBarMenu__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/navBarMenu */ "./resources/js/components/navBarMenu.vue");
 /* harmony import */ var _components_footerAds__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/footerAds */ "./resources/js/components/footerAds.vue");
+//
 //
 //
 //
@@ -7521,7 +7526,7 @@ __webpack_require__.r(__webpack_exports__);
     choiceService: function choiceService(service_id, price, name) {
       var _this3 = this;
 
-      axios.get("api/calculateCost?price=".concat(price)).then(function (res) {
+      axios.get("api/calculateCost?service_id=".concat(service_id)).then(function (res) {
         _this3.diffPrice = res.data.cost;
         _this3.stateBalance = res.data.stateBalance;
       });
@@ -32164,6 +32169,15 @@ var render = function () {
                         },
                         [_c("i", { staticClass: "fab fa-apple font-18" })]
                       )
+                    : h.type === "iptv"
+                    ? _c(
+                        "span",
+                        {
+                          staticClass:
+                            "icon icon-s rounded-xl me-3 bg-yellow-dark",
+                        },
+                        [_c("i", { staticClass: "fas fa-tv font-18" })]
+                      )
                     : h.type === "paid_service"
                     ? _c(
                         "span",
@@ -32207,8 +32221,8 @@ var render = function () {
               _c("div", { staticClass: "row mb-0" }, [
                 _vm._m(3, true),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-6" }, [
-                  _c("h4", { staticClass: "font-14 text-end" }, [
+                _c("div", { staticClass: "col-9" }, [
+                  _c("p", { staticClass: "text-end" }, [
                     _vm._v(_vm._s(h.descript)),
                   ]),
                 ]),
@@ -32224,7 +32238,7 @@ var render = function () {
                     ? _c(
                         "h4",
                         { staticClass: "text-end mt-1 font-14 color-red-dark" },
-                        [_vm._v(" " + _vm._s(h.size_pay))]
+                        [_vm._v(" " + _vm._s(h.size_pay) + " ₴")]
                       )
                     : h.type === "charge"
                     ? _c(
@@ -32232,24 +32246,32 @@ var render = function () {
                         {
                           staticClass: "text-end mt-1 font-14 color-green-dark",
                         },
-                        [_vm._v(" " + _vm._s(h.size_pay))]
+                        [_vm._v(" " + _vm._s(h.size_pay) + " ₴")]
                       )
                     : h.type === "real_ip"
                     ? _c(
                         "h4",
                         { staticClass: "text-end mt-1 font-14 color-red-dark" },
-                        [_vm._v(" " + _vm._s(h.size_pay))]
+                        [_vm._v(" {{ h.size_pay} ₴}")]
+                      )
+                    : h.type === "iptv"
+                    ? _c(
+                        "h4",
+                        { staticClass: "text-end mt-1 font-14 color-red-dark" },
+                        [_vm._v(" " + _vm._s(h.size_pay) + " ₴")]
                       )
                     : h.type === "paid_service"
                     ? _c(
                         "h4",
                         { staticClass: "text-end mt-1 font-14 color-red-dark" },
-                        [_vm._v(" " + _vm._s(h.size_pay))]
+                        [_vm._v(" " + _vm._s(h.size_pay) + " ₴")]
                       )
                     : _c(
                         "h4",
-                        { staticClass: "mb-n1 font-18 color-blue-dark" },
-                        [_vm._v(" " + _vm._s(h.size_pay))]
+                        {
+                          staticClass: "mb-n1 font-18 color-blue-dark text-end",
+                        },
+                        [_vm._v(" " + _vm._s(h.size_pay) + " ₴")]
                       ),
                 ]),
                 _vm._v(" "),
@@ -32260,7 +32282,7 @@ var render = function () {
                 _vm._m(5, true),
                 _vm._v(" "),
                 _c("div", { staticClass: "col-6" }, [
-                  _c("h4", { staticClass: "font-14 text-end mt-1" }, [
+                  _c("p", { staticClass: "text-end" }, [
                     _vm._v(" " + _vm._s(h.bank_id)),
                   ]),
                 ]),
@@ -32308,8 +32330,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-6" }, [
-      _c("h4", { staticClass: "font-14" }, [_vm._v("Подроюности")]),
+    return _c("div", { staticClass: "col-3" }, [
+      _c("h4", { staticClass: "font-14" }, [_vm._v("Подробности")]),
     ])
   },
   function () {
@@ -32340,7 +32362,7 @@ var staticRenderFns = [
             "close-menu btn btn-full btn-m bg-highlight rounded-sm text-uppercase font-800 mb-3",
           attrs: { href: "#" },
         },
-        [_vm._v("Close")]
+        [_vm._v("Закрыть")]
       ),
     ])
   },
@@ -34201,6 +34223,15 @@ var render = function () {
                           },
                           [_c("i", { staticClass: "fas fa-bolt font-18" })]
                         )
+                      : h.type === "iptv"
+                      ? _c(
+                          "span",
+                          {
+                            staticClass:
+                              "icon icon-s rounded-xl me-3 bg-yellow-dark",
+                          },
+                          [_c("i", { staticClass: "fas fa-tv font-18" })]
+                        )
                       : h.type === "paid_service"
                       ? _c(
                           "span",
@@ -34277,6 +34308,12 @@ var render = function () {
                             [_vm._v("    " + _vm._s(h.size_pay) + " ₴ ")]
                           )
                         : h.type === "real_ip"
+                        ? _c(
+                            "h2",
+                            { staticClass: "mb-n1 font-18 color-red-dark" },
+                            [_vm._v("      " + _vm._s(h.size_pay) + " ₴")]
+                          )
+                        : h.type === "iptv"
                         ? _c(
                             "h2",
                             { staticClass: "mb-n1 font-18 color-red-dark" },
@@ -34615,7 +34652,7 @@ var render = function () {
                   attrs: {
                     type: "text",
                     id: "form3",
-                    placeholder: "Password | min: 6",
+                    placeholder: "Пароль | минимум 6 символов",
                   },
                   domProps: { value: _vm.password },
                   on: {
@@ -34643,7 +34680,9 @@ var render = function () {
                 }),
               ]
             ),
-            _vm._v(" "),
+            _vm._v(
+              "\n                Эти данные необходимы для входа в приложение Megogo на Вашем устройстве (ТВ-приставка, Телевизор или в Вашем смартфоне)\n                "
+            ),
             _c(
               "a",
               {
