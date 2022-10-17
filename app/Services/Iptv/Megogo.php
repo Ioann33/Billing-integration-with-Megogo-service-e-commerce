@@ -75,7 +75,6 @@ class Megogo implements DigitalTV
         }
 
         if ($changeStatus['successful']){
-            $tariff = new GetTariffByServiceId();
             $iptv_user = IptvUser::findOrFail($iptv_user[0]['id']);
             if ($action == 'unsubscribe'){
                 $iptv_user->plan_id = null;
