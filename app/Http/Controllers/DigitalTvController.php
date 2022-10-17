@@ -40,10 +40,11 @@ class DigitalTvController extends Controller
 
     public function calculateCost(Request $request, DigitalTV $digitalTV){
         $this->validate($request,[
-            'price'=> 'required'
+            'service_id'=> 'required'
         ]);
-        $cost = $digitalTV->calculateCost($request->price);
+        $cost = $digitalTV->calculateCost($request->service_id);
         $checkBalance = new MakePay();
+        $checkBalance->checkBalance($cost);
         return response()->json(['cost' => $cost, 'stateBalance' => $checkBalance->checkBalance($cost)]);
 
     }

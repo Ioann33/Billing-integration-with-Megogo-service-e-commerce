@@ -105,7 +105,7 @@ class Megogo implements DigitalTV
         }
 
         $payment = new MakePay();
-        $price = $this->calculateCost($service->price);
+        $price = $this->calculateCost($service_id);
         if (!$payment->checkBalance($price)){
             throw new NotEnoughMoney();
         }
@@ -147,13 +147,13 @@ class Megogo implements DigitalTV
             ->get();
     }
 
-    public function calculateCost($price)
+    public function calculateCost($service_id)
     {
-
+        $service = $this->getServiceById($service_id);
         $time = strtotime(date('Y-m-t 23:59'));
         $diff = $time - time();
         $amountDays =  round($diff / 86400);
-        $costPerDay = $price/date('t');
+        $costPerDay = $service->price/date('t');
 
         return number_format($amountDays * $costPerDay,2,'.','');
     }

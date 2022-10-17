@@ -164,7 +164,7 @@ export default {
                 })
         },
         choiceService(service_id, price, name){
-            axios.get(`api/calculateCost?price=${price}`)
+            axios.get(`api/calculateCost?service_id=${service_id}`)
                 .then(res =>{
                     this.diffPrice = res.data.cost
                     this.stateBalance = res.data.stateBalance
