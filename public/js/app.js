@@ -6753,7 +6753,7 @@ __webpack_require__.r(__webpack_exports__);
     navBarMenu: _components_navBarMenu__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   updated: function updated() {
-    init_template2();
+    update_template();
   }
 });
 
@@ -8182,10 +8182,10 @@ __webpack_require__.r(__webpack_exports__);
   name: "Welcome",
   data: function data() {
     return {
-      // user_login: '',
-      // user_password: ''
-      user_login: 'graf',
-      user_password: 'Rkfcnth45'
+      user_login: '',
+      user_password: '' // user_login: 'graf',
+      // user_password: 'Rkfcnth45'
+
     };
   },
   methods: {

@@ -27,8 +27,8 @@ Homestead.json
 /node_modules
 /public/hot
 /public/storage
-/public/js/app.js
-/public/css/app.css
+public/js/app.js
+public/css/app.css
 /storage/*.key
 /vendor
 /public/css/app.css
