@@ -51,7 +51,7 @@ export default {
         headBar, navBar, navBarMenu
     },
     updated() {
-        init_template2()
+        update_template()
     }
 }
 </script>
