@@ -20,11 +20,12 @@
                         <i class="fa fa-check disabled valid color-green-dark"></i>
                     </div>
                     <div class="input-style has-borders no-icon validate-field mb-4">
-                        <input type="text" class="form-control validate-text" id="form3" placeholder="Password | min: 6" v-model="password">
+                        <input type="text" class="form-control validate-text" id="form3" placeholder="Пароль | минимум 6 символов" v-model="password">
                         <label for="form3" class="color-highlight">Password</label>
                         <i class="fa fa-times disabled invalid color-red-dark"></i>
                         <i class="fa fa-check disabled valid color-green-dark"></i>
                     </div>
+                    Эти данные необходимы для входа в приложение Megogo на Вашем устройстве (ТВ-приставка, Телевизор или в Вашем смартфоне)
                     <a href="#" v-on:click.prevent="savePass" class="btn shadow-bg shadow-bg-m btn-m btn-full mb-3 rounded-s text-uppercase font-900 shadow-s bg-green-dark mt-1">Подтвердить</a>
                     <a href="#" v-on:click.prevent="cancel" class="btn shadow-bg shadow-bg-m btn-m btn-full mb-3 rounded-s text-uppercase font-900 shadow-s bg-red-dark mt-1">Отменить</a>
                 </div>

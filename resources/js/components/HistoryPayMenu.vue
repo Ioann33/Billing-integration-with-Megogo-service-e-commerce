@@ -11,6 +11,7 @@
                         <span v-if="h.type === 'tariff'"            class="icon icon-s rounded-xl me-3 bg-red-dark"> <i class="fa fa-bolt font-16"></i>      </span>
                         <span v-else-if="h.type === 'charge'"       class="icon icon-s rounded-xl me-3 bg-green-dark">  <i class="fa fa-money-bill-wave font-14"></i></span>
                         <span v-else-if="h.type === 'real_ip'"      class="icon icon-s rounded-xl me-3 bg-yellow-dark">   <i class="fab fa-apple font-18"></i>    </span>
+                        <span v-else-if="h.type === 'iptv'"      class="icon icon-s rounded-xl me-3 bg-yellow-dark">   <i class="fas fa-tv font-18"></i>    </span>
                         <span v-else-if="h.type === 'paid_service'" class="icon icon-s rounded-xl me-3 bg-dark-dark">   <i class="fab fa-superpowers font-18"></i>       </span>
                         <span v-else                                class="icon icon-s rounded-xl me-3 bg-dark-dark">   <i class="fab fa-handshake-o font-18"></i>       </span>
 
@@ -28,24 +29,25 @@
                 </div>
                 <div class="divider mt-3 mb-3"></div>
                 <div class="row mb-0">
-                    <div class="col-6"><h4 class="font-14">Подроюности</h4></div>
-                    <div class="col-6"><h4 class="font-14 text-end">{{ h.descript }}</h4></div>
+                    <div class="col-3"><h4 class="font-14">Подробности</h4></div>
+                    <div class="col-9"><p class="text-end">{{ h.descript }}</p></div>
                     <div class="divider divider-margins w-100 mt-2 mb-2"></div>
                     <div class="col-6"><h4 class="font-14 mt-1">Сумма</h4></div>
                     <div class="col-6">
 <!--                        <h4 class="font-14 text-end mt-1"> {{ h.size_pay }}</h4>-->
-                        <h4 v-if="h.type === 'tariff'"          class="text-end mt-1 font-14 color-red-dark"> {{ h.size_pay}}</h4>
-                        <h4 v-else-if="h.type === 'charge'"          class="text-end mt-1 font-14 color-green-dark"> {{ h.size_pay}}</h4>
-                        <h4 v-else-if="h.type === 'real_ip'"         class="text-end mt-1 font-14 color-red-dark"> {{ h.size_pay}}</h4>
-                        <h4 v-else-if="h.type === 'paid_service'"    class="text-end mt-1 font-14 color-red-dark"> {{ h.size_pay}}</h4>
-                        <h4 v-else class="mb-n1 font-18 color-blue-dark"> {{ h.size_pay}}</h4>
+                        <h4 v-if="h.type === 'tariff'"          class="text-end mt-1 font-14 color-red-dark"> {{ h.size_pay}} ₴</h4>
+                        <h4 v-else-if="h.type === 'charge'"          class="text-end mt-1 font-14 color-green-dark"> {{ h.size_pay}} ₴</h4>
+                        <h4 v-else-if="h.type === 'real_ip'"         class="text-end mt-1 font-14 color-red-dark"> {{ h.size_pay} ₴}</h4>
+                        <h4 v-else-if="h.type === 'iptv'"         class="text-end mt-1 font-14 color-red-dark"> {{ h.size_pay}} ₴</h4>
+                        <h4 v-else-if="h.type === 'paid_service'"    class="text-end mt-1 font-14 color-red-dark"> {{ h.size_pay}} ₴</h4>
+                        <h4 v-else class="mb-n1 font-18 color-blue-dark text-end"> {{ h.size_pay}} ₴</h4>
                     </div>
                     <div class="divider divider-margins w-100 mt-2 mb-2"></div>
                     <div class="col-6"><h4 class="font-14 mt-1"># платежа</h4></div>
-                    <div class="col-6"><h4 class="font-14 text-end mt-1"> {{ h.bank_id}}</h4></div>
+                    <div class="col-6"><p class="text-end"> {{ h.bank_id}}</p></div>
                     <div class="divider divider-margins w-100 mt-2 mb-3"></div>
                 </div>
-                <div><a href="#" class="close-menu btn btn-full btn-m bg-highlight rounded-sm text-uppercase font-800 mb-3">Close</a></div>
+                <div><a href="#" class="close-menu btn btn-full btn-m bg-highlight rounded-sm text-uppercase font-800 mb-3">Закрыть</a></div>
             </div>
         </div>
     </div>
