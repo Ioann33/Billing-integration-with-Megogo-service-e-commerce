@@ -26,12 +26,13 @@
 
     </div>
 
+
+
+{{--<script type="text/javascript" src="{{ asset('bootstrap.min.js?v=52')}}"></script>--}}
+{{--<script type="text/javascript" src="{{ asset('custom.js?v=52')}}"></script>--}}
+<script type="text/javascript" src="custom.js"></script>
+<script type="text/javascript" src="bootstrap.min.js?v=54"></script>
+
 <script src="{{ mix('js/app.js') }}"></script>
-{{--<script type="text/javascript" src="{{mix('js/bootstrap_sticky.min.js')}}"></script>--}}
-{{--<script type="text/javascript" src="{{mix('js/custom_sticky.js')}}"></script>--}}
-
-<script type="text/javascript" src="{{ asset('scripts/bootstrap.min.js?v=51')}}"></script>
-<script type="text/javascript" src="{{ asset('scripts/custom.js?v=51')}}"></script>
-
 </body>
 

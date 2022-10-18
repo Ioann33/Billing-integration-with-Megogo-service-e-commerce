@@ -16,13 +16,30 @@
                     </p>
                 </div>
                 <div v-if="alertDisConnect">
-                    <a href="#" v-if="current_tariff['plan_name']" v-on:click.prevent="choiceDisConnect" class="btn shadow-bg shadow-bg-m btn-m btn-full mb-3 rounded-s text-uppercase font-900 shadow-s bg-red-dark mt-1">Оменить подписку</a>
+                    <a href="#"
+                       v-if="current_tariff['plan_name']"
+                       v-on:click.prevent="choiceDisConnect"
+                       class="btn shadow-bg shadow-bg-m btn-m btn-full mb-3 rounded-s text-uppercase font-900 shadow-s bg-red-dark mt-1"
+                    >
+
+                        Отменить подписку
+
+                    </a>
                 </div>
                 <div v-else class="p-2 alert-warning">
                     <p class="alert-danger">Доступное количество отключений на месяц: {{current_tariff['prolong_time']}}</p>
                     <p>Вы уверенны что хотите отключить текущий тариф?</p>
                     <div style="display: flex; justify-content: space-around">
-                        <button class="btn btn-success" v-on:click="disconnectService" v-if="current_tariff['prolong_time']>0">Подтвердить</button>
+
+                        <button
+                            class="btn btn-success"
+                            v-on:click="disconnectService"
+                            v-if="current_tariff['prolong_time']>0"
+                        >
+
+                            Подтвердить
+                        </button>
+
                         <div class="alert-warning text-center" v-else>
                             Вы исчерпали разрешенное количество отключений на месяц
                         </div>
@@ -37,7 +54,7 @@
                 </div>
             </div>
             <div v-if="alertConnect">
-                <a href="#" v-on:click.prevent="choiceService(t.serviceID, t.price, t.name)" class="card card-style" v-for="t in tariff_plans">
+                <a href="#" v-on:click.prevent="choiceService(t.id, t.price, t.name)" class="card card-style" v-for="t in tariff_plans">
                     <div class="card mb-0" data-card-height="155" style="background-image:url(images/iptv.jpeg)">
                         <div class="card-top m-2">
                             <p class="px-3 py-1 color-black rounded-s text-uppercase font-700 bg-white float-end font-15"> {{t.price}} ₴</p>
@@ -59,10 +76,23 @@
                 <p class="alert-danger">Доступное количество переплодключений на месяц: {{current_tariff['prolong_time']}}</p>
                 Подтвердить подключение подписки: "{{name}}".  Ежемесячная стоимость:  {{ price }} грн.
                 <p>До конца текущего месяца с вас будет списано: {{ diffPrice }} грн</p>
+
                 <div style="display: flex; justify-content: space-around">
-                    <button class="btn btn-success" v-on:click="connectService" v-if="current_tariff['prolong_time']>0 || !current_tariff['plan_name'] ">Подтвердить</button>
-                    <div class="alert-warning text-center" v-else>
-                        Вы исчерпали разрешенное количество переподключений на месяц
+                    <div v-if="stateBalance">
+                        <button class="btn btn-success"
+                                v-on:click="connectService"
+                                v-if="current_tariff['prolong_time']>0 || !current_tariff['plan_name'] "
+                        >
+                            Подтвердить
+
+                        </button>
+
+                        <div class="alert-warning text-center" v-else>
+                            Вы исчерпали разрешенное количество переподключений на месяц
+                        </div>
+                    </div>
+                    <div v-else>
+                        <p class="alert-danger">Недостаточно средств на счету</p>
                     </div>
                     <button class="btn btn-danger " v-on:click="cancel(1)">Отменить</button>
                 </div>
@@ -80,6 +110,7 @@ import headBar from "../components/headBar";
 import navBar from "../components/navBar";
 import navBarMenu from "../components/navBarMenu";
 import footerAds from "../components/footerAds";
+
 export default {
     name: "Iptv",
     components:{
@@ -98,7 +129,8 @@ export default {
             name: null,
             price: null,
             diffPrice:null,
-            serviceID: null,
+            service_id: null,
+            stateBalance: null,
         }
     },
     methods : {
@@ -131,13 +163,14 @@ export default {
                     this.tariff_plans = res.data;
                 })
         },
-        choiceService(serviceID, price, name){
-            axios.get(`api/calculateCost?price=${price}`)
+        choiceService(service_id, price, name){
+            axios.get(`api/calculateCost?service_id=${service_id}`)
                 .then(res =>{
                     this.diffPrice = res.data.cost
+                    this.stateBalance = res.data.stateBalance
                 })
-            console.log(serviceID+price+name)
-            this.serviceID = serviceID
+            console.log(service_id+price+name)
+            this.service_id = service_id
             this.name = name;
             this.price = price
             this.alertConnect = false;
@@ -155,19 +188,19 @@ export default {
 
         },
         disconnectService(){
-            axios.get(`api/disConnectService?serviceID=${this.current_tariff['plan_serviceID']}`)
+            axios.get(`api/disConnectService?service_id=${this.current_tariff['plan_id']}`)
                 .then(res => {
                     console.log('disconnect data'+res.data)
                     if (res.status === 200){
                         this.current_tariff = [];
                         this.current_tariff['prolong_time'] = res.data
                         this.alertDisConnect = true;
-                        this.serviceID = null;
+                        this.service_id = null;
                     }
                 })
                 .catch(err => {
                     if (err.response.status === 500){
-                        console.log(err.response.status+'dfgergerv')
+                        console.error('error status: '+ err.response.status+'. Сервервис временно недоступен, попробуйте позже или обратитесь в службу поддержки')
                         this.alertConnect = true;
                         this.alertError = 'Сервервис временно недоступен, попробуйте позже или обратитесь в службу поддержки.'
                     }
@@ -177,7 +210,7 @@ export default {
             if (this.current_tariff['plan_name']){
                 console.log(this.current_tariff)
                 console.log('turn off current')
-                axios.get(`api/disConnectService?serviceID=${this.current_tariff['plan_serviceID']}`)
+                axios.get(`api/disConnectService?service_id=${this.current_tariff['plan_id']}`)
                     .then(res => {
                         console.log('status unsubscribe '+res.status)
                     })
@@ -195,12 +228,12 @@ export default {
                     })
             }
             console.log('turn on new tariff')
-            axios.get(`api/connectService?serviceID=${this.serviceID}&price=${this.diffPrice}`)
+            axios.get(`api/connectService?service_id=${this.service_id}`)
                 .then(res => {
                     if (res.status === 200){
                         console.log(res.data)
                         this.current_tariff['plan_name'] = res.data.name
-                        this.current_tariff['plan_serviceID'] = res.data.serviceID
+                        this.current_tariff['plan_id'] = res.data.service_id
                         this.current_tariff['prolong_time'] = res.data.prolong_time
                         this.alertConnect = true;
                         this.alertError = false;
@@ -209,8 +242,8 @@ export default {
                 .catch(err => {
                     if (err.response.status === 400){
                         console.log('return to login')
-                        localStorage.setItem('serviceID', this.serviceID)
-                        localStorage.setItem('diffPrice', this.diffPrice)
+                        localStorage.setItem('service_id', this.service_id)
+
                         this.$router.push({name: 'pass'})
                     }
                     if (err.response.status === 402){
@@ -232,12 +265,11 @@ export default {
         }
     },
     updated() {
-         init_template2()
+        update_template()
     },
     mounted() {
         this.getTariffPlans()
         this.getUserInfo()
-        init_template2()
     }
 }
 </script>

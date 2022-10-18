@@ -35,6 +35,9 @@ export default {
     mounted() {
         console.log('Component navBarMenu mounted')
     },
+    updated() {
+        update_template()
+    },
     methods:{
         logout() {
 

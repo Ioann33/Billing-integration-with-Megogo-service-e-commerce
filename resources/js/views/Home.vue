@@ -243,66 +243,61 @@ export default {
         }
     },
     mounted() {
-        console.log('Component views/Home2 mounted....')
-         this.getData()
+        console.log('Component views/Home mounted....')
+
+        axios.get('/api/userinfo').then(res => {
+            console.log('userinfo: ')
+            console.log(res.data)
+            //this.userinfo = res.data.data[0]
+            this.userinfo = res.data.data[0]
+            this.userinfo.history_pay_short = this.userinfo.history_pay.slice(0,5)
+        }).catch(err => {
+                console.log(err.response)
+        })
 
 
-        document.onreadystatechange = () => {
-            if (document.readyState == "complete") {
-                console.log('onreadystatechange=complete in view/Home2')
-            }
-        }
-
-        // this.$nextTick(function () {
-        //     console.log('$nextTick')
-        // })
-
-        console.log('Component views/Home2 mounted......done!')
+        console.log('Component views/Home mounted......done!')
     },
     created(){
-        console.log('Component views/Home2 created.')
+        console.log('Component views/Home created.')
     },
     updated() {
         console.log('updated')
-        init_template2()
+        update_template()
     },
     methods: {
         enable_internet(){
-            console.log('enable')
+            console.log('do enable')
             axios.post('/api/enableinternet').then(res => {
                 console.log('enableinsternet()')
                 console.log(res.data)
                 this.userinfo.enable_internet = res.data
-                //this.userinfo = res.data.data[0]
-                //this.userinfo = res.data.data[0]
-                //this.userinfo.history_pay_short = this.userinfo.history_pay.slice(0,5)
-            })
-                .catch(err => {
+            }).catch(err => {
                     console.log(err.response)
-                })
-        },
-         getData() {
-            // axios.get('/api/balance').then(res => {
-            //     console.log('get balance')
-            //     console.log(res.data)
-            //     this.balance = res.data
-            // })
-            // .catch(err => {
-            //     console.log('/Home page - auth ERROR!');
-            //     console.log(err.response)
-            // })
-
-            axios.get('/api/userinfo').then(res => {
-                console.log('getData() - userinfo')
-                console.log(res.data)
-                //this.userinfo = res.data.data[0]
-                this.userinfo = res.data.data[0]
-                this.userinfo.history_pay_short = this.userinfo.history_pay.slice(0,5)
-            })
-            .catch(err => {
-                console.log(err.response)
             })
         },
+        //  getData() {
+        //     // axios.get('/api/balance').then(res => {
+        //     //     console.log('get balance')
+        //     //     console.log(res.data)
+        //     //     this.balance = res.data
+        //     // })
+        //     // .catch(err => {
+        //     //     console.log('/Home page - auth ERROR!');
+        //     //     console.log(err.response)
+        //     // })
+        //
+        //     axios.get('/api/userinfo').then(res => {
+        //         console.log('getData() - userinfo')
+        //         console.log(res.data)
+        //         //this.userinfo = res.data.data[0]
+        //         this.userinfo = res.data.data[0]
+        //         this.userinfo.history_pay_short = this.userinfo.history_pay.slice(0,5)
+        //     })
+        //     .catch(err => {
+        //         console.log(err.response)
+        //     })
+        // },
 
         logout() {
             axios.post('/logout')
