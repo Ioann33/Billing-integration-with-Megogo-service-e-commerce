@@ -7,7 +7,7 @@ use App\Exceptions\ChangeCredentialsProblem;
 use App\Exceptions\ChangeTariffStatusProblem;
 use App\Exceptions\NotAuthenticate;
 use App\Exceptions\NotEnoughMoney;
-use App\Services\HelperServices\MakePay;
+use App\Services\HelperServices\FinancialOperations;
 use App\Services\Logs\LogService;
 use Illuminate\Http\Request;
 
@@ -43,8 +43,7 @@ class DigitalTvController extends Controller
             'service_id'=> 'required'
         ]);
         $cost = $digitalTV->calculateCost($request->service_id);
-        $checkBalance = new MakePay();
-        $checkBalance->checkBalance($cost);
+        $checkBalance = new FinancialOperations();
         return response()->json(['cost' => $cost, 'stateBalance' => $checkBalance->checkBalance($cost)]);
 
     }

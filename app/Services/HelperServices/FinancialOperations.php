@@ -5,7 +5,7 @@ namespace App\Services\HelperServices;
 use App\Models\Pay;
 use Illuminate\Support\Facades\Auth;
 
-class MakePay
+class FinancialOperations
 {
 
     private $restAmount;
@@ -31,9 +31,9 @@ class MakePay
         $event = 'iptv_pay';
         $user_id = Auth::user()->uid;
 
-        if ($price > $this->restAmount){
-            return false;
-        }
+       if(!$this->checkBalance($price)){
+           return false;
+       }
 
         $newPay = new Pay();
         $newPay->date = $date_event;

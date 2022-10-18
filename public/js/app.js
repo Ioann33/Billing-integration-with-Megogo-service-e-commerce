@@ -7521,7 +7521,7 @@ __webpack_require__.r(__webpack_exports__);
     choiceService: function choiceService(service_id, price, name) {
       var _this3 = this;
 
-      axios.get("api/calculateCost?price=".concat(price)).then(function (res) {
+      axios.get("api/calculateCost?service_id=".concat(service_id)).then(function (res) {
         _this3.diffPrice = res.data.cost;
         _this3.stateBalance = res.data.stateBalance;
       });

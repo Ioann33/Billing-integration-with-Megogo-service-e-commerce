@@ -7,7 +7,19 @@ use Illuminate\Support\Facades\Auth;
 
 class CostCalculation
 {
-    public function __invoke($service)
+
+    public function initialCost($price)
+    {
+
+        $time = strtotime(date('Y-m-t 23:59'));
+        $diff = $time - time();
+        $amountDays =  round($diff / 86400);
+        $costPerDay = $price/date('t');
+
+        return number_format($amountDays * $costPerDay,2,'.','');
+    }
+
+    public function finalCost($service)
     {
 
         $lastPayment = Pay::where('id_user', '=', Auth::user()->uid)->where('item', '=', 103011)->orderBy('date','desc')->limit(1)->get();
