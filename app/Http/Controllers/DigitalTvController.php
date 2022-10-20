@@ -30,13 +30,13 @@ class DigitalTvController extends Controller
             'action'=>'required',
         ]);
         try {
-            $finalAnswer = $digitalTV->changeTariffStatus($request->service_id, $request->action);
+            $result = $digitalTV->changeTariffStatus($request->service_id, $request->action);
         }catch (NotAuthenticate $e){
             return response()->json(['message'=>$e->resMess()], 400);
         }catch (ChangeTariffStatusProblem $e){
             return response()->json(['message'=>$e->resMess()], 500);
         }
-        return response()->json(['message'=>$finalAnswer]);
+        return response()->json(['message'=>$result]);
     }
 
     public function calculateCost(ServiceIdRequest $request, DigitalTV $digitalTV){
