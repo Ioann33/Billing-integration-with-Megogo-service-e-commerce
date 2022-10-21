@@ -68,9 +68,9 @@ class Refresh
         $accordance = Config::get('accordance_table.accord');
         $users = User::query()
             ->select()
-            ->where('house_id', '=', 0)
+            ->where('house_id', '=', null)
             ->where('code', '!=', 132)
-            ->limit(5000)
+            ->limit(1000)
             ->get();
 
 
@@ -185,23 +185,41 @@ class Refresh
 
                 if (isset($street_id)){
 
-                    $house = new AddrHouse();
-                    $house->number = $user->house;
+                    $addr_houses = AddrHouse::query()
+                        ->select()
+                        ->where('street_id', '=', $street_id)
+                        ->where('number', '=', $user->house);
                     if (!empty($user->block)){
-                        $house->block = $user->block;
-                    }else{
-                        $house->block = '';
+                        $addr_houses->where('block', '=', $user->block);
                     }
-                    $house->prefix = '';
-                    $house->street_id = $street_id;
-                    $house->district_id = 0;
-                    $house->area_id = 0;
-                    $house->city_id = 0;
-                    if($house->save()){
-                        $update_user = User::findOrFail($user->id_user);
-                        $update_user->house_id = $house->id;
-                        $update_user->save();
+
+                    if (count($addr_houses->get()) == 0){
+                        $house = new AddrHouse();
+                        $house->number = $user->house;
+                        if (!empty($user->block)){
+                            $house->block = $user->block;
+                        }else{
+                            $house->block = '';
+                        }
+                        $house->prefix = '';
+                        $house->street_id = $street_id;
+                        $house->district_id = 0;
+                        $house->area_id = 0;
+                        $house->city_id = 0;
+                        $house->save();
+                        $house_id = $house->id;
                         echo "\thouse_id create successfully, tag_id ".$tag_name[0]['name'].", street_id ".$street_id." \n";
+                    }else{
+                        $house_id = $addr_houses->first()->id;
+                        echo "\thouse_id ".$house_id." already exist \n";
+                    }
+
+
+                    if($house_id){
+                        $update_user = User::findOrFail($user->id_user);
+                        $update_user->house_id = $house_id;
+                        $update_user->save();
+                        echo "\tupdate user ".$user->id_user." \n";
                     }else{
                         echo "\tsome problem with house_id \n";
                     }
