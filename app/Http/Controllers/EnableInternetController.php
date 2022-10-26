@@ -41,11 +41,18 @@ class EnableInternetController extends Controller
      */
     public function store(Request $request)
     {
+// @todo уменьшить количество попыток продления инета
+        $expires = date('Y-m-d H:i:s', time()+60*60*24);
+
+        // получить кол-во попыток продления
+        $priveleges = Priveleges::where('id_user', Auth::id())->first();
+
+
 
         DB::beginTransaction();
-        DB::update('update priveleges set enable_internet=1 where id_user=?',[Auth::id()]);
-        DB::update('update users set update_user=4 where id_user=?',[Auth::id()]);
-        DB::insert('insert into log ("date", operator, id_user, event, log) values (?,?,?,?,?)',[date("Y-m-d H:i:s"), Auth::id(), Auth::id(), 'iEnable', 'Продление на 1 день и Включение Интернета через мобильное приложение']);
+        DB::update('update priveleges set enable_internet=1, prolong_time=? where id_user=?',[$priveleges->prolong_time-1, Auth::id()]);
+        DB::update('update users set update_user=4, expires=? where id_user=?',[$expires, Auth::id()]);
+        DB::insert('insert into log ("date", operator, id_user, event, log) values (?,?,?,?,?)',[date("Y-m-d H:i:s"), 'pwa', Auth::id(), 'iEnable', 'Продление на 1 день и Включение Интернета через мобильное приложение']);
         DB::commit();
         return true;
     }
