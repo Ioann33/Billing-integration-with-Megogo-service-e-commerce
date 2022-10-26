@@ -47,7 +47,7 @@ class EnableInternetController extends Controller
         // получить кол-во попыток продления
         $priveleges = Priveleges::where('id_user', Auth::id())->first();
 
-
+        if($priveleges->prolong_time==0) return false;
 
         DB::beginTransaction();
         DB::update('update priveleges set enable_internet=1, prolong_time=? where id_user=?',[$priveleges->prolong_time-1, Auth::id()]);
