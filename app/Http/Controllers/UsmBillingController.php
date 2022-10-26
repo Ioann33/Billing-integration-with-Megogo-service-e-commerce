@@ -115,7 +115,7 @@ class UsmBillingController extends Controller
             ->select()
 //            ->whereIn('id_user', array(48603,48602,48601,48591,48575,48571,48569,48567,48539,48518,48511,48533,48530,48526,48525,48524,48519,48513,48498,48496,48490,48485,48483,48472,48488,48486))
             ->where('id_user', '>', 40000)
-//            ->whereIn('id_user', array(49201))
+            ->whereIn('id_user', array(49201))
             ->where('code', '!=', 132)
             ->get();
 
