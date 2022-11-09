@@ -42,7 +42,7 @@ class FinancialOperations
         $newPay->size_pay = -1 * abs($price);
         $newPay->descript = $tariff->name.' '.$tariff->description;
         $newPay->operator = $operator;
-        $newPay->item = 103011;
+        $newPay->item = 103012;
         if ($newPay->save()){
             // add log event
             return true;

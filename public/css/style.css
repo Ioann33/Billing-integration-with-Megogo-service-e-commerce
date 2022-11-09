@@ -58,6 +58,8 @@ p {
 /*Page Stucture Settings*/
 body {
   min-height: 60vh;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 .notch-clear {
