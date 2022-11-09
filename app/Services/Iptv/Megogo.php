@@ -14,7 +14,7 @@ use App\Models\Pay;
 use App\Services\HelperServices\CostCalculation;
 use App\Services\HelperServices\CreateMegogoUser;
 use App\Services\HelperServices\IptvConfig;
-use App\Services\HelperServices\MakePay;
+use App\Services\HelperServices\FinancialOperations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -33,6 +33,9 @@ class Megogo implements DigitalTV
         $this->partner_key = IptvConfig::getPartnerKey('megogo');
     }
 
+    /**
+     * @return array|mixed
+     */
     public function getUserInfo()
     {
 
@@ -104,16 +107,17 @@ class Megogo implements DigitalTV
             throw new NotAuthenticate();
         }
 
-        $payment = new MakePay();
-        $price = $this->calculateCost($service_id);
-        if (!$payment->checkBalance($price)){
+        $balance = new FinancialOperations();
+        $price = $this->calculateCost(null, $service);
+        if (!$balance->checkBalance($price)){
             throw new NotEnoughMoney();
         }
 
         $changeStatus = Http::get("https://billing.megogo.net/partners/".$this->partner_key."/subscription/subscribe?userId=$this->inner_contract&serviceId=$service->serviceID");
+
         if ($changeStatus['successful']){
             DB::beginTransaction();
-            if (!$payment->payment($service, $price)){
+            if (!$balance->payment($service, $price)){
                 DB::rollBack();
                 Http::get("https://billing.megogo.net/partners/".$this->partner_key."/subscription/unsubscribe?userId=$this->inner_contract&serviceId=$service->serviceID");
                 throw new NotEnoughMoney();
@@ -140,6 +144,9 @@ class Megogo implements DigitalTV
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function getTariffPlans()
     {
         return $iptv_plans = IptvPlan::where('provider', '=', 'megogo')
@@ -147,15 +154,18 @@ class Megogo implements DigitalTV
             ->get();
     }
 
-    public function calculateCost($service_id)
+    /**
+     * @param $service_id
+     * @return string
+     */
+    public function calculateCost($service_id = null , $service = null)
     {
-        $service = $this->getServiceById($service_id);
-        $time = strtotime(date('Y-m-t 23:59'));
-        $diff = $time - time();
-        $amountDays =  round($diff / 86400);
-        $costPerDay = $service->price/date('t');
+        $calculation = new CostCalculation();
+        if (empty($service)){
+            $service = $this->getServiceById($service_id);
 
-        return number_format($amountDays * $costPerDay,2,'.','');
+        }
+        return $calculation->initialCost($service->price);
     }
 
 
@@ -177,7 +187,7 @@ class Megogo implements DigitalTV
         DB::beginTransaction();
         $service = $this->getServiceById($service_id);
         $calculate = new CostCalculation();
-        $refund = $calculate($service);
+        $refund = $calculate->finalCost($service);
 
         $transaction = Pay::findOrFail($refund['id']);
         $transaction->size_pay = -1 * abs($refund['actualPayment']);

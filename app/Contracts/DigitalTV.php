@@ -14,7 +14,7 @@ interface DigitalTV
 
     public function disConnectService($service_id);
 
-    public function calculateCost($service_id);
+    public function calculateCost($service_id = null, $service = null);
 
     public function createUser($password);
 

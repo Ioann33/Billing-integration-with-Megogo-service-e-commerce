@@ -7,7 +7,8 @@ use App\Exceptions\ChangeCredentialsProblem;
 use App\Exceptions\ChangeTariffStatusProblem;
 use App\Exceptions\NotAuthenticate;
 use App\Exceptions\NotEnoughMoney;
-use App\Services\HelperServices\MakePay;
+use App\Http\Requests\ServiceIdRequest;
+use App\Services\HelperServices\FinancialOperations;
 use App\Services\Logs\LogService;
 use Illuminate\Http\Request;
 
@@ -29,28 +30,24 @@ class DigitalTvController extends Controller
             'action'=>'required',
         ]);
         try {
-            $finalAnswer = $digitalTV->changeTariffStatus($request->service_id, $request->action);
+            $result = $digitalTV->changeTariffStatus($request->service_id, $request->action);
         }catch (NotAuthenticate $e){
             return response()->json(['message'=>$e->resMess()], 400);
         }catch (ChangeTariffStatusProblem $e){
             return response()->json(['message'=>$e->resMess()], 500);
         }
-        return response()->json(['message'=>$finalAnswer]);
+        return response()->json(['message'=>$result]);
     }
 
-    public function calculateCost(Request $request, DigitalTV $digitalTV){
-        $this->validate($request,[
-            'service_id'=> 'required|integer'
-        ]);
+    public function calculateCost(ServiceIdRequest $request, DigitalTV $digitalTV){
+
         $cost = $digitalTV->calculateCost($request->service_id);
-        $checkBalance = new MakePay();
+        $checkBalance = new FinancialOperations();
         return response()->json(['cost' => $cost, 'stateBalance' => $checkBalance->checkBalance($cost)]);
 
     }
-    public function disConnectService(Request $request, DigitalTV $digitalTV, LogService $logService){
-        $this->validate($request,[
-            'service_id'=> 'required',
-        ]);
+    public function disConnectService(ServiceIdRequest $request, DigitalTV $digitalTV, LogService $logService){
+
         try {
             $prolong_time = $digitalTV->disConnectService($request->service_id);
         }catch (ChangeTariffStatusProblem $e){
@@ -60,10 +57,8 @@ class DigitalTvController extends Controller
         return response()->json($prolong_time);
 
     }
-    public function connectService(Request $request, DigitalTV $digitalTV, LogService $logService){
-        $this->validate($request,[
-            'service_id'=>'required',
-        ]);
+    public function connectService(ServiceIdRequest $request, DigitalTV $digitalTV, LogService $logService){
+
         try {
             $result = $digitalTV->connectService($request->service_id);
         }catch (NotAuthenticate $e){
@@ -91,10 +86,12 @@ class DigitalTvController extends Controller
     }
 
     public function changeCredentials(Request $request, DigitalTV $digitalTV, LogService $logService){
+
         $this->validate($request, [
             'email'=>'required',
             'password'=>'required|min:6'
         ]);
+
         try {
             $res = $digitalTV->changeCredentials($request->email, $request->password);
         }catch (ChangeCredentialsProblem $e){

@@ -27,7 +27,7 @@ class Trinity implements DigitalTV
         return 'Trinity getTariffPlans';
     }
 
-    public function calculateCost($service_id)
+    public function calculateCost($service_id = null, $service = null)
     {
         return 'Trinity sendRequest';
     }
