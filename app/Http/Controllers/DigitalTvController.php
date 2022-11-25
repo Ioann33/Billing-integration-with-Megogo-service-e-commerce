@@ -97,7 +97,7 @@ class DigitalTvController extends Controller
         }catch (ChangeCredentialsProblem $e){
             return response()->json(['message'=>$e->resMess()], 422);
         }
-        $logService->log('iptv', 'changeCredentials', 'Изменение пароля IPTV учетки пользователем');
+        $logService->log('iptv', 'changeCredentials', "Изменение пароля IPTV учетки пользователем");
         return response()->json(['message'=>$res]);
 
     }
