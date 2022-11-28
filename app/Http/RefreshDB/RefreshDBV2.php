@@ -69,7 +69,7 @@ class RefreshDBV2
             ->select()
             ->where('house_id', '=', null)
             ->where('code', '!=', 132)
-               ->limit(1000)
+               ->limit(5000)
             ->get();
 
 
@@ -124,7 +124,9 @@ class RefreshDBV2
                     $type = 7;
                 }elseif ($old_street->prefix == 'пер' || $old_street->prefix == 'пер.'){
                     $type = 8;
-                }else{
+                }elseif($old_street->prefix == 'СТ' || $old_street->prefix == 'ДК' || $old_street->prefix == 'кооп'){
+                    $type = 3;
+                }else {
                     $type = 5;
                 }
 
