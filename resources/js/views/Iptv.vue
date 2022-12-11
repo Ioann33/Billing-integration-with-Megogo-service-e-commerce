@@ -9,7 +9,11 @@
                     <div class="font-18 color-black">Логин в Megogo: <b>{{ login }}</b></div>
                     <div style="display: flex; justify-content: space-between" class="pt-2">
                         <div class="font-18 color-black pt-2">Пароль: <b>******</b></div>
-                        <a href="#" v-on:click.prevent="changeCredentials" class="btn shadow-bg shadow-bg-m btn-m btn-full mb-3 rounded-s text-uppercase font-900 shadow-s bg-green-dark mt-1">Сменить</a>
+                        <a href="#"
+                           v-on:click.prevent="changeCredentials"
+                           class="btn shadow-bg shadow-bg-m btn-m btn-full mb-3 rounded-s text-uppercase font-900 shadow-s bg-green-dark mt-1">
+                            Сменить
+                        </a>
                     </div>
                     <p v-if="current_tariff['plan_name']">
                         Ваш активный тариф:  {{current_tariff['plan_name']}}

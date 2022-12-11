@@ -228,7 +228,7 @@ class Megogo implements DigitalTV
                 'password' => $password,
             ];
 
-        $setPassword = Http::withBody(json_encode($credentials),'application/json')->post("https://billing.megogo.net/partners/testprod_ua/user/changeCredentials");
+        $setPassword = Http::withBody(json_encode($credentials),'application/json')->post("https://billing.megogo.net/partners/".$this->partner_key."/user/changeCredentials");
         if (isset($setPassword['result'])){
             throw new ChangeCredentialsProblem();
         }
