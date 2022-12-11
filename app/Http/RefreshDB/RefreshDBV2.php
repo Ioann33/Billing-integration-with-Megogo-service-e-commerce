@@ -64,12 +64,13 @@ class RefreshDBV2
 
 
     public function handle(){
+        ini_set('max_execution_time', 1800);
         $accordance = Config::get('accordance_table.accord');
         $users = User::query()
             ->select()
             ->where('house_id', '=', null)
             ->where('code', '!=', 132)
-               ->limit(5000)
+//               ->limit(5000)
             ->get();
 
 
