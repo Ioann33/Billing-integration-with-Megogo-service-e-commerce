@@ -21,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }
+
         $this->app->bind(DigitalTV::class, function ($app){
             return new Megogo();
         });
