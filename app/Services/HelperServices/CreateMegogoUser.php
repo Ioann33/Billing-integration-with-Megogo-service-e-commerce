@@ -16,9 +16,10 @@ class CreateMegogoUser
      */
     public function __invoke($isdn, $password)
     {
+        $parent_key = IptvConfig::getPartnerKey('megogo');
         DB::beginTransaction();
 
-        $response = Http::get("https://billing.megogo.net/partners/testprod_ua/user/create?identifier=$isdn");
+        $response = Http::get("https://billing.megogo.net/partners/$parent_key/user/create?identifier=$isdn");
         $create = json_decode($response->body());
         $email = $isdn.'@homenet.online';
         $credentials =
@@ -28,7 +29,7 @@ class CreateMegogoUser
                 'password' => $password,
             ];
 
-        $setPassword = Http::withBody(json_encode($credentials),'application/json')->post("https://billing.megogo.net/partners/testprod_ua/user/changeCredentials");
+        $setPassword = Http::withBody(json_encode($credentials),'application/json')->post("https://billing.megogo.net/partners/$parent_key/user/changeCredentials");
         if (isset($setPassword['result'])){
             throw new ChangeCredentialsProblem();
         }
