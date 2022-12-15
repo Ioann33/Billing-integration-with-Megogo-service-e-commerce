@@ -37,7 +37,7 @@ elseif($item == '103010'){
     $type = 'balance_9999';
     $category = "Баланс на начало месяца";
 
-}elseif($item=='103011'){
+}elseif($item=='103012'){
     $type = 'iptv';
     $category = "Цифровое ТВ";
 
