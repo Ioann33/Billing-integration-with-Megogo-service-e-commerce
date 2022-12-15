@@ -32,6 +32,10 @@
     php artisan config:cache; php artisan route:cache; php artisan view:cache; php artisan optimize; php artisan serve
     npm run watch
 
+# prod
+    php artisan config:cache; php artisan route:cache; php artisan view:cache; php artisan optimize;
+    npm run prod
+
 
 
 ## Картинки для иконок, тарифов....
