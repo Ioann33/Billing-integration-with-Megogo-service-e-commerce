@@ -17,7 +17,14 @@
                 </a>
             </div>
             <div class="list-group list-custom-large">
-                <a @click="attachGoogle" class="border-0">
+                <a @click="removeGoogle" class="border-0" v-if="google_id">
+                    <img v-bind:src="avatar" style="border-radius: 10px; width: 32px; margin-right: 10px" alt="avatar">
+
+                    <span>Выйти из Google аккаунта</span>
+                    <strong>{{this.email}}</strong>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                <a @click="attachGoogle" class="border-0" v-else>
                     <i class="bg-gray-light" style="border-radius: 10px">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20px" height="20px" x="0" y="0" preserveAspectRatio="xMinYMin meet" focusable="false" class="lazy-loaded">
                             <g>
@@ -51,11 +58,13 @@ export default {
         return {
             email: '',
             google_id: '',
-            name: ''
+            name: '',
+            avatar: '',
         }
     },
     mounted() {
         console.log('Component navBarMenu mounted')
+        this.getGoogleAccount()
     },
     updated() {
         update_template()
@@ -79,16 +88,39 @@ export default {
             this.email = google_user.vv.hw;
             this.google_id = google_user.vv.tY;
             this.name = google_user.vv.yf;
+            this.avatar = google_user.vv.TO;
             this.updateUser();
+        },
+        removeGoogle(){
+            axios.get('/api/removeGoogleAccount')
+                .then(r => {
+                    this.email = ''
+                    this.google_id = ''
+                    this.avatar = ''
+                })
+                .catch(err => {
+                    console.log(err.response.data);
+                })
+        },
+        getGoogleAccount(){
+            axios.get('/api/getGoogleAccount')
+                .then(r => {
+                    this.email = r.data.email
+                    this.google_id = r.data.google_id
+                    this.avatar = r.data.avatar
+                })
+                .catch(err => {
+                    console.log(err.response.data);
+                })
         },
         updateUser(){
             axios.post('/api/googleAttach', {
                     email: this.email,
-                    google_id: this.google_id
+                    google_id: this.google_id,
+                    avatar: this.avatar,
             })
                 .then(r => {
-                    console.log(r.data)
-
+                    this.getGoogleAccount()
                 })
                 .catch(err => {
                     console.log(err.response.data);

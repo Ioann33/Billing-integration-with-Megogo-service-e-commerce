@@ -5594,11 +5594,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       email: '',
       google_id: '',
-      name: ''
+      name: '',
+      avatar: ''
     };
   },
   mounted: function mounted() {
     console.log('Component navBarMenu mounted');
+    this.getGoogleAccount();
   },
   updated: function updated() {
     update_template();
@@ -5629,8 +5631,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this.email = google_user.vv.hw;
                 _this.google_id = google_user.vv.tY;
                 _this.name = google_user.vv.yf;
+                _this.avatar = google_user.vv.TO;
                 _this.updateUser();
-              case 7:
+              case 8:
               case "end":
                 return _context.stop();
             }
@@ -5638,12 +5641,34 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
+    removeGoogle: function removeGoogle() {
+      var _this2 = this;
+      axios.get('/api/removeGoogleAccount').then(function (r) {
+        _this2.email = '';
+        _this2.google_id = '';
+        _this2.avatar = '';
+      })["catch"](function (err) {
+        console.log(err.response.data);
+      });
+    },
+    getGoogleAccount: function getGoogleAccount() {
+      var _this3 = this;
+      axios.get('/api/getGoogleAccount').then(function (r) {
+        _this3.email = r.data.email;
+        _this3.google_id = r.data.google_id;
+        _this3.avatar = r.data.avatar;
+      })["catch"](function (err) {
+        console.log(err.response.data);
+      });
+    },
     updateUser: function updateUser() {
+      var _this4 = this;
       axios.post('/api/googleAttach', {
         email: this.email,
-        google_id: this.google_id
+        google_id: this.google_id,
+        avatar: this.avatar
       }).then(function (r) {
-        console.log(r.data);
+        _this4.getGoogleAccount();
       })["catch"](function (err) {
         console.log(err.response.data);
       });
@@ -8113,7 +8138,24 @@ var render = function render() {
     staticClass: "content"
   }, [_vm._m(1), _vm._v(" "), _c("div", {
     staticClass: "list-group list-custom-large"
-  }, [_c("a", {
+  }, [_vm.google_id ? _c("a", {
+    staticClass: "border-0",
+    on: {
+      click: _vm.removeGoogle
+    }
+  }, [_c("img", {
+    staticStyle: {
+      "border-radius": "10px",
+      width: "32px",
+      "margin-right": "10px"
+    },
+    attrs: {
+      src: _vm.avatar,
+      alt: "avatar"
+    }
+  }), _vm._v(" "), _c("span", [_vm._v("Выйти из Google аккаунта")]), _vm._v(" "), _c("strong", [_vm._v(_vm._s(this.email))]), _vm._v(" "), _c("i", {
+    staticClass: "fa fa-angle-right"
+  })]) : _c("a", {
     staticClass: "border-0",
     on: {
       click: _vm.attachGoogle
@@ -9838,10 +9880,10 @@ window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js
 
 
 var gauthOption = {
-  clientId: '346017212428-4a81v69fbijosr9j84j4m07c0sl3qk84.apps.googleusercontent.com',
+  clientId: '549865165453-sgda1rdhfpgcsghoffe8hshsu9iuqh6a.apps.googleusercontent.com',
   scope: 'profile email',
   prompt: 'consent',
-  plugin_name: "TestGoogleAuthApp",
+  plugin_name: "PWA",
   fetch_basic_profile: true
 };
 Vue.use(vue_google_oauth2__WEBPACK_IMPORTED_MODULE_1__["default"], gauthOption);
