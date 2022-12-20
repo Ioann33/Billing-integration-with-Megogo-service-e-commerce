@@ -48,33 +48,6 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-//{
-//"login": "graf",
-//"password": "Rkfcnth45"
-//}
-//if isset (request->code)
-//        {
-//            select * from user
-//        $request->login = 'sdfsdf';
-//            $request->password = 'dfgdfg';
-//
-//
-//        }
-//        else
-//        {
-//            $user = User::where('nic_name', $request->login)
-//                ->where('pass', md5($request->password))
-//                ->first();
-//            //$user = User::where('uid',17811)->first();
-//
-//            if ($user && $user->password == null) {
-//                $user->password = bcrypt($request->input('password'));
-//                $user->login = $request->login;
-//                //            $user->nic_name = '';
-//                $user->save();
-//            }
-//            $this->validateLogin($request);
-//        }
         if (isset($request->google_id)){
             $user = User::where('google_id', $request->google_id)
                 ->first();
