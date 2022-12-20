@@ -7,7 +7,7 @@
                 <div class="content">
                     <h4 class="color-white">Введите пароль</h4>
                     <p class="color-white">
-                        это пароль будет использован для  вашей учетной записи в Megogo
+                        этот пароль будет использован для  вашей учетной записи в Megogo
                     </p>
                 </div>
             </div>

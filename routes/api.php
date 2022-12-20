@@ -38,6 +38,10 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('/calculateCost', [DigitalTvController::class, 'calculateCost']);
     Route::get('/disConnectService', [DigitalTvController::class, 'disConnectService']);
     Route::post('/changeCredentials', [DigitalTvController::class, 'changeCredentials']);
+
+    Route::post('/googleAttach', [\App\Http\Controllers\GoogleAuthController::class, 'attach']);
+    Route::get('/getGoogleAccount', [\App\Http\Controllers\GoogleAuthController::class, 'getGoogleAccount']);
+    Route::get('/removeGoogleAccount', [\App\Http\Controllers\GoogleAuthController::class, 'removeGoogleAccount']);
 });
 
 
