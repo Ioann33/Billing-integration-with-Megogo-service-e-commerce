@@ -21,8 +21,7 @@ class CostCalculation
 
     public function finalCost($service)
     {
-
-        $lastPayment = Pay::where('id_user', '=', Auth::user()->uid)->where('item', '=', 103011)->orderBy('date','desc')->limit(1)->first();
+        $lastPayment = Pay::where('id_user', '=', Auth::user()->uid)->where('item', '=', 103012)->orderBy('date','desc')->limit(1)->first();
 
         $statUsing = date($lastPayment->date);
         $during = time() - strtotime($statUsing);

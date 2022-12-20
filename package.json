@@ -27,6 +27,7 @@
         "webpack": "^5.72.0"
     },
     "dependencies": {
+        "vue-google-oauth2": "^1.5.8",
         "vue-plugin-load-script": "^2.1.1",
         "vue-router": "^3.5.3"
     }

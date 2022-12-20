@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -47,26 +48,34 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-//return $request;
-//{
-//"login": "graf",
-//"password": "Rkfcnth45"
-//}
-//
-        $user = User::where('nic_name', $request->login)
-            ->where('pass',md5($request->password))
-            ->first();
-            //$user = User::where('uid',17811)->first();
+        if (isset($request->google_id)){
+            $user = User::where('google_id', $request->google_id)
+                ->first();
+            if (!empty($user)){
+                Auth::login($user);
+                if ($request->hasSession()) {
+                    $request->session()->put('auth.password_confirmed_at', time());
+                }
+                return $this->sendLoginResponse($request);
+            }
 
-        if ($user && $user->password == null) {
-            $user->password = bcrypt($request->input('password'));
-            $user->login = $request->login;
-            //            $user->nic_name = '';
-            $user->save();
+
+        }else{
+            $user = User::where('nic_name', $request->login)
+                ->where('pass', md5($request->password))
+                ->first();
+
+            if ($user && $user->password == null) {
+                $user->password = bcrypt($request->input('password'));
+                $user->login = $request->login;
+                //            $user->nic_name = '';
+                $user->save();
+            }
+            $this->validateLogin($request);
         }
 
 
-        $this->validateLogin($request);
+
 
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
