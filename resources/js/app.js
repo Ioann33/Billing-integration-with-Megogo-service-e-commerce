@@ -16,10 +16,10 @@ import router from "./router";
 
 import GAuth from 'vue-google-oauth2'
 const gauthOption = {
-    clientId: '549865165453-sgda1rdhfpgcsghoffe8hshsu9iuqh6a.apps.googleusercontent.com',
+    clientId: '346017212428-4a81v69fbijosr9j84j4m07c0sl3qk84.apps.googleusercontent.com',
     scope: 'profile email',
     prompt: 'consent',
-    plugin_name: "PWA",
+    plugin_name: "TestGoogleAuthApp",
     fetch_basic_profile: true,
 }
 Vue.use(GAuth, gauthOption)
